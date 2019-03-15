@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Title: MOAD Console web application
+Implementation-Version: 4.1.1
+Built-By: Ayesa AT
+Extension-Name: es.juntadeandalucia.cice.pct.moad.moad-console-web
+Build-Jdk: 1.8.0_202
+Created-By: Maven Integration for Eclipse
+

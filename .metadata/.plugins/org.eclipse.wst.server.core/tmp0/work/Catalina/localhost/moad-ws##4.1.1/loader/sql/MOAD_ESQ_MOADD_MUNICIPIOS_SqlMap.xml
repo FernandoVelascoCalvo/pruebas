@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_MUNICIPIOS" >
+  
+	<!-- ResultMap para los municipios -->
+	<resultMap id="MunicipioResultMap" type="Municipio" >
+		<result column="ID_MUNICIPIOS" property="id" jdbcType="DECIMAL" />    
+		<result column="CD_MUNICIPIO" property="cdMunicipio" jdbcType="CHAR" />
+		<result column="CD_PROVINCIA" property="cdProvincia" jdbcType="CHAR" />
+		<result column="DS_BREVE" property="descripcionBreve" jdbcType="VARCHAR" />
+		<result column="DS_EXTENDIDA" property="descripcionExtendida" jdbcType="VARCHAR" />
+	</resultMap>  
+	
+	<!-- Selecciona un registro a partir del código de la provincia -->
+	<!-- AMSR - 65525 - Ordenacion de municipios por descripcion - I -->  
+	<!-- 
+	<select id="obtenerMunicipiosPorProvincia" resultMap="MunicipioResultMap" parameterClass="java.lang.String">
+		select ID_MUNICIPIOS, 
+		       CD_MUNICIPIO, 
+		       CD_PROVINCIA, 
+		       DS_BREVE, 
+		       DS_EXTENDIDA
+		from MOADD_MUNICIPIOS
+		where CD_PROVINCIA = #value# ORDER BY CD_MUNICIPIO
+	</select>
+    -->
+     <select id="obtenerMunicipiosPorProvincia" resultMap="MunicipioResultMap" parameterType="java.lang.String">
+		select ID_MUNICIPIOS, 
+		       CD_MUNICIPIO, 
+		       CD_PROVINCIA, 
+		       DS_BREVE, 
+		       DS_EXTENDIDA
+		from MOADD_MUNICIPIOS
+		where CD_PROVINCIA = #{value} ORDER BY DS_BREVE
+	</select>
+	<!-- AMSR - 65525 - Ordenacion de municipios por descripcion - F -->
+</mapper>

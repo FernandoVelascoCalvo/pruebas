@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_MOADR_PERFUSU_PRI">
+
+	<!-- ResultMap del modelo PerfusuPri -->
+	<resultMap id="PerfusuPriResultMap" type="PerfusuPri">
+		<result column="ID_PUPR" property="id" jdbcType="DECIMAL" />
+		<result column="ID_PEUS" property="idPerfilUsu" jdbcType="DECIMAL" />
+		<result column="ID_PRIV" property="idPrivilegio" jdbcType="DECIMAL" />
+	</resultMap>
+
+
+</mapper>

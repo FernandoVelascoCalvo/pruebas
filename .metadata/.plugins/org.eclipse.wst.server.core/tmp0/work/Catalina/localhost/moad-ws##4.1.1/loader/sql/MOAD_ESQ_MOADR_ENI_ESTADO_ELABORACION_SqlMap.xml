@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOADR_ENI_ESTADO_ELABORACION" >
+
+	<!-- ResultMap para los estados de elaboración ENI -->
+	<resultMap id="EstadoElaboracionENIResultMap" type="EstadoElaboracionENI" >
+		<id column="X_ENEE" property="id" jdbcType="DECIMAL" />    
+		<result column="C_CODIGO" property="codigo" jdbcType="VARCHAR" />
+		<result column="T_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>  
+  
+	<!-- Selecciona todos los registros de la tabla -->  
+	<select id="obtenerEstadosElaboracion" resultMap="EstadoElaboracionENIResultMap" >
+		select X_ENEE,
+		       C_CODIGO,
+		       T_DESCRIPCION
+		from MOADR_ENI_ESTADO_ELABORACION ORDER BY C_CODIGO
+	</select>
+	
+</mapper>

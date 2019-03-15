@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PLANTILLASPDF" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_PLANTILLASPDF y los datos miembro de la clase Plantilla -->
+  <resultMap id="PlantillaResultMap" type="Plantilla" >
+	    <result column="ID_PLANTILLASPDF" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_VERSIONPRESENTA" property="idVersionPresenta" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="NU_ORDEN" property="orden" jdbcType="DECIMAL" />
+	    <result column="LG_OBLIGATORIO" property="obligatorio" javaType="boolean" jdbcType="CHAR" />
+	    <result column="DS_NOMBREFASE" property="nombreFase" jdbcType="VARCHAR" />
+	    <result column="TX_NOMBREFICHERO" property="nombreFichero" jdbcType="VARCHAR" />
+	    <result column="LB_PLANTILLA" property="plantilla" jdbcType="BLOB" />
+	    <result column="TX_NOMBREFICHEROIMP" property="nombreFicheroImp" jdbcType="VARCHAR" />
+	    <result column="LB_PLANTILLAIMP" property="plantillaImp" jdbcType="BLOB" />
+	    <result column="TX_NOMBREFICHEROANON" property="nombreFicheroAnon" jdbcType="VARCHAR" />
+	    <result column="LB_PLANTILLAANON" property="plantillaAnon" jdbcType="BLOB" />
+  </resultMap>
+
+  <!-- Inserción de registro en la tabla MOADD_PLANTILLASPDF -->
+  <insert id="insertarPlantilla" parameterType="Plantilla" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal"  order="BEFORE">
+	       SELECT MOAD_SQ_PLAN.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_PLANTILLASPDF (ID_PLANTILLASPDF, ID_VERSIONPRESENTA,
+    	LB_PLANTILLA, LB_PLANTILLAIMP, LB_PLANTILLAANON, DS_NOMBRE, DS_DESCRIPCION,
+    	NU_ORDEN, TX_NOMBREFICHERO, TX_NOMBREFICHEROIMP,TX_NOMBREFICHEROANON,
+    	DS_NOMBREFASE, LG_OBLIGATORIO)
+    values (#{id,jdbcType=DECIMAL}, #{idVersionPresenta,jdbcType=DECIMAL}, #{plantilla,jdbcType=BLOB},
+    	#{plantillaImp,jdbcType=BLOB}, #{plantillaAnon,jdbcType=BLOB}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR},
+    	#{orden,jdbcType=DECIMAL}, #{nombreFichero,jdbcType=VARCHAR},#{nombreFicheroImp,jdbcType=VARCHAR},
+    	#{nombreFicheroAnon,jdbcType=VARCHAR}, #{nombreFase,jdbcType=VARCHAR}
+      <if test="obligatorio != null">
+      	,#{obligatorio,typeHandler=SiNOHandler}
+      </if>
+      )
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_PLANTILLASPDF -->
+  <update id="actualizarPlantilla" parameterType="Plantilla" >
+    update MOADD_PLANTILLASPDF
+    set ID_VERSIONPRESENTA = #{idVersionPresenta,jdbcType=DECIMAL},
+      DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      NU_ORDEN = #{orden,jdbcType=DECIMAL},
+      DS_NOMBREFASE = #{nombreFase,jdbcType=VARCHAR}
+      <if test="plantilla != null">
+	      ,TX_NOMBREFICHERO = #{nombreFichero,jdbcType=VARCHAR}
+	      ,LB_PLANTILLA = #{plantilla,jdbcType=BLOB}
+      </if>
+      <if test="plantillaImp != null">
+	      ,TX_NOMBREFICHEROIMP = #{nombreFicheroImp,jdbcType=VARCHAR}
+	      ,LB_PLANTILLAIMP = #{plantillaImp,jdbcType=BLOB}
+      </if>
+      <if test="plantillaAnon != null">
+	      ,TX_NOMBREFICHEROANON = #{nombreFicheroAnon,jdbcType=VARCHAR}
+	      ,LB_PLANTILLAANON = #{plantillaAnon,jdbcType=BLOB}
+      </if>
+      <if test="obligatorio != null">
+      		,LG_OBLIGATORIO = #{obligatorio,typeHandler=SiNOHandler}
+      </if>
+    where ID_PLANTILLASPDF = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registro de la tabla MOADD_PLANTILLASPDF por su clave primaria -->
+  <select id="obtenerPlantilla" resultMap="PlantillaResultMap" parameterType="java.math.BigDecimal" >
+    select ID_PLANTILLASPDF, ID_VERSIONPRESENTA, LB_PLANTILLA, LB_PLANTILLAIMP,
+    	LB_PLANTILLAANON, DS_NOMBRE, DS_DESCRIPCION, NU_ORDEN, LG_OBLIGATORIO,
+    	TX_NOMBREFICHERO, TX_NOMBREFICHEROIMP, TX_NOMBREFICHEROANON, DS_NOMBREFASE
+    from MOADD_PLANTILLASPDF
+    where ID_PLANTILLASPDF = #{value}
+  </select>
+
+  <!-- Selección de registros de la tabla MOADD_PLANTILLASPDF a partir del campo ID_VERSIONPRESENTA-->
+  <select id="obtenerPlantillas" resultMap="PlantillaResultMap" parameterType="java.math.BigDecimal" >
+    select ID_PLANTILLASPDF, ID_VERSIONPRESENTA, LB_PLANTILLA, LB_PLANTILLAIMP,
+    	LB_PLANTILLAANON, DS_NOMBRE, DS_DESCRIPCION, NU_ORDEN, LG_OBLIGATORIO,
+    	TX_NOMBREFICHERO, TX_NOMBREFICHEROIMP, TX_NOMBREFICHEROANON, DS_NOMBREFASE
+    from MOADD_PLANTILLASPDF
+    where ID_VERSIONPRESENTA = #{value} ORDER BY DS_NOMBRE
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_PLANTILLASPDF por su clave primaria -->
+  <delete id="borrarPlantilla" parameterType="java.math.BigDecimal" >
+    delete from MOADD_PLANTILLASPDF
+    where ID_PLANTILLASPDF = #{value}
+  </delete>
+
+    <!-- Borra el fichero adjunto para la plantilla -->
+	<update id="borrarPlantillaAdjunto" parameterType="java.math.BigDecimal" >
+    	update MOADD_PLANTILLASPDF
+    	set LB_PLANTILLA = null,
+    	    TX_NOMBREFICHERO = null
+    	where ID_PLANTILLASPDF = #{value}
+	</update>
+
+    <!-- Borra el fichero adjunto para la plantilla imprimible -->
+	<update id="borrarPlantillaImp" parameterType="java.math.BigDecimal" >
+    	update MOADD_PLANTILLASPDF
+    	set LB_PLANTILLAIMP = null,
+    	    TX_NOMBREFICHEROIMP = null
+    	where ID_PLANTILLASPDF = #{value}
+	</update>
+
+    <!-- Borra el fichero adjunto para la plantilla anónima -->
+	<update id="borrarPlantillaAnon" parameterType="java.math.BigDecimal" >
+    	update MOADD_PLANTILLASPDF
+    	set LB_PLANTILLAANON = null,
+    	    TX_NOMBREFICHEROANON = null
+    	where ID_PLANTILLASPDF = #{value}
+	</update>
+</mapper>

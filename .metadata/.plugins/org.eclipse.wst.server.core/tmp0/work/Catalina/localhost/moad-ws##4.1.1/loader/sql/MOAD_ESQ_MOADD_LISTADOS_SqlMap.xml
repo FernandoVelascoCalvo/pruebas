@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_LISTADOS">
+
+	<!-- Mapeo de las columnas de la tabla MOADD_LISTADOS y los datos miembro
+		de la clase Listado -->
+	<resultMap id="ListadoResultMap" type="Listado">
+		<result column="ID_LISTADOS" property="id" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="TX_TABLA" property="tabla" jdbcType="VARCHAR"/>
+	</resultMap>
+	<!-- Mapeo de las columnas de la tabla MOADD_LISTADOS y MOADD_CAMPOS, los datos miembro
+		de la clase Listado y de los campos del listado -->
+	<resultMap id="ListadoResultMapEXT" type="Listado" >
+		<id column="ID_LISTADOS" property="id" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="TX_TABLA" property="tabla" jdbcType="VARCHAR" />
+		<collection property="campos" resultMap="MOAD_ESQ_MOADD_LISTADOS.CamposListadoResultMap" />
+	</resultMap>
+	
+	<resultMap id="CamposListadoResultMap" type="CampoListado" >
+		<result column="ID_CAMPOSLISTADO" property="id"
+			jdbcType="DECIMAL" />
+		<result column="ID_LISTADOS" property="idListado"
+			jdbcType="DECIMAL" />
+		<result column="DS_CAMPO" property="campo"
+			jdbcType="VARCHAR" />
+		<result column="DS_TITULO" property="titulo"
+			jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="LG_LISTADO" property="visible"
+			javaType="boolean" jdbcType="CHAR" />
+		<result column="LG_BUSQUEDA" property="busqueda"
+			javaType="boolean" jdbcType="CHAR" />
+	</resultMap>
+	
+
+	<!-- Sql a incluir en otras acciones -->
+	<sql id="whereFiltro">
+		<where>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcion != null">
+				OR DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="tabla != null">
+				OR TX_TABLA = #{tabla,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="ListadoResultMap"
+		parameterType="Listado">
+		<!--
+			Selección de registro de la tabla MOADD_LISTADOS por su clave 
+			primaria
+		-->
+		select ID_LISTADOS, DS_NOMBRE, DS_DESCRIPCION, TX_TABLA from
+		MOADD_LISTADOS where ID_LISTADOS = #{id,jdbcType=DECIMAL}
+	</select>
+
+
+	<select id="obtenerListados" resultMap="ListadoResultMap"
+		parameterType="Listado">
+		<!--
+			Selección de registro de la tabla MOADD_LISTADOS a través de filtros
+		-->
+		select ID_LISTADOS, DS_NOMBRE, DS_DESCRIPCION, TX_TABLA from
+		MOADD_LISTADOS
+		<include refid="whereFiltro" />
+		ORDER BY DS_NOMBRE
+	</select>
+
+	<select id="obtenerListadosString" resultMap="ListadoResultMap"
+		parameterType="string">
+		<!--
+			Selección de registro de la tabla MOADD_LISTADOS a través de filtros
+		-->
+		select ID_LISTADOS,DS_NOMBRE, DS_DESCRIPCION, TX_TABLA from
+		MOADD_LISTADOS where UPPER(DS_NOMBRE) LIKE UPPER('%${value}%') OR
+		UPPER(DS_DESCRIPCION) LIKE UPPER('%${value}%') OR UPPER(TX_TABLA)
+		LIKE UPPER('%${value}%') ORDER BY DS_NOMBRE
+
+	</select>
+
+	<!--
+		Selección de registros de la tabla MOADD_LISTADOS por el identificador de la orden
+	-->
+	<select id="obtenerListadosPorOrden" resultMap="ListadoResultMap"
+		parameterType="java.math.BigDecimal">
+		select l.ID_LISTADOS, l.DS_NOMBRE, l.DS_DESCRIPCION, l.TX_TABLA
+		from MOADD_LISTADOS l inner join MOADR_LISTAD_PROCEDI lp on
+		l.ID_LISTADOS = lp.ID_LISTADOS where lp.ID_ORDENES = #{idOrdenes}
+		ORDER BY DS_NOMBRE
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="Listado">
+		<!--
+			Borrado de registro de la tabla MOADD_LISTADOS por su clave primaria
+		-->
+		delete from MOADD_LISTADOS where ID_LISTADOS = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert" parameterType="Listado">
+		<!--
+			Inserción de registro en la tabla MOADD_LISTADOS
+		-->
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_LIST.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		insert into MOADD_LISTADOS (ID_LISTADOS, DS_NOMBRE,
+		DS_DESCRIPCION, TX_TABLA) values (#{id,jdbcType=DECIMAL},
+		#{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}, #{tabla,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="Listado">
+		<!--
+			Actualiza un registro de la tabla MOADD_LISTADOS
+		-->
+		update MOADD_LISTADOS set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}, TX_TABLA =
+		#{tabla,jdbcType=VARCHAR} where ID_LISTADOS = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="Listado">
+		<!--
+			Actualiza los campos no nulos de un registro de la tabla 
+			MOADD_LISTADOS
+		-->
+		update MOADD_LISTADOS
+		<set>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="tabla != null">
+				TX_TABLA = #{tabla,jdbcType=VARCHAR}
+			</if>
+			where ID_LISTADOS = #{id}
+		</set>		
+	</update>
+
+
+	<!-- Obtiene una lista con todos los listados de un procedimiento dado -->
+	<select id="obtenerListadosProcedimiento"
+		resultMap="ListadoResultMap" parameterType="java.math.BigDecimal">
+		select l.ID_LISTADOS, l.DS_NOMBRE, l.DS_DESCRIPCION, l.TX_TABLA
+		from MOADR_LISTAD_PROCEDI lp, MOADD_LISTADOS l where
+		l.ID_LISTADOS = lp.ID_LISTADOS AND lp.ID_PROCEDIMIENTOS =
+		#{value} ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- devuelve un listado con todos los listados que no están asociados a un procedimiento -->
+	<select id="obtenerListadoNotProcedimiento"
+		resultMap="ListadoResultMap" parameterType="java.math.BigDecimal">
+		select ID_LISTADOS, DS_NOMBRE, DS_DESCRIPCION, TX_TABLA from
+		MOADD_LISTADOS where ID_LISTADOS NOT IN (select ID_LISTADOS from
+		MOADR_LISTAD_PROCEDI where ID_PROCEDIMIENTOS = #{value}) ORDER BY
+		DS_NOMBRE
+	</select>
+
+	<select id="obtenerListadoConCampos" resultMap="ListadoResultMapEXT"
+		parameterType="Listado">
+		<!--
+			Selección de registro de la tabla MOADD_LISTADOS y los campos  por su clave 
+			primaria
+		-->
+		SELECT moadd_listados.id_listados, moadd_listados.ds_nombre,
+		moadd_listados.ds_descripcion, moadd_listados.tx_tabla,
+		moadd_camposlistado.id_camposlistado,
+		moadd_camposlistado.id_listados, moadd_camposlistado.ds_campo,
+		moadd_camposlistado.ds_titulo,
+		moadd_camposlistado.ds_descripcion,
+		moadd_camposlistado.lg_listado, moadd_camposlistado.lg_busqueda
+		From moadd_listados,moadd_camposlistado
+		WHERE(moadd_listados.id_listados =
+		moadd_camposlistado.id_listados(+)) and moadd_listados.ID_LISTADOS =
+		#{id,jdbcType=DECIMAL} order by moadd_listados.id_listados,moadd_camposlistado.id_camposlistado
+	</select>
+
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_MOADR_PERFUSU_USU">
+
+	<!-- ResultMap del modelo PerfusuUsu -->
+	<resultMap id="PerfusuUsuResultMap" type="PerfusuUsu">
+		<result column="ID_PUUS" property="id" jdbcType="DECIMAL" />
+		<result column="ID_PEUS" property="idPerfilUsu" jdbcType="DECIMAL" />
+		<result column="ID_USUARIOS" property="idUsuario" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- Inserta un registro en la Base de Datos -->
+	<insert id="insert" parameterType="PerfusuUsu">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_PUUS.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into MOADR_PERFUSU_USU (ID_PUUS, ID_PEUS, ID_USUARIOS)
+		values (#{id,jdbcType=DECIMAL},
+		#{idPerfilUsu,jdbcType=DECIMAL},
+		#{idUsuario,jdbcType=DECIMAL})
+	</insert>
+
+	<!-- Borra un registro de la Base de Datos -->
+	<delete id="revocarPerfilesUsuAUsuario" parameterType="PerfusuUsu">
+		DELETE FROM MOADR_PERFUSU_USU
+		WHERE ID_PEUS = #{idPerfilUsu,jdbcType=DECIMAL}
+		AND ID_USUARIOS =
+		#{idUsuario,jdbcType=DECIMAL}
+	</delete>
+
+
+</mapper>

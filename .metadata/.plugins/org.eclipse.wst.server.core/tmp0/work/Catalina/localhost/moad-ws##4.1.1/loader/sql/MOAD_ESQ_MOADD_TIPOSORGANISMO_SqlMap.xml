@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_TIPOSORGANISMO" >
+
+  <!-- ResultMap para los tipos de organismos --> 
+  <resultMap id="TipoOrganismoResultMap" type="TipoOrganismo">
+    <result column="ID_TIPOSORGANISMO" property="id" jdbcType="DECIMAL" />    
+    <result column="CD_TIPOORGANISMO" property="codigo" jdbcType="DECIMAL" />
+    <result column="TX_ABREVIATURA" property="abreviatura" jdbcType="VARCHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="LG_OBSOLETO" property="obsoleto" javaType="boolean" jdbcType="CHAR" />
+    <result column="CD_NIWA" property="cdNiwa" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Selecciona un registro a partir de una clave primaria -->
+  <select id="obtenerPorClave" resultMap="TipoOrganismoResultMap" parameterType="TipoOrganismo" >
+    select ID_TIPOSORGANISMO, CD_TIPOORGANISMO, TX_ABREVIATURA, DS_DESCRIPCION, LG_OBSOLETO, CD_NIWA
+    from MOADD_TIPOSORGANISMO
+    where ID_TIPOSORGANISMO = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Elimina un registro a partir de una clave primaria -->    
+  <delete id="deleteByPrimaryKey" parameterType="TipoOrganismo" >
+    delete from MOADD_TIPOSORGANISMO
+    where ID_TIPOSORGANISMO = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- inserta un registro en la tabla MOADD_TIPOSORGANISMO -->    
+  <insert id="insertar" parameterType="TipoOrganismo" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	    SELECT MOAD_SQ_TIOR.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_TIPOSORGANISMO (ID_TIPOSORGANISMO, CD_TIPOORGANISMO, TX_ABREVIATURA, DS_DESCRIPCION, LG_OBSOLETO, CD_NIWA)
+    values (#{id,jdbcType=DECIMAL}, #{codigo,jdbcType=DECIMAL},
+      #{abreviatura,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}
+      <if test="obsoleto != null">
+	  	,#{obsoleto,typeHandler=SiNOHandler}
+      </if>
+      , #{cdNiwa,jdbcType=CHAR})
+  </insert>
+
+  <!-- modifica un registro en la tabla MOADD_TIPOSORGANISMO --> 
+  <update id="modificarPorClave" parameterType="TipoOrganismo" >
+    update MOADD_TIPOSORGANISMO
+    set CD_TIPOORGANISMO = #{codigo,jdbcType=DECIMAL},
+      TX_ABREVIATURA = #{abreviatura,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      <if test="obsoleto != null">
+	  	,LG_OBSOLETO = #{obsoleto,typeHandler=SiNOHandler}
+      </if>
+      , CD_NIWA = #{cdNiwa,jdbcType=CHAR}
+    where ID_TIPOSORGANISMO = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- modifica un registro en la tabla MOADD_TIPOSORGANISMO -->   
+  <update id="modificarPorClaveSelectivo" parameterType="TipoOrganismo" >
+    update MOADD_TIPOSORGANISMO
+    <set>      
+      <if test="codigo != null" >
+        CD_TIPOORGANISMO = #{codigo,jdbcType=DECIMAL}
+      </if>
+      <if test="abreviatura != null" >
+        ,TX_ABREVIATURA = #{abreviatura,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcion != null" >
+        ,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+      <if test="obsoleto != null" >
+        ,LG_OBSOLETO = #{obsoleto,typeHandler=SiNOHandler}
+      </if>
+      <if test="cdNiwa != null" >
+        ,CD_NIWA = #{cdNiwa,jdbcType=CHAR}
+      </if>
+    </set>
+    where ID_TIPOSORGANISMO = #{id}
+  </update>  
+  
+</mapper>

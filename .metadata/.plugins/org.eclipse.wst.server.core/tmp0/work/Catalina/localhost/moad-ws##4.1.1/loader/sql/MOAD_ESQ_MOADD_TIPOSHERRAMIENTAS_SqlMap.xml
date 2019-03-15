@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_TIPOS_HERRAMIENTAS" >
+
+  <!--  Relacion entre las columnas de la tabla con los datos miembro de las clases  -->
+  <resultMap id="TipoHerramientaResultMap" type="TipoHerramienta" >
+    <result column="ID_TIPOSHERRAMIENT" property="id" jdbcType="DECIMAL" />
+    <result column="DS_VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="DS_VALIDADOR" property="validador" jdbcType="VARCHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="DS_VALORVALIDACION" property="valorValidacion" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="TipoHerramientaResultMap" parameterType="java.math.BigDecimal" >
+    select ID_TIPOSHERRAMIENT, DS_VERSION, DS_VALIDADOR, DS_DESCRIPCION, DS_VALORVALIDACION
+    from MOADD_TIPOSHERRAMIENT
+    where ID_TIPOSHERRAMIENT = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Se obtiene la lista de todos los tipos de herramientas -->
+  <select id="obtenerTiposHerramienta" resultMap="TipoHerramientaResultMap">
+    select ID_TIPOSHERRAMIENT, DS_VERSION, DS_VALIDADOR, DS_DESCRIPCION, DS_VALORVALIDACION
+    from MOADD_TIPOSHERRAMIENT ORDER BY DS_VERSION
+  </select>
+
+  <!-- Borra un registro de la Base de Datos  -->
+  <delete id="deleteByPrimaryKey" parameterType="TipoHerramienta" >
+    delete from MOADD_TIPOSHERRAMIENT
+    where ID_TIPOSHERRAMIENT = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos  -->
+  <insert id="insert" parameterType="TipoHerramienta" >
+  		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_THER.NEXTVAL FROM DUAL
+	    </selectKey>
+
+    insert into MOADD_TIPOSHERRAMIENT (ID_TIPOSHERRAMIENT, DS_VERSION, DS_VALIDADOR, DS_DESCRIPCION, DS_VALORVALIDACION)
+    values (#{id,jdbcType=DECIMAL}, #{version,jdbcType=VARCHAR}, #{validador,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}, #{valorValidacion,jdbcType=VARCHAR})
+  </insert>
+
+    <!-- Actualiza todos los campos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKey" parameterType="TipoHerramienta" >
+    update MOADD_TIPOSHERRAMIENT
+    set DS_VERSION = #{version,jdbcType=VARCHAR},
+      DS_VALIDADOR = #{validador,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      DS_VALORVALIDACION = #{valorValidacion,jdbcType=VARCHAR}
+    where ID_TIPOSHERRAMIENT = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKeySelective" parameterType="TipoHerramienta" >
+    update MOADD_TIPOSHERRAMIENT
+    <set>
+      <if test="version != null" >
+        DS_VERSION = #{version,jdbcType=VARCHAR}
+      </if>
+      <if test="validador != null" >
+        ,DS_VALIDADOR = #{validador,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcion != null" >
+        ,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+      <if test="valorValidacion != null" >
+	    ,DS_VALORVALIDACION = #{valorValidacion,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_TIPOSHERRAMIENT = #{id}
+  </update>
+
+</mapper>

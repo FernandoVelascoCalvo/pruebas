@@ -1,0 +1,1853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+       "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+       
+<struts-config>
+	<action-mappings>
+		<action path="/errorGeneral" scope="request" name="loginForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="exito" path="/common/errorGeneral.jsp"></forward>
+		</action>
+
+		<!-- **************************** -->
+		<!--	      SEGURIDAD			  -->
+		<!-- **************************** -->
+		<action path="/login" scope="request" name="loginForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="exito" path="/jsp/security/login.jsp"></forward>
+		</action>
+
+		<!-- ********************* -->
+		<!-- CHEQUEO DE INTEGRIDAD -->
+		<!-- ********************* -->
+		<action path="/chequearIntegridad" scope="request"
+			name="chequearIntegridadForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="editar" path="/jsp/chequearIntegridad.jsp"></forward>
+			<forward name="exito" path="/jsp/chequearIntegridad.jsp"></forward>
+			<forward name="error" path="/jsp/chequearIntegridad.jsp"></forward>
+		</action>
+
+        <!-- ********************* -->
+		<!-- TRAMITES              -->
+		<!-- ********************* -->
+		<action path="/listadoProcedimientoTramites" scope="request"
+			name="tramitesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="editar" path="/jsp/listadoProcedimientoTramites.jsp"></forward>
+			<forward name="exito" path="/jsp/listadoProcedimientoTramites.jsp"></forward>
+			<forward name="error" path="/jsp/listadoProcedimientoTramites.jsp"></forward>
+		</action>
+		<!--  ************************* -->
+		<!--   LISTADOS Y CAMPOS        -->
+		<!--  ************************* -->
+		<action path="/listadoListados" scope="request"
+			name="listadoListadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoListados.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoListados.jsp" />
+			<forward name="error" path="/jsp/listadoListados.jsp" />
+		</action>
+		<action path="/editarListado" scope="request"
+			name="editarListadoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarListado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarListado.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+		<action path="/crearListado" scope="request"
+			name="editarListadoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarListado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarListado.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+
+		<action path="/borrarListado" scope="request"
+			name="borrarListadoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarListado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarListado.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+
+		<action path="/editarCampo" scope="request"
+			name="editarCampoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarCampo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarCampo.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+
+		<action path="/crearCampo" scope="request"
+			name="editarCampoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarCampo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarCampo.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+
+		<action path="/borrarCampo" scope="request"
+			name="borrarCampoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarCampo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarCampo.jsp" />
+			<forward name="exito" path="/listadoListados.do" />
+			<forward name="cancelar" path="/listadoListados.do" />
+			<forward name="error" path="/listadoListados.do" />
+		</action>
+
+		<!--  ************************* -->
+		<!--   ROLES Y FUNCIONALIDADES  -->
+		<!--  ************************* -->
+		<action path="/listadoRoles" name="listadoRolesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request" input="/jsp/listadoRoles.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoRoles.jsp" />
+			<forward name="error" path="/jsp/listadoRoles.jsp" />
+		</action>
+
+		<action path="/editarRol" name="editarRolForm" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarRol.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarRol.jsp" />
+			<forward name="exito" path="/listadoRoles.do" />
+			<forward name="cancelar" path="/listadoRoles.do" />
+			<forward name="error" path="/listadoRoles.do" />
+		</action>
+
+		<action path="/crearRol" scope="request" name="editarRolForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarRol.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarRol.jsp" />
+			<forward name="cancelar" path="/listadoRoles.do" />
+			<forward name="exito" path="/listadoRoles.do" />
+			<forward name="error" path="/listadoRoles.do" />
+		</action>
+
+		<action path="/borrarRol" name="borrarRolForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request" input="/jsp/borrarRol.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarRol.jsp" />
+			<forward name="exito" path="/listadoRoles.do" />
+			<forward name="cancelar" path="/listadoRoles.do" />
+			<forward name="error" path="/listadoRoles.do" />
+		</action>
+
+		<action path="/asignarFuncionalidad"
+			name="asignarFuncionalidadForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request"
+			input="/jsp/asignarFuncionalidad.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarFuncionalidad.jsp" />
+			<forward name="exito" path="/listadoRoles.do" />
+			<forward name="cancelar" path="/listadoRoles.do" />
+			<forward name="error" path="/listadoRoles.do" />
+		</action>
+
+		<action path="/revocarFuncionalidad"
+			name="asignarFuncionalidadForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request"
+			input="/jsp/revocarFuncionalidad.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/revocarFuncionalidad.jsp" />
+			<forward name="exito" path="/listadoRoles.do" />
+			<forward name="cancelar" path="/listadoRoles.do" />
+			<forward name="error" path="/listadoRoles.do" />
+		</action>
+
+		<!--  ************************* -->
+		<!--       PROCEDIMIENTOS       -->
+		<!--  ************************* -->
+
+		<!--  Listado de Procedimientos -->
+		<action path="/listadoProcedimientos" scope="request"
+			name="listadoProcedimientosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoProcedimientos.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoProcedimientos.jsp" />
+			<forward name="error" path="/jsp/listadoProcedimientos.jsp" />
+		</action>
+
+		<action path="/crearProcedimiento" scope="request"
+			name="editarProcedimientoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarProcedimiento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarProcedimiento.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="cancelar" path="/listadoProcedimientos.do" />
+			<forward name="error" path="/listadoProcedimientos.do" />
+		</action>
+
+		<action path="/editarProcedimiento" scope="request"
+			name="editarProcedimientoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarProcedimiento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarProcedimiento.jsp" />
+			<forward name="exito" path="/listadoProcedimientos.do" />
+			<forward name="cancelar" path="/listadoProcedimientos.do" />
+			<forward name="error" path="/jsp/editarProcedimiento.jsp" />
+			<forward name="cambiarClave" path="/cambiarClaveCifrado.do" />
+			<forward name="resetearClave" path="/cambiarClaveCifrado.do" />
+		</action>
+
+		<action path="/borrarProcedimiento" scope="request"
+			name="borrarProcedimientoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarProcedimiento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/borrarProcedimiento.jsp" />
+			<forward name="exito" path="/listadoProcedimientos.do" />
+			<forward name="cancelar" path="/listadoProcedimientos.do" />
+			<forward name="error" path="/listadoProcedimientos.do" />
+		</action>
+
+		<!--  ******************************** -->
+		<!--  PROCEDIMIENTOS Y CONFIGURACIONES -->
+		<!--  ******************************** -->
+
+		<!--  Listado de Procedimientos -->
+		<action path="/listadoProcedimientoConfiguraciones"
+			scope="request" name="listadoProcedimientoConfiguracionesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false"
+			input="/jsp/listadoProcedimientoConfiguraciones.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoConfiguraciones.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoConfiguraciones.jsp" />
+		</action>
+
+		<action path="/listadoConfiguracionHerramientas" scope="request"
+			name="listadoConfiguracionHerramientasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoConfiguracionHerramientas.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoConfiguracionHerramientas.jsp" />
+			<forward name="error"
+				path="/jsp/listadoConfiguracionHerramientas.jsp" />
+		</action>
+
+		<action path="/listadoConfiguraciones" scope="request"
+			name="listadoConfiguracionesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoConfiguraciones.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoConfiguraciones.jsp" />
+			<forward name="error"
+				path="/jsp/listadoConfiguraciones.jsp" />
+		</action>
+
+		<action path="/editarConfiguracion" scope="request"
+			name="editarConfiguracionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarConfiguracion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarConfiguracion.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="error"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="generico_exito"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_cancelar"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_error"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_advertir"
+				path="/jsp/advertirActivacionConfiguracionGenerica.jsp" />
+		</action>
+
+		<action path="/crearConfiguracion" scope="request"
+			name="editarConfiguracionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarConfiguracion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarConfiguracion.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="error"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="generico_exito"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_cancelar"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_error"
+				path="/listadoConfiguraciones.do" />
+		</action>
+
+		<action path="/borrarConfiguracion" scope="request"
+			name="borrarConfiguracionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarConfiguracion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/borrarConfiguracion.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="error"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="generico_exito"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_cancelar"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_error"
+				path="/listadoConfiguraciones.do" />
+		</action>
+
+		<action path="/importarConfiguracion" scope="request"
+			name="importarConfiguracionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/importarConfiguracion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="elegir"
+				path="/jsp/importarConfiguracion.jsp" />
+			<forward name="exito"
+				path="/jsp/importacionConfiguracionInforme.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="error"
+				path="/listadoProcedimientoConfiguraciones.do" />
+			<forward name="generico_cancelar"
+				path="/listadoConfiguraciones.do" />
+			<forward name="generico_error"
+				path="/listadoConfiguraciones.do" />
+		</action>
+
+		<action path="/exportarConfiguracion"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+		<action path="/importarProcedimiento" scope="request"
+			name="importarProcedimientoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/importarProcedimiento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="elegir"
+				path="/jsp/importarProcedimiento.jsp" />
+			<forward name="exito"
+				path="/jsp/importacionProcedimientoInforme.jsp" />
+			<forward name="cancelar" path="/listadoProcedimientos.do" />
+			<forward name="error" path="/listadoProcedimientos.do" />
+		</action>
+
+		<action path="/exportarProcedimiento"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+
+		<!--  ******************************** -->
+		<!--     PROCEDIMIENTOS Y LISTADOS     -->
+		<!--  ******************************** -->
+
+		<!--  Lista con los listados de un procedimiento -->
+		<action path="/listadoProcedimientoListados" scope="request"
+			name="listadoProcedimientoListadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoProcedimientoListados.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoListados.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoListados.jsp" />
+		</action>
+
+		<!-- Asigna un listado a un procedimiento -->
+		<action path="/asignarListado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarListadoForm" scope="request"
+			input="/jsp/asignarListado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarListado.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoListados.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoListados.do" />
+			<forward name="error"
+				path="/listadoProcedimientoListados.do" />
+		</action>
+
+		<!-- Elimina la asignación de un listado a un procedimiento -->
+		<action path="/revocarListado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarListadoForm" scope="request"
+			input="/jsp/revocarListado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/revocarListado.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoListados.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoListados.do" />
+			<forward name="error"
+				path="/listadoProcedimientoListados.do" />
+		</action>
+
+		<!--  **************************************** -->
+		<!--     PROCEDIMIENTOS Y TIPOSCERTIFICADO     -->
+		<!--  **************************************** -->
+
+		<!--  Lista con los Tipos de Certificados de un procedimiento -->
+		<action path="/listadoProcedimientoTiposCertificado"
+			scope="request" name="listadoProcedimientoTiposCertificadoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false"
+			input="/jsp/listadoProcedimientoTiposCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoTiposCertificado.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoTiposCertificado.jsp" />
+		</action>
+
+		<!--  Asigna un Tipo de Certificado a un procedimiento -->
+		<action path="/asignarTipoCertificado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarTipoCertificadoForm" scope="request"
+			input="/jsp/asignarTipoCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar"
+				path="/jsp/asignarTipoCertificado.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoTiposCertificado.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoTiposCertificado.do" />
+			<forward name="error"
+				path="/listadoProcedimientoTiposCertificado.do" />
+		</action>
+
+		<!-- Elimina la asignación de un Tipo de Certificado a un procedimiento -->
+		<action path="/revocarTipoCertificado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarTipoCertificadoForm" scope="request"
+			input="/jsp/revocarTipoCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/revocarTipoCertificado.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoTiposCertificado.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoTiposCertificado.do" />
+			<forward name="error"
+				path="/listadoProcedimientoTiposCertificado.do" />
+		</action>
+
+		<!--  ************************************************** -->
+		<!--     PROCEDIMIENTOS, TIPOSCERTIFICADO Y PERFILES     -->
+		<!--  ************************************************** -->
+
+		<!--  Lista con los perfiles asociados a un Tipo de Certificado de un procedimiento -->
+		<action path="/listadoTipoCertificadoPerfiles" scope="request"
+			name="listadoTipoCertificadoPerfilesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoTiposCertificadoPerfiles.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoTiposCertificadoPerfiles.jsp" />
+			<forward name="error"
+				path="/jsp/listadoTiposCertificadoPerfiles.jsp" />
+		</action>
+
+		<!--  Asigna un Perfil a un Tipo de Certificado con un procedimiento -->
+		<action path="/asignarPerfilTipoCertificado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarPerfilTipoCertificadoForm"
+			scope="request" input="/jsp/asignarPerfilTipoCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar"
+				path="/jsp/asignarPerfilTipoCertificado.jsp" />
+			<forward name="exito"
+				path="/listadoTipoCertificadoPerfiles.do" />
+			<forward name="cancelar"
+				path="/listadoTipoCertificadoPerfiles.do" />
+			<forward name="error"
+				path="/listadoTipoCertificadoPerfiles.do" />
+		</action>
+
+		<!-- Elimina la asignación de un perfil a un Tipo de Certificado con un procedimiento -->
+		<action path="/revocarPerfilTipoCertificado"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarPerfilTipoCertificadoForm"
+			scope="request" input="/jsp/revocarPerfilTipoCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/revocarPerfilTipoCertificado.jsp" />
+			<forward name="exito"
+				path="/listadoTipoCertificadoPerfiles.do" />
+			<forward name="cancelar"
+				path="/listadoTipoCertificadoPerfiles.do" />
+			<forward name="error"
+				path="/listadoTipoCertificadoPerfiles.do" />
+		</action>
+
+		<!--  ******************************** -->
+		<!--     PROCEDIMIENTOS Y ORDENES      -->
+		<!--  ******************************** -->
+
+		<!--  Listado de las órdenes de un procedimiento -->
+		<action path="/listadoProcedimientoOrdenes" scope="request"
+			name="listadoProcedimientoOrdenesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoProcedimientoOrdenes.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoOrdenes.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoOrdenes.jsp" />
+		</action>
+
+		<!--  Elimina una orden que está asociada a un procedimiento -->
+		<action path="/borrarOrden" scope="request"
+			name="borrarOrdenForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarOrden.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarOrden.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="error"
+				path="/listadoProcedimientoOrdenes.do" />
+		</action>
+
+		<!--  Crea una orden y la asocia a un procedimiento -->
+		<action path="/crearOrden" scope="request"
+			name="editarOrdenForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarOrden.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="editar" path="/jsp/editarOrden.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="error"
+				path="/listadoProcedimientoOrdenes.do" />
+		</action>
+
+		<!--  edita una orden y la asocia a un procedimiento -->
+		<action path="/editarOrden" scope="request"
+			name="editarOrdenForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarOrden.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="editar" path="/jsp/editarOrden.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoOrdenes.do" />
+			<forward name="error"
+				path="/listadoProcedimientoOrdenes.do" />
+		</action>
+
+		<action path="/listadoOrdenConvocatorias" scope="request"
+			name="listadoOrdenConvocatoriasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoOrdenConvocatorias.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoOrdenConvocatorias.jsp" />
+			<forward name="error"
+				path="/jsp/listadoOrdenConvocatorias.jsp" />
+		</action>
+
+		<action path="/editarConvocatoria" scope="request"
+			name="editarConvocatoriaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarConvocatoria.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarConvocatoria.jsp" />
+			<forward name="exito" path="/listadoOrdenConvocatorias.do" />
+			<forward name="cancelar"
+				path="/listadoOrdenConvocatorias.do" />
+			<forward name="error" path="/listadoOrdenConvocatorias.do" />
+		</action>
+
+		<action path="/descargarAdjuntoConvocatoria"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+		<action path="/descargarAdjuntoProcedimiento"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+		<action path="/crearConvocatoria" scope="request"
+			name="editarConvocatoriaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarConvocatoria.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/listadoOrdenConvocatorias.do" />
+			<forward name="editar" path="/jsp/editarConvocatoria.jsp" />
+			<forward name="cancelar"
+				path="/listadoOrdenConvocatorias.do" />
+			<forward name="error" path="/listadoOrdenConvocatorias.do" />
+		</action>
+
+		<action path="/borrarConvocatoria" scope="request"
+			name="borrarConvocatoriaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarConvocatoria.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarConvocatoria.jsp" />
+			<forward name="exito" path="/listadoOrdenConvocatorias.do" />
+			<forward name="cancelar"
+				path="/listadoOrdenConvocatorias.do" />
+			<forward name="error" path="/listadoOrdenConvocatorias.do" />
+		</action>
+
+		<action path="/listadoConvocatoriaPerfiles" scope="request"
+			name="listadoConvocatoriaPerfilesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoConvocatoriaPerfiles.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoConvocatoriaPerfiles.jsp" />
+			<forward name="error"
+				path="/jsp/listadoConvocatoriaPerfiles.jsp" />
+		</action>
+
+		<action path="/editarPerfil" scope="request"
+			name="editarPerfilForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarPerfil.jsp" />
+			<forward name="exito"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="cancelar"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="error"
+				path="/listadoConvocatoriaPerfiles.do" />
+		</action>
+
+		<action path="/crearPerfil" scope="request"
+			name="editarPerfilForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="editar" path="/jsp/editarPerfil.jsp" />
+			<forward name="cancelar"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="error"
+				path="/listadoConvocatoriaPerfiles.do" />
+		</action>
+
+		<action path="/borrarPerfil" scope="request"
+			name="borrarPerfilForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarPerfil.jsp" />
+			<forward name="exito"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="cancelar"
+				path="/listadoConvocatoriaPerfiles.do" />
+			<forward name="error"
+				path="/listadoConvocatoriaPerfiles.do" />
+		</action>
+		
+		<action path="/sincronizarPerfil"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="sincronizarPerfilForm" scope="request"
+			input="/jsp/sincronizarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/sincronizarPerfil.jsp" />
+			<forward name="exito" path="/listadoUsuarioPerfiles.do" />
+			<forward name="cancelar" path="/listadoUsuarioPerfiles.do" />
+			<forward name="error" path="/listadoUsuarioPerfiles.do" />
+		</action>
+
+		<!--  Asigna un tipo de identificación a un Perfil -->
+		<action path="/asignarTipoIdentificacionPerfil"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarTipoIdentificacionPerfilForm"
+			scope="request" input="/jsp/asignarTipoIdentificacionPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar"
+				path="/jsp/asignarTipoIdentificacionPerfil.jsp" />
+			<forward name="exito" path="/editarPerfil.do" />
+			<forward name="cancelar" path="/editarPerfil.do" />
+			<forward name="error" path="/editarPerfil.do" />
+		</action>
+
+		<!-- Elimina la asignación de un tipo de identificación a un perfil -->
+		<action path="/revocarTipoIdentificacionPerfil"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarTipoIdentificacionPerfilForm"
+			scope="request" input="/jsp/revocarTipoIdentificacionPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/revocarTipoIdentificacionPerfil.jsp" />
+			<forward name="exito" path="/editarPerfil.do" />
+			<forward name="cancelar" path="/editarPerfil.do" />
+			<forward name="error" path="/editarPerfil.do" />
+		</action>
+
+        <!--  ******************************************************* -->
+		<!--     PROCEDIMIENTOS Y TRAMITES                            -->
+		<!--  ******************************************************* -->
+
+        <!--  Elimina una orden que está asociada a un procedimiento -->
+		<action path="/borrarTramite" scope="request"
+			name="borrarTramiteForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarTramite.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarTramite.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="error"
+				path="/listadoProcedimientoTramites.do" />
+		</action>
+	    
+	    <!--  edita un tramite y la asocia a un procedimiento -->
+		<action path="/editarTramite" scope="request"
+			name="editarTramiteForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarTramite.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="editar" path="/jsp/editarTramite.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="error"
+				path="/listadoProcedimientoTramites.do" />
+		</action>
+
+        <!--  Crea un tramite y la asocia a un procedimiento -->
+		<action path="/crearTramite" scope="request"
+			name="editarTramiteForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarTramite.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="editar" path="/jsp/editarTramite.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoTramites.do" />
+			<forward name="error"
+				path="/listadoProcedimientoTramites.do" />
+		</action>
+		
+		<!--  ******************************************************* -->
+		<!--     PROCEDIMIENTOS, VERSION PRESENTA Y CONVOCATORIAS     -->
+		<!--  ******************************************************* -->
+
+		<!--  Lista con las convocatorias asociadas a una versión presenta de un procedimiento -->
+		<action path="/listadoVersionPresentaConvocatorias"
+			scope="request" name="listadoVersionPresentaConvocatoriasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false"
+			input="/jsp/listadoVersionPresentaConvocatorias.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoVersionPresentaConvocatorias.jsp" />
+			<forward name="error"
+				path="/jsp/listadoVersionPresentaConvocatorias.jsp" />
+		</action>
+
+		<!--  Asigna una convocatoria a una versión presenta de un procedimiento -->
+		<action path="/asignarConvocatoriaVersionPresenta"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarConvocatoriaVersionPresentaForm"
+			scope="request"
+			input="/jsp/asignarConvocatoriaVersionPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar"
+				path="/jsp/asignarConvocatoriaVersionPresenta.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaConvocatorias.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaConvocatorias.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaConvocatorias.do" />
+		</action>
+
+		<!-- Elimina la asignación de una convocatoria a una version presenta y un procedimiento -->
+		<action path="/revocarConvocatoriaVersionPresenta"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarConvocatoriaVersionPresentaForm"
+			scope="request"
+			input="/jsp/revocarConvocatoriaVersionPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/revocarConvocatoriaVersionPresenta.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaConvocatorias.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaConvocatorias.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaConvocatorias.do" />
+		</action>
+
+		<!-- Lista las versiones de presenta-->
+		<action path="/listadoProcedimientoVersionesPresenta"
+			scope="request" name="listadoProcedimientoVersionesPresentaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false"
+			input="/jsp/listadoProcedimientoVersionesPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoVersionesPresenta.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoVersionesPresenta.jsp" />
+		</action>
+
+		<!-- Elimina una version de presenta-->
+		<action path="/borrarVersionPresenta" scope="request"
+			name="borrarVersionPresentaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarVersionPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir"
+				path="/jsp/borrarVersionPresenta.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="error"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+		</action>
+
+		<!-- Modifica una version de presenta-->
+		<action path="/editarVersionPresenta" scope="request"
+			name="editarVersionPresentaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarVersionPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar"
+				path="/jsp/editarVersionPresenta.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="error"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+		</action>
+
+		<!-- Crea una nueva version de presenta-->
+		<action path="/crearVersionPresenta" scope="request"
+			name="crearVersionPresentaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarVersionPresenta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="error"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="editar"
+				path="/jsp/editarVersionPresenta.jsp" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoVersionesPresenta.do" />
+			<forward name="inicio" path="/listadoProcedimientos.do" />
+		</action>
+
+		<!--  ********************************** -->
+		<!--     PROCEDIMIENTOS Y DOCUMENTOS     -->
+		<!--  ********************************** -->
+
+		<!--  Lista con los documentos asociados a un procedimiento -->
+		<action path="/listadoProcedimientoDocumentos" scope="request"
+			name="listadoDocumentosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoProcedimientoDocumentos.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoProcedimientoDocumentos.jsp" />
+			<forward name="error"
+				path="/jsp/listadoProcedimientoDocumentos.jsp" />
+		</action>
+
+		<!--  Crea un documento asociado a un procedimiento -->
+		<action path="/crearDocumento"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="editarDocumentoForm" scope="request"
+			input="/jsp/editarDocumento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarDocumento.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="error"
+				path="/listadoProcedimientoDocumentos.do" />
+		</action>
+
+		<!-- Edita un documento asociado a un procedimiento -->
+		<action path="/editarDocumento"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="editarDocumentoForm" scope="request"
+			input="/jsp/editarDocumento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarDocumento.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="error"
+				path="/listadoProcedimientoDocumentos.do" />
+		</action>
+
+		<!-- Elimina un documento asociado a un procedimiento -->
+		<action path="/borrarDocumento"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="borrarDocumentoForm" scope="request"
+			input="/jsp/borrarDocumento.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarDocumento.jsp" />
+			<forward name="exito"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="cancelar"
+				path="/listadoProcedimientoDocumentos.do" />
+			<forward name="error"
+				path="/listadoProcedimientoDocumentos.do" />
+		</action>
+
+		<!--  **************************************************** -->
+		<!--     PROCEDIMIENTOS, VERSION PRESENTA Y PLANTILLAS     -->
+		<!--  **************************************************** -->
+
+		<!--  Lista con las plantillas asociadas a una versión presenta de un procedimiento -->
+		<action path="/listadoVersionPresentaPlantillas" scope="request"
+			name="listadoVersionPresentaPlantillasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoVersionPresentaPlantillas.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoVersionPresentaPlantillas.jsp" />
+			<forward name="error"
+				path="/jsp/listadoVersionPresentaPlantillas.jsp" />
+		</action>
+
+		<!--  Crea una plantilla asociada a una versión presenta de un procedimiento -->
+		<action path="/crearPlantilla"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" name="crearPlantillaForm" scope="request"
+			input="/jsp/editarPlantilla.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarPlantilla.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="inicio" path="/listadoProcedimientos.do" />
+		</action>
+
+		<!-- Edita una plantilla asociada a una versión presenta de un procedimiento -->
+		<action path="/editarPlantilla"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" name="editarPlantillaForm" scope="request"
+			input="/jsp/editarPlantilla.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarPlantilla.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="inicio" path="/listadoProcedimientos.do" />
+		</action>
+
+		<!-- Elimina una plantilla asociada a una version presenta y un procedimiento -->
+		<action path="/borrarPlantilla"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="borrarPlantillaForm" scope="request"
+			input="/jsp/borrarPlantilla.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarPlantilla.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaPlantillas.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaPlantillas.do" />
+		</action>
+
+		<action path="/descargarPlantilla"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+		<action path="/descargarVersionPresenta"
+			type="org.springframework.web.struts.DelegatingActionProxy" />
+
+		<!--  ************************************************ -->
+		<!--     PROCEDIMIENTOS, VERSION PRESENTA Y ANEXOS     -->
+		<!--  ************************************************ -->
+
+		<!--  Lista con los anexos asociados a una versión presenta de un procedimiento -->
+		<action path="/listadoVersionPresentaAnexos" scope="request"
+			name="listadoVersionPresentaAnexosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoVersionPresentaAnexos.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoVersionPresentaAnexos.jsp" />
+			<forward name="error"
+				path="/jsp/listadoVersionPresentaAnexos.jsp" />
+		</action>
+
+		<!--  Crea un anexo asociado a una versión presenta de un procedimiento -->
+		<action path="/crearAnexo"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" name="editarAnexoForm" scope="request"
+			input="/jsp/editarAnexo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarAnexo.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaAnexos.do" />
+		</action>
+
+		<!-- Edita un anexo asociado a una versión presenta de un procedimiento -->
+		<action path="/editarAnexo"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" name="editarAnexoForm" scope="request"
+			input="/jsp/editarAnexo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarAnexo.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaAnexos.do" />
+		</action>
+
+		<!-- Elimina un anexo asociado a una version presenta y un procedimiento -->
+		<action path="/borrarAnexo"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="borrarAnexoForm" scope="request"
+			input="/jsp/borrarAnexo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarAnexo.jsp" />
+			<forward name="exito"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="cancelar"
+				path="/listadoVersionPresentaAnexos.do" />
+			<forward name="error"
+				path="/listadoVersionPresentaAnexos.do" />
+		</action>
+
+		<!--  ************************* -->
+		<!--  HERRAMIENTAS Y PARÁMETROS -->
+		<!--  ************************* -->
+
+		<!-- listado Herramientas configurables -->
+		<action path="/listadoHerramientas" scope="request"
+			name="listadoHerramientasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoHerramientas.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoHerramientas.jsp" />
+			<forward name="error" path="/jsp/listadoHerramientas.jsp" />
+		</action>
+
+		<!-- Editar una herramienta -->
+		<action path="/editarHerramienta" scope="request"
+			name="editarHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarHerramienta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarHerramienta.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<!-- Crear una herramienta -->
+		<action path="/crearHerramienta" scope="request"
+			name="editarHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarHerramienta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarHerramienta.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<!-- Borrar una Herramienta -->
+		<action path="/borrarHerramienta" scope="request"
+			name="borrarHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarHerramienta.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarHerramienta.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<!-- Editar un Parámetro -->
+		<action path="/editarParametro" scope="request"
+			name="editarParametroForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarParametro.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarParametro.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<!-- Crear un Parámetro -->
+		<action path="/crearParametro" scope="request"
+			name="editarParametroForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarParametro.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarParametro.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<!-- Borrar un Parámetro -->
+		<action path="/borrarParametro" scope="request"
+			name="borrarParametroForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarParametro.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarParametro.jsp" />
+			<forward name="exito" path="/listadoHerramientas.do" />
+			<forward name="cancelar" path="/listadoHerramientas.do" />
+			<forward name="error" path="/listadoHerramientas.do" />
+		</action>
+
+		<action path="/editarInstHerramienta"
+			name="editarInstHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarInstHerramienta.jsp">
+			<forward name="editar"
+				path="/jsp/editarInstHerramienta.jsp" />
+			<forward name="exito"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="cancelar"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="error"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="cambiarContrasena" path="/cambiarClaveInstParametro.do" />
+		</action>
+
+		<action path="/borrarInstHerramienta" scope="request"
+			name="borrarInstHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarInstHerramienta.jsp">
+			<forward name="advertir"
+				path="/jsp/borrarInstHerramienta.jsp" />
+			<forward name="exito"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="cancelar"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="error"
+				path="/listadoConfiguracionHerramientas.do" />
+		</action>
+
+		<action path="/crearInstHerramienta" scope="request"
+			name="crearInstHerramientaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/crearInstHerramienta.jsp">
+			<forward name="editar" path="/jsp/crearInstHerramienta.jsp" />
+			<forward name="exito" path="/editarInstHerramienta.do" />
+			<forward name="cancelar"
+				path="/listadoConfiguracionHerramientas.do" />
+			<forward name="error"
+				path="/listadoConfiguracionHerramientas.do" />
+		</action>
+
+		<action path="/chequearConfiguracion" scope="request"
+			name="chequearConfiguracionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="editar"
+				path="/jsp/chequearConfiguracion.jsp">
+			</forward>
+			<forward name="exito"
+				path="/jsp/chequearConfiguracion.jsp">
+			</forward>
+			<forward name="error"
+				path="/jsp/chequearConfiguracion.jsp">
+			</forward>
+		</action>
+
+
+		<!--  ************************* -->
+		<!--          USUARIOS          -->
+		<!--  ************************* -->
+
+		<action path="/listadoUsuarios" scope="request"
+			name="listadoUsuariosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarios.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoUsuarios.jsp" />
+			<forward name="error" path="/jsp/listadoUsuarios.jsp" />
+		</action>
+
+		<action path="/editarUsuario" scope="request"
+			name="editarUsuarioForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarUsuario.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarUsuario.jsp" />
+			<forward name="exito" path="/listadoUsuarios.do" />
+			<forward name="cancelar" path="/listadoUsuarios.do" />
+			<forward name="error" path="/listadoUsuarios.do" />
+		</action>
+
+		<action path="/comprobarUsuario" scope="request"
+			name="editarUsuarioForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/comprobarUsuario.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/comprobarUsuario.jsp" />
+			<forward name="nuevo" path="/crearUsuario.do" />
+			<forward name="activar" path="/editarUsuario.do" />
+			<forward name="cancelar" path="/listadoUsuarios.do" />
+			<forward name="error" path="/listadoUsuarios.do" />
+		</action>
+
+		<action path="/crearUsuario" scope="request"
+			name="editarUsuarioForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarUsuario.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/listadoUsuarios.do" />
+			<forward name="editar" path="/jsp/editarUsuario.jsp" />
+			<forward name="cancelar" path="/listadoUsuarios.do" />
+			<forward name="error" path="/listadoUsuarios.do" />
+		</action>
+
+		<action path="/borrarUsuario" scope="request"
+			name="borrarUsuarioForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarUsuario.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarUsuario.jsp" />
+			<forward name="exito" path="/listadoUsuarios.do" />
+			<forward name="cancelar" path="/listadoUsuarios.do" />
+			<forward name="error" path="/listadoUsuarios.do" />
+		</action>
+
+		<action path="/listadoUsuarioRoles" scope="request"
+			name="listadoUsuarioRolesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarioRoles.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoUsuarioRoles.jsp" />
+			<forward name="error" path="/jsp/listadoUsuarioRoles.jsp" />
+		</action>
+
+		<action path="/crearEmpleo" name="editarEmpleoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request" input="/jsp/crearEmpleo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/crearEmpleo.jsp" />
+			<forward name="exito" path="/listadoUsuarioEmpleos.do" />
+			<forward name="cancelar" path="/listadoUsuarioEmpleos.do" />
+			<forward name="error" path="/listadoUsuarioEmpleos.do" />
+		</action>
+
+		<action path="/editarEmpleo" name="editarEmpleoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request" input="/jsp/editarEmpleo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarEmpleo.jsp" />
+			<forward name="exito" path="/listadoUsuarioEmpleos.do" />
+			<forward name="cancelar" path="/listadoUsuarioEmpleos.do" />
+			<forward name="error" path="/listadoUsuarioEmpleos.do" />
+		</action>
+		
+		<action path="/sincronizarEmpleo"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="sincronizarEmpleoForm" scope="request"
+			input="/jsp/sincronizarEmpleo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/sincronizarEmpleo.jsp" />
+			<forward name="exito" path="/listadoUsuarioEmpleos.do" />
+			<forward name="cancelar" path="/listadoUsuarioEmpleos.do" />
+			<forward name="error" path="/listadoUsuarioEmpleos.do" />
+		</action>
+
+		<action path="/listadoUsuarioPerfiles" scope="request"
+			name="listadoUsuarioPerfilesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarioPerfiles.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoUsuarioPerfiles.jsp" />
+			<forward name="error"
+				path="/jsp/listadoUsuarioPerfiles.jsp" />
+		</action>
+
+		<action path="/mostrarUsuario" scope="request"
+			name="mostrarUsuarioForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/mostrarUsuario.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/mostrarUsuario.jsp" />
+			<forward name="error" path="/listadoUsuarios.do" />
+		</action>
+
+		<action path="/listadoUsuarioEmpleos" scope="request"
+			name="listadoUsuarioEmpleosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarioEmpleos.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoUsuarioEmpleos.jsp" />
+			<forward name="error" path="/jsp/listadoUsuarioEmpleos.jsp" />
+		</action>
+		
+		<action path="/listadoUsuarioConfTrewa" scope="request"
+			name="listadoUsuarioConfTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarioConfTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoUsuarioConfTrewa.jsp" />
+			<forward name="error"
+				path="/jsp/listadoUsuarioConfTrewa.jsp" />
+		</action>
+		
+		<action path="/revocarConfiguracionTrewa"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarConfTrewaForm" scope="request"
+			input="/jsp/revocarConfTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/revocarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="cancelar" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="error" path="/listadoUsuarioConfTrewa.do" />
+		</action>
+		
+		<action path="/asignarConfiguracionTrewa" name="asignarConfTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/asignarConfTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="cancelar" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="error" path="/listadoUsuarioConfTrewa.do" />
+		</action>
+		
+		<action path="/sincronizarConfTrewa"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="sincronizarConfTrewaForm" scope="request"
+			input="/jsp/sincronizarConfTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/sincronizarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="cancelar" path="/listadoUsuarioConfTrewa.do" />
+			<forward name="error" path="/listadoUsuarioConfTrewa.do" />
+		</action>
+				
+		<action path="/revocarPerfil"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarPerfilForm" scope="request"
+			input="/jsp/revocarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/revocarPerfil.jsp" />
+			<forward name="exito" path="/listadoUsuarioPerfiles.do" />
+			<forward name="cancelar" path="/listadoUsuarioPerfiles.do" />
+			<forward name="error" path="/listadoUsuarioPerfiles.do" />
+		</action>
+
+		<action path="/revocarRol"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarRolForm" scope="request"
+			input="/jsp/revocarRol.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/revocarRol.jsp" />
+			<forward name="exito" path="/listadoUsuarioRoles.do" />
+			<forward name="cancelar" path="/listadoUsuarioRoles.do" />
+			<forward name="error" path="/listadoUsuarioRoles.do" />
+		</action>
+		<action path="/borrarEmpleo"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="borrarEmpleoForm" scope="request"
+			input="/jsp/borrarEmpleo.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarEmpleo.jsp" />
+			<forward name="exito" path="/listadoUsuarioEmpleos.do" />
+			<forward name="cancelar" path="/listadoUsuarioEmpleos.do" />
+			<forward name="error" path="/listadoUsuarioEmpleos.do" />
+		</action>
+		<action path="/asignarRol"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="asignarRolForm" scope="request"
+			input="/jsp/asignarRol.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarRol.jsp" />
+			<forward name="exito" path="/listadoUsuarioRoles.do" />
+			<forward name="cancelar" path="/listadoUsuarioRoles.do" />
+			<forward name="error" path="/listadoUsuarioRoles.do" />
+		</action>
+		<action path="/asignarPerfil" name="asignarPerfilForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/asignarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarPerfil.jsp" />
+			<forward name="exito" path="/listadoUsuarioPerfiles.do" />
+			<forward name="cancelar" path="/listadoUsuarioPerfiles.do" />
+			<forward name="error" path="/listadoUsuarioPerfiles.do" />
+		</action>
+
+		<action path="/cambiarContrasena" name="cambiarContrasenaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="true" input="/jsp/cambiarContrasena.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/cambiarContrasena.jsp" />
+			<forward name="exito" path="/listadoUsuarios.do" />
+			<forward name="cancelar" path="/listadoUsuarios.do" />
+			<forward name="cancelarSuperUsuario"
+				path="/paginaPrincipal.do" />
+			<forward name="error" path="/jsp/cambiarContrasena.jsp" />
+		</action>
+		
+		<action path="/cambiarClaveCifrado" name="cambiarClaveCifradoForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/cambiarClaveCifrado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/cambiarClaveCifrado.jsp" />
+			<forward name="exito" path="/editarProcedimiento.do" />
+			<forward name="cancelar" path="/editarProcedimiento.do" />
+			<forward name="cancelarSuperUsuario"
+				path="/paginaPrincipal.do" />
+			<forward name="error" path="/jsp/cambiarClaveCifrado.jsp" />
+		</action>
+		
+		<action path="/cambiarClaveInstParametro" name="cambiarClaveInstParamForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/cambiarClaveInstParametro.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/cambiarClaveInstParametro.jsp" />
+			<forward name="exito" path="/editarInstHerramienta.do" />
+			<forward name="cancelar" path="/editarInstHerramienta.do" />
+			<forward name="cancelarSuperUsuario"
+				path="/paginaPrincipal.do" />
+			<forward name="error" path="/jsp/cambiarClaveInstParametro.jsp" />
+		</action>
+		
+		<action path="/cambiarPassword" name="cambiarPasswordForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/cambiarPassword.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/cambiarPassword.jsp" />
+			<forward name="exito" path="/editarConfiguracionTrewa.do" />
+			<forward name="cancelar" path="/editarConfiguracionTrewa.do" />
+			<forward name="cancelarSuperUsuario"
+				path="/paginaPrincipal.do" />
+			<forward name="error" path="/jsp/cambiarPassword.jsp" />
+		</action>
+		
+		<action path="/listadoUsuarioPerfilesMoad" scope="request"
+			name="listadoUsuarioPerfilesMoadForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoUsuarioPerfilesMoad.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito"
+				path="/jsp/listadoUsuarioPerfilesMoad.jsp" />
+			<forward name="error"
+				path="/jsp/listadoUsuarioPerfilesMoad.jsp" />
+		</action>
+		
+		<action path="/asignarPerfilMoad" name="asignarPerfilMoadForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			scope="request" validate="false" input="/jsp/asignarPerfilMoad.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/asignarPerfilMoad.jsp" />
+			<forward name="exito" path="/listadoUsuarioPerfilesMoad.do" />
+			<forward name="cancelar" path="/listadoUsuarioPerfilesMoad.do" />
+			<forward name="error" path="/listadoUsuarioPerfilesMoad.do" />
+		</action>
+
+		<action path="/revocarPerfilMoad"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" name="revocarPerfilMoadForm" scope="request"
+			input="/jsp/revocarPerfil.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/revocarPerfilMoad.jsp" />
+			<forward name="exito" path="/listadoUsuarioPerfilesMoad.do" />
+			<forward name="cancelar" path="/listadoUsuarioPerfilesMoad.do" />
+			<forward name="error" path="/listadoUsuarioPerfilesMoad.do" />
+		</action>
+
+
+
+		<!--  ************************* -->
+		<!--       APLICACIONES         -->
+		<!--  ************************* -->
+
+		<!--  Listado de Aplicaciones -->
+		<action path="/listadoAplicaciones" scope="request"
+			name="listadoAplicacionesForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoAplicaciones.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoAplicaciones.jsp" />
+			<forward name="error" path="/jsp/listadoAplicaciones.jsp" />
+		</action>
+
+		<action path="/crearAplicacion" scope="request"
+			name="editarAplicacionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarAplicacion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarAplicacion.jsp" />
+			<forward name="exito" path="/jsp/editarAplicacion.jsp" />
+			<forward name="cancelar" path="/listadoAplicaciones.do" />
+			<forward name="error" path="/jsp/editarAplicacion.jsp" />
+            <forward name="cambiarContrasena" path="/cambiarContrasena.do"/>
+		</action>
+
+		<action path="/editarAplicacion" scope="request"
+			name="editarAplicacionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="true" input="/jsp/editarAplicacion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarAplicacion.jsp" />
+			<forward name="ver" path="/jsp/editarAplicacion.jsp" />
+			<forward name="exito" path="/listadoAplicaciones.do" />
+			<forward name="cancelar" path="/listadoAplicaciones.do" />
+			<forward name="error" path="/jsp/editarAplicacion.jsp" />
+			<forward name="cambiarContrasena" path="/cambiarContrasena.do"/>
+		</action>
+
+		<action path="/borrarAplicacion" scope="request"
+			name="borrarAplicacionForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarAplicacion.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarAplicacion.jsp" />
+			<forward name="exito" path="/listadoAplicaciones.do" />
+			<forward name="cancelar" path="/listadoAplicaciones.do" />
+			<forward name="error" path="/listadoAplicaciones.do" />
+		</action>
+
+		<!--  ************************* -->
+		<!--    OFICINAS DE REGISTRO    -->
+		<!--  ************************* -->
+
+		<action path="/listadoOficinas" scope="request"
+			name="listadoOficinasForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoOficinas.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoOficinas.jsp" />
+			<forward name="error" path="/jsp/listadoOficinas.jsp" />
+		</action>
+
+		<action path="/crearOficina" scope="request"
+			name="editarOficinaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarOficina.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarOficina.jsp" />
+			<forward name="exito" path="/listadoOficinas.do" />
+			<forward name="cancelar" path="/listadoOficinas.do" />
+			<forward name="error" path="/jsp/editarOficina.jsp" />
+		</action>
+
+		<action path="/editarOficina" scope="request"
+			name="editarOficinaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarOficina.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarOficina.jsp" />
+			<forward name="exito" path="/listadoOficinas.do" />
+			<forward name="cancelar" path="/listadoOficinas.do" />
+			<forward name="error" path="/jsp/editarOficina.jsp" />
+			<forward name="modificarContrasena" path="/cambiarContrasenaOficina.do"></forward>
+			<forward name="limpiarContrasena" path="/cambiarContrasenaOficina.do"></forward>
+		</action>
+
+		<action path="/borrarOficina" scope="request"
+			name="borrarOficinaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarOficina.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarOficina.jsp" />
+			<forward name="exito" path="/listadoOficinas.do" />
+			<forward name="cancelar" path="/listadoOficinas.do" />
+			<forward name="error" path="/listadoOficinas.do" />
+		</action>
+
+		<action path="/cambiarContrasenaOficina" scope="request"
+			name="cambiarContrasenaOficinaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/cambiarContrasenaOficina.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/cambiarContrasenaOficina.jsp" />
+			<forward name="exito" path="/editarOficina.do" />
+			<forward name="cancelar" path="/editarOficina.do" />
+			<forward name="error" path="/jsp/cambiarContrasenaOficina.jsp" />
+		</action>
+
+        <!--  ************************* -->
+		<!--    Tipos de Certificados    -->
+		<!--  ************************* -->
+
+		<action path="/listadoTiposCertificados" scope="request"
+			name="listadoTiposCertificadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoTiposCertificados.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoTiposCertificados.jsp" />
+			<forward name="error" path="/jsp/listadoTiposCertificados.jsp" />
+		</action>
+
+        <action path="/crearTiposCertificados" scope="request"
+			name="editarTiposCertificadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarTiposCertificado.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarTiposCertificados.jsp" />
+			<forward name="exito" path="/listadoTiposCertificados.do" />
+			<forward name="cancelar" path="/listadoTiposCertificados.do" />
+			<forward name="error" path="/jsp/editarTiposCertificados.jsp" />
+		</action>
+        
+        <action path="/editarTiposCertificados" scope="request"
+			name="editarTiposCertificadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarTiposCertificados.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarTiposCertificados.jsp" />
+			<forward name="exito" path="/listadoTiposCertificados.do" />
+			<forward name="cancelar" path="/listadoTiposCertificados.do" />
+			<forward name="error" path="/jsp/editarTiposCertificados.jsp" />
+		</action>
+		
+		<action path="/borrarTiposCertificados" scope="request"
+			name="borrarTiposCertificadosForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarTiposCertificados.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarTiposCertificados.jsp" />
+			<forward name="exito" path="/listadoTiposCertificados.do" />
+			<forward name="cancelar" path="/listadoTiposCertificados.do" />
+			<forward name="error" path="/listadoTiposCertificados.do" />
+		</action>
+		
+		<!--  ************************* -->
+		<!--    		Menus   		-->
+		<!--  ************************* -->
+
+		<action path="/listadoMenus" scope="request"
+			name="listadoMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/listadoMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoMenus.jsp" />
+			<forward name="error" path="/jsp/listadoMenus.jsp" />
+		</action>
+
+        <action path="/crearMenus" scope="request"
+			name="editarMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarMenus.jsp" />
+			<forward name="exito" path="/listadoMenus.do" />
+			<forward name="cancelar" path="/listadoMenus.do" />
+			<forward name="error" path="/jsp/editarMenus.jsp" />
+		</action>
+        
+        <action path="/editarMenus" scope="request"
+			name="editarMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarMenus.jsp" />
+			<forward name="exito" path="/listadoMenus.do" />
+			<forward name="cancelar" path="/listadoMenus.do" />
+			<forward name="error" path="/jsp/editarMenus.jsp" />
+		</action>
+		
+		<action path="/borrarMenus" scope="request"
+			name="borrarMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarMenus.jsp" />
+			<forward name="exito" path="/listadoMenus.do" />
+			<forward name="cancelar" path="/listadoMenus.do" />
+			<forward name="error" path="/listadoMenus.do" />
+		</action>
+		
+		<!--  ************************* -->
+		<!--    		SubMenus   		-->
+		<!--  ************************* -->
+
+		<action path="/listadoSubMenus" scope="request"
+			name="listadoSubMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/editarMenus.do" />
+			<forward name="error" path="/jsp/editarMenus.jsp" />
+		</action>
+
+        <action path="/crearSubMenus" scope="request"
+			name="editarSubMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarSubMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarSubMenus.jsp" />
+			<forward name="exito" path="/editarMenus.do" />
+			<forward name="cancelar" path="/editarMenus.do" />
+			<forward name="error" path="/jsp/editarSubMenus.jsp" />
+		</action>
+        
+        <action path="/editarSubMenus" scope="request"
+			name="editarSubMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/editarSubMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarSubMenus.jsp" />
+			<forward name="exito"  path="/editarMenus.do" />
+			<forward name="cancelar" path="/editarMenus.do" />
+			<forward name="error" path="/jsp/editarSubMenus.jsp" />
+		</action>
+		
+		<action path="/borrarSubMenus" scope="request"
+			name="borrarSubMenusForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" input="/jsp/borrarSubMenus.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarSubMenus.jsp" />
+			<forward name="exito" path="/editarMenus.do" />
+			<forward name="cancelar" path="/editarMenus.do" />
+			<forward name="error" path="/jsp/editarMenus.jsp" />
+		</action>
+		
+		<!-- AMSR - I -->
+		<!--  ************************* -->
+		<!--    Configuraciones Trewa   -->
+		<!--  ************************* -->
+
+		<action path="/listadoConfiguracionTrewa" 
+			scope="request"
+			name="listadoConfiguracionTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" 
+			input="/jsp/listadoConfiguracionTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="exito" path="/jsp/listadoConfiguracionTrewa.jsp" />
+			<forward name="error" path="/jsp/listadoConfiguracionTrewa.jsp" />
+		</action>
+
+        <action path="/crearConfiguracionTrewa" 
+        	scope="request"
+			name="editarConfiguracionTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" 
+			input="/jsp/editarConfiguracionTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoConfiguracionTrewa.do" />
+			<forward name="cancelar" path="/listadoConfiguracionTrewa.do" />
+			<forward name="error" path="/jsp/editarConfTrewa.jsp" />
+		</action>
+        
+        <action path="/editarConfiguracionTrewa" 
+        	scope="request"
+			name="editarConfiguracionTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" 
+			input="/jsp/editarConfiguracionTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="editar" path="/jsp/editarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoConfiguracionTrewa.do" />
+			<forward name="cancelar" path="/listadoConfiguracionTrewa.do" />
+			<forward name="error" path="/jsp/editarConfTrewa.jsp" />
+			<forward name="cambiarPassword" path="/cambiarPassword.do" />
+			<forward name="limpiarPassword" path="/cambiarPassword.do" />
+		</action>
+		
+		<action path="/borrarConfiguracionTrewa" 
+			scope="request"
+			name="borrarConfiguracionTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" 
+			input="/jsp/borrarConfiguracionTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="advertir" path="/jsp/borrarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoConfiguracionTrewa.do" />
+			<forward name="cancelar" path="/listadoConfiguracionTrewa.do" />
+			<forward name="error" path="/listadoConfiguracionTrewa.do" />
+		</action>
+		
+		<action path="/validarConfiguracionTrewa" 
+			scope="request"
+			name="validarConfiguracionTrewaForm"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" 
+			input="/jsp/validarConfiguracionTrewa.jsp">
+			<set-property property="cancellable" value="true" />
+			<forward name="validar" path="/jsp/validarConfTrewa.jsp" />
+			<forward name="exito" path="/listadoConfiguracionTrewa.do" />
+			<forward name="cancelar" path="/listadoConfiguracionTrewa.do" />
+			<forward name="error" path="/jsp/validarConfTrewa.jsp" />
+		</action>
+		<!-- AMSR - F -->
+		
+		<!-- ********************* -->
+		<!--	PAGINA PRINCIPAL   -->
+		<!-- ********************* -->
+		<action path="/paginaPrincipal" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false">
+			<forward name="exito" path="/jsp/paginaPrincipal.jsp"></forward>
+		</action>
+	</action-mappings>
+</struts-config>

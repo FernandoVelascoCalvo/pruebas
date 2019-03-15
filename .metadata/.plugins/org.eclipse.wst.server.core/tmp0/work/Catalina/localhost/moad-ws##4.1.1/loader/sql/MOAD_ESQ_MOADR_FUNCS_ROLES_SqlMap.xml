@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="MOAD_ESQ_MOADR_FUNCS_ROLES" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="FuncionalidadRolResultMap" type="FuncionalidadRol" >
+    <result column="ID_FUNCS_ROLES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_FUNCIONALIDADES" property="idFuncionalidad" jdbcType="DECIMAL" />
+    <result column="ID_ROLES" property="idRol" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="FuncionalidadRolResultMap" parameterType="FuncionalidadRol" >
+    select ID_FUNCS_ROLES, ID_FUNCIONALIDADES, ID_ROLES
+    from MOADR_FUNCS_ROLES
+    where ID_FUNCS_ROLES = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="FuncionalidadRol" >  
+    delete from MOADR_FUNCS_ROLES
+    where ID_FUNCS_ROLES = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="FuncionalidadRol" >
+ 	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_FURO.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADR_FUNCS_ROLES (ID_FUNCS_ROLES, ID_FUNCIONALIDADES, ID_ROLES)
+    values (#{id,jdbcType=DECIMAL}, #{idFuncionalidad,jdbcType=DECIMAL}, #{idRol,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="FuncionalidadRol" > 
+    update MOADR_FUNCS_ROLES
+    set ID_FUNCIONALIDADES = #{idFuncionalidad,jdbcType=DECIMAL},
+      ID_ROLES = #{idRol,jdbcType=DECIMAL}
+    where ID_FUNCS_ROLES = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="FuncionalidadRol" >
+    update MOADR_FUNCS_ROLES
+    <set>
+      <if test="idFuncionalidad != null" >
+        ID_FUNCIONALIDADES = #{idFuncionalidad,jdbcType=DECIMAL}
+      </if>
+      <if test="idRol != null" >
+        ,ID_ROLES = #{idRol,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where ID_FUNCS_ROLES = #{id}
+  </update>
+  
+  <!-- Borra un registro de la Base de Datos por idRol y por idFuncioalidades -->
+  <delete id="revocarFuncionalidad" parameterType="FuncionalidadRol" >  
+	    delete from MOADR_FUNCS_ROLES
+	    where ID_ROLES = #{idRol}
+	    AND ID_FUNCIONALIDADES = #{idFuncionalidad,jdbcType=DECIMAL}
+  </delete>
+  
+       <!-- Consulta un registro por su identificador -->
+	  <select id="obtenerRelacionFuncsRoles" resultMap="FuncionalidadRolResultMap" parameterType="FuncionalidadRol" >
+	    select ID_FUNCS_ROLES, ID_FUNCIONALIDADES, ID_ROLES
+	    from MOADR_FUNCS_ROLES
+	    where ID_ROLES = #{idRol,jdbcType=DECIMAL}
+	    and ID_FUNCIONALIDADES=#{idFuncionalidad,jdbcType=DECIMAL}
+	  </select>
+</mapper>

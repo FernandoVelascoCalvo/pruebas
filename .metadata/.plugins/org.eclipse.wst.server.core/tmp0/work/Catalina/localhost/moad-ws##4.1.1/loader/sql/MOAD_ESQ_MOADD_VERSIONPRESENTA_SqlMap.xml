@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_VERSIONPRESENTA" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_VERSIONPRESENTA y los datos miembro de la clase Anexo -->
+  <resultMap id="VersionPresentaResultMap" type="VersionPresenta" >
+	    <result column="ID_VERSIONPRESENTA" property="id" jdbcType="DECIMAL" />
+	    <result column="CD_CODIGO" property="codigo" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+	    <result column="TX_NOMBREFICHERO" property="nombreFichero" jdbcType="VARCHAR" />
+	    <result column="LB_FICHERO" property="fichero" jdbcType="BLOB" />
+  </resultMap>
+
+  <!-- Inserción de registro en la tabla MOADD_VERSIONPRESENTA -->
+  <insert id="insertarVersionPresenta" parameterType="VersionPresenta" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	     SELECT MOAD_SQ_VEPR.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_VERSIONPRESENTA
+    	 (ID_VERSIONPRESENTA, CD_CODIGO, DS_DESCRIPCION, ID_PROCEDIMIENTOS, LB_FICHERO, TX_NOMBREFICHERO)
+    values (#{id,jdbcType=DECIMAL}, #{codigo,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}, #{idProcedimiento,jdbcType=DECIMAL},
+    	#{fichero,jdbcType=BLOB}, #{nombreFichero,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_VERSIONPRESENTA -->
+  <update id="actualizarVersionPresenta" parameterType="VersionPresenta" >
+    update MOADD_VERSIONPRESENTA
+    set CD_CODIGO = #{codigo,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+      <if test="fichero != null">
+      	,TX_NOMBREFICHERO = #{nombreFichero,jdbcType=VARCHAR}
+      	,LB_FICHERO = #{fichero,jdbcType=BLOB}
+      </if>
+
+    where ID_VERSIONPRESENTA = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registro de la tabla MOADD_VERSIONPRESENTA por su clave primaria -->
+  <select id="obtenerVersionPresenta" resultMap="VersionPresentaResultMap" parameterType="java.math.BigDecimal" >
+    select ID_VERSIONPRESENTA, CD_CODIGO, DS_DESCRIPCION, ID_PROCEDIMIENTOS, LB_FICHERO, TX_NOMBREFICHERO
+    from MOADD_VERSIONPRESENTA
+    where ID_VERSIONPRESENTA = #{value}
+  </select>
+
+  <!-- Selección de registros de la tabla MOADD_VERSIONPRESENTA a partir del campo ID_PROCEDIMIENTOS-->
+  <select id="obtenerVersionesPresenta" resultMap="VersionPresentaResultMap" parameterType="java.math.BigDecimal" >
+    select ID_VERSIONPRESENTA, CD_CODIGO, DS_DESCRIPCION, ID_PROCEDIMIENTOS, LB_FICHERO, TX_NOMBREFICHERO
+    from MOADD_VERSIONPRESENTA
+    where ID_PROCEDIMIENTOS = #{value}
+    ORDER BY DS_DESCRIPCION
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_VERSIONPRESENTA por su clave primaria -->
+  <delete id="borrarVersionPresenta" parameterType="java.math.BigDecimal" >
+    delete from MOADD_VERSIONPRESENTA
+    where ID_VERSIONPRESENTA = #{value}
+  </delete>
+
+      <!-- Borra el fichero adjunto de la versión presenta -->
+	<update id="borrarFichero" parameterType="java.math.BigDecimal" >
+    	update MOADD_VERSIONPRESENTA
+    	set LB_FICHERO = null,
+    	    TX_NOMBREFICHERO = null
+    	where ID_VERSIONPRESENTA = #{value}
+	</update>
+
+</mapper>

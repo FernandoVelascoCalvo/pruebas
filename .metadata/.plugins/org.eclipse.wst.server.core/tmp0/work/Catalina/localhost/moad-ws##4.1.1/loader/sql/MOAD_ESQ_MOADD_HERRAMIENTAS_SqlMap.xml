@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_HERRAMIENTAS">
+
+	<!-- ResultMap para las herramientas -->
+	<resultMap id="HerramientaResultMap" type="Herramienta">
+		<result column="ID_HERRAMIENTAS" property="id" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="ID_TIPOSHERRAMIENT" property="idTipoHerramienta"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="HerramientaResultMap"
+		parameterType="Herramienta">
+		select ID_HERRAMIENTAS, DS_NOMBRE, DS_DESCRIPCION,ID_TIPOSHERRAMIENT from
+		MOADD_HERRAMIENTAS where ID_HERRAMIENTAS =	#{id,jdbcType=DECIMAL}
+	</select>
+	
+	<!-- Obtiene un listado de herramientas asociadas a una configuración 
+      identificada por idConf-->
+	<select id="obtenerHerramientas" resultMap="HerramientaResultMap" parameterType="java.math.BigDecimal">
+		SELECT MOADD_HERRAMIENTAS.ID_HERRAMIENTAS, MOADD_HERRAMIENTAS.DS_NOMBRE,
+        MOADD_HERRAMIENTAS.DS_DESCRIPCION,MOADD_HERRAMIENTAS.ID_TIPOSHERRAMIENT
+        FROM MOADD_HERRAMIENTAS , MOADD_INSTHERRAMIENTA 
+        WHERE (MOADD_HERRAMIENTAS.ID_HERRAMIENTAS =MOADD_INSTHERRAMIENTA.ID_HERRAMIENTAS
+        AND MOADD_INSTHERRAMIENTA.ID_CONFIGURACIONES =#{value}) ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Obtiene un listado de todas las herramientas existentes -->
+	<select id="obtenerTodasHerramientas" resultMap="HerramientaResultMap">
+		SELECT MOADD_HERRAMIENTAS.ID_HERRAMIENTAS, MOADD_HERRAMIENTAS.DS_NOMBRE,
+        MOADD_HERRAMIENTAS.DS_DESCRIPCION,MOADD_HERRAMIENTAS.ID_TIPOSHERRAMIENT
+        FROM MOADD_HERRAMIENTAS ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Obtiene un listado de todas las herramientas existentes -->
+	<select id="obtenerHerramientasPorTipoHerramienta" resultMap="HerramientaResultMap" parameterType="java.math.BigDecimal">
+		SELECT ID_HERRAMIENTAS, DS_NOMBRE, DS_DESCRIPCION, ID_TIPOSHERRAMIENT
+        FROM MOADD_HERRAMIENTAS 
+        WHERE ID_TIPOSHERRAMIENT = #{value} 
+        ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="deleteByPrimaryKey" parameterType="Herramienta">
+		delete from MOADD_HERRAMIENTAS
+		where ID_HERRAMIENTAS =	#{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_HERRAMIENTAS -->
+	<insert id="insert" parameterType="Herramienta">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_HERR.NEXTVAL FROM DUAL	
+	    </selectKey>
+		
+		insert into MOADD_HERRAMIENTAS (ID_HERRAMIENTAS,DS_NOMBRE,
+		DS_DESCRIPCION,ID_TIPOSHERRAMIENT) values (#{id,jdbcType=DECIMAL},
+		#{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR},#{idTipoHerramienta,jdbcType=DECIMAL})
+	</insert>
+
+	<!-- modifica un registro en la tabla MOADD_HERRAMIENTAS -->
+	<update id="updateByPrimaryKey" parameterType="Herramienta">
+		update MOADD_HERRAMIENTAS 
+		set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+		ID_TIPOSHERRAMIENT=#{idTipoHerramienta,jdbcType=DECIMAL}
+		 where ID_HERRAMIENTAS = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_HERRAMIENTAS -->
+	<update id="updateByPrimaryKeySelective" parameterType="Herramienta">
+        update MOADD_HERRAMIENTAS
+        <set>
+             <if test="nombre != null">
+                     DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+             </if>
+             <if test="descripcion != null">
+                     DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+             </if>
+             <if test="idTipoHerramienta != null">
+                     ID_TIPOSHERRAMIENT = #{idTipoHerramienta,jdbcType=DECIMAL}
+             </if>
+        </set>
+        where ID_HERRAMIENTAS = #{id}
+	</update>
+
+	
+	<!-- Selecciona un registro a partir de nombre de la herramienta-->
+	<select id="obtenerHerramientaPorNombre" resultMap="HerramientaResultMap"
+		parameterType="java.lang.String">
+		select ID_HERRAMIENTAS, DS_NOMBRE, DS_DESCRIPCION,ID_TIPOSHERRAMIENT from
+		MOADD_HERRAMIENTAS where DS_NOMBRE =#{value}
+	</select>
+	
+</mapper>

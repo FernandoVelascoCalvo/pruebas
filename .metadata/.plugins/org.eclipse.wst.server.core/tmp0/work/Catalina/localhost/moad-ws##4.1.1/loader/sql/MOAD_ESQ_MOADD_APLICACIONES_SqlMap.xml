@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_APLICACIONES" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_APLICACIONES y los datos miembro de la clase Aplicacion -->
+  <resultMap id="AplicacionResultMap" type="Aplicacion" >
+	    <result column="ID_APLICACIONES" property="id" jdbcType="DECIMAL" />
+	    <result column="CD_APLICACIONES" property="codigo" jdbcType="VARCHAR" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="CD_USUARIOS" property="cdUsuarios" jdbcType="VARCHAR" />
+	    <result column="LG_PRESENTABLE" property="presentable" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Inserción de registro en la tabla MOADD_APLICACIONES -->
+  <insert id="insertarAplicacion" parameterType="Aplicacion" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_APLI.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_APLICACIONES (ID_APLICACIONES, CD_APLICACIONES, DS_NOMBRE,DS_DESCRIPCION,CD_USUARIOS, LG_PRESENTABLE)
+    values ( #{id,jdbcType=DECIMAL}, #{codigo,jdbcType=VARCHAR}, #{nombre,jdbcType=VARCHAR},#{descripcion,jdbcType=VARCHAR},#{cdUsuarios,jdbcType=VARCHAR}
+      <if test="presentable != null">
+      	,#{presentable,typeHandler=SiNOHandler}
+      </if>
+      )
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_APLICACIONES -->
+  <update id="actualizarAplicacion" parameterType="Aplicacion" >
+    update MOADD_APLICACIONES
+    set CD_APLICACIONES = #{codigo,jdbcType=VARCHAR},
+      DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      CD_USUARIOS = #{cdUsuarios,jdbcType=VARCHAR}
+      <if test="presentable != null">
+      	,LG_PRESENTABLE = #{presentable,typeHandler=SiNOHandler}
+      </if>
+    where ID_APLICACIONES = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registro de la tabla MOADD_APLICACIONES por su clave primaria -->
+  <select id="obtenerAplicacion" resultMap="AplicacionResultMap" parameterType="java.math.BigDecimal" >
+    select ID_APLICACIONES, CD_APLICACIONES, DS_NOMBRE, DS_DESCRIPCION,CD_USUARIOS,LG_PRESENTABLE
+    from MOADD_APLICACIONES
+    where ID_APLICACIONES = #{value}
+  </select>
+
+  <!-- Selección de todos los registros de la tabla MOADD_APLICACIONES de la BD -->
+  <select id="obtenerAplicaciones" resultMap="AplicacionResultMap" >
+    select ID_APLICACIONES, CD_APLICACIONES, DS_NOMBRE, DS_DESCRIPCION,CD_USUARIOS,LG_PRESENTABLE
+    from MOADD_APLICACIONES
+  </select>
+
+  <!-- Selección de las aplicaciones que se pueden asociar a un procedimiento -->
+  <select id="obtenerAplicacionesPorProcedimiento" resultMap="AplicacionResultMap" parameterType="java.math.BigDecimal">
+    select APL.ID_APLICACIONES, APL.CD_APLICACIONES, APL.DS_NOMBRE, APL.DS_DESCRIPCION, APL.CD_USUARIOS,APL.LG_PRESENTABLE
+    from MOADD_APLICACIONES APL
+		right join MOADD_PROCEDIMIENTOS PRO on (APL.LG_PRESENTABLE = 'N'
+     or PRO.LG_PRESENTABLE = APL.LG_PRESENTABLE )
+    where PRO.ID_PROCEDIMIENTOS = #{value}
+
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_APLICACIONES por su clave primaria -->
+  <delete id="borrarAplicacion" parameterType="java.math.BigDecimal" >
+    delete from MOADD_APLICACIONES
+    where ID_APLICACIONES = #{value}
+  </delete>
+
+</mapper>

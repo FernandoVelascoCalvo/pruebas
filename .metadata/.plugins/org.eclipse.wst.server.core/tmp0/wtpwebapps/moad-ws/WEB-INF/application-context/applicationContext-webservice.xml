@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+default-lazy-init="false">
+
+	<!--   SERVICIO CRIPTOGRAFICO   -->
+	<bean name="servicioCriptografico" class="es.ja.cice.pct.moad.manager.ServicioCriptografico" lazy-init="false" init-method="init">
+    	<property name="claveCifradoAplicaciones" value="${moad.ens.key.app}" />
+    	<property name="claveCifradoOficinas" value="${moad.ens.key.oficinas}" />
+    	<property name="claveCifradoConfTrewa" value="${moad.ens.key.conTrewa}" />
+    	<property name="longitudClave" value="${moad.ens.key.long}" />
+    </bean>
+
+
+	<!-- ConfiguracionesService -->
+	<bean id="configuraciones"
+		class="es.ja.cice.pct.moad.webservices.ConfiguracionesServiceImpl">
+		<property name="manager" ref="IConfiguracionesManager" />
+	</bean>
+
+	<!-- MenuCabeceraService -->
+	<bean id="menucabecera"
+		class="es.ja.cice.pct.moad.webservices.MenuCabeceraServiceImpl">
+		<property name="manager" ref="IMenuCabeceraManager" />
+	</bean>
+	
+	<!-- PerfilesService -->
+	<bean id="perfiles"
+		class="es.ja.cice.pct.moad.webservices.PerfilesServiceImpl">
+		<property name="manager" ref="IPerfilesManager" />
+	</bean>
+
+	<!-- ProcedimientosService -->
+	<bean id="procedimientos"
+		class="es.ja.cice.pct.moad.webservices.ProcedimientosServiceImpl">
+		<property name="procManager" ref="IProcedimientosManager" />
+		<property name="listManager" ref="IListadosManager" />
+	</bean>
+
+	<!-- UnidadesOrganicasService -->
+	<bean id="unidadesorganicas"
+		class="es.ja.cice.pct.moad.webservices.UnidadesOrganicasServiceImpl">
+		<property name="manager" ref="IUnidadesOrganicasManager" />
+		<property name="servicioCriptografico" ref="servicioCriptografico" />
+	</bean>
+
+	<!-- UsuariosService -->
+	<bean id="usuarios"
+		class="es.ja.cice.pct.moad.webservices.UsuariosServiceImpl">
+		<property name="manager" ref="IUsuariosManager" />
+	</bean>
+
+	<!-- ValidacionService -->
+	<bean id="validacion"
+		class="es.ja.cice.pct.common.security.webservices.ValidacionServiceImpl">
+		<property name="validacionManager" ref="IValidacionManager"/>
+	</bean>
+	
+	<!-- ListasGlobalesService -->
+	<bean id="listasglobales"
+		class="es.ja.cice.pct.moad.webservices.ListasGlobalesServiceImpl">
+		<property name="paisManager" ref="IPaisesManager" />
+		<property name="documentosTramiteENIFacade" ref="IDocumentosTramiteENIFacade" />
+	</bean>
+
+
+	<!-- Registro de usuario en los campos de auditoria -->
+    <bean id="securityContextWrapper" class="es.ja.cice.pct.moad.advisors.FooRemoteUserContextWrapper">
+		<property name="genericUsername" value="${moad.reg.usuario}"/>
+	</bean>
+	
+</beans>

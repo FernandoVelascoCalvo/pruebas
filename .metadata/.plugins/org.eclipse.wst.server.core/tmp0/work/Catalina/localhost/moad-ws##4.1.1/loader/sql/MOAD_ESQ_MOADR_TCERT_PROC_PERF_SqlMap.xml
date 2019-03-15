@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_TCERT_PROC_PERF" >
+
+
+  <!-- Mapeo de las columnas de la tabla MOADR_TCERT_PROC_PERF y los datos miembro de la clase TipoCertProcedimientoPerfil -->
+  <resultMap id="TipoCertProcedimientoPerfilResultMap" type="TipoCertProcedimientoPerfil" >
+    <result column="ID_TCERT_PROC_PERF" property="id" jdbcType="DECIMAL" />
+    <result column="ID_PERFILES" property="idPerfil" jdbcType="DECIMAL" />
+    <result column="ID_TIPOSCERTIFICADO" property="idTipoCertificado" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!-- Inserción de registro en la tabla MOADR_TIPOCERT_PROCED -->
+  <insert id="insert" parameterType="TipoCertProcedimientoPerfil" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TCPP.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADR_TCERT_PROC_PERF (ID_TCERT_PROC_PERF, ID_PERFILES,
+    ID_TIPOSCERTIFICADO, ID_PROCEDIMIENTOS)
+    values (#{id,jdbcType=DECIMAL}, #{idPerfil,jdbcType=DECIMAL},
+    #{idTipoCertificado,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL})
+  </insert>
+
+  <!-- elimina un registro de la base de datos -->
+  <delete id="revocarTipoCertificado" parameterType="TipoCertProcedimientoPerfil" >
+    delete from MOADR_TCERT_PROC_PERF
+    where (ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL})
+    	AND (ID_PERFILES = #{idPerfil,jdbcType=DECIMAL})
+    	AND (ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL})
+  </delete>
+  
+</mapper>

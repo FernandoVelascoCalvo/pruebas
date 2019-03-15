@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PRIVILEGIOS">
+
+	<!-- ResultMap del modelo Privilegios -->
+	<resultMap id="PrivilegioResultMap" type="Privilegio">
+		<result column="ID_PRIV" property="id" jdbcType="DECIMAL" />
+		<result column="CD_PRIVILEGIO" property="codigo" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- Obtiene la lista de privilegios para el identificador de perfil de usuario que se pasa como parametro -->
+	<select id="obtenerPrivilegiosPorIdPerfil" resultMap="PrivilegioResultMap" parameterType="java.math.BigDecimal">
+		select *
+		from MOADD_PRIVILEGIOS priv
+		left join MOADR_PERFUSU_PRI pupr on priv.ID_PRIV = pupr.ID_PRIV
+		left join MOADD_PERFILES_USU peus on pupr.ID_PEUS = peus.ID_PEUS
+		where peus.ID_PEUS = #{value}
+		ORDER BY priv.DS_DESCRIPCION
+	</select>
+	
+	<!-- Obtiene la lista de privilegios para el codigo de perfil de usuario que se pasa como parametro -->
+	<select id="obtenerPrivilegiosPorCodigoPerfil" resultMap="PrivilegioResultMap" parameterType="java.lang.String">
+		select * from MOADD_PRIVILEGIOS priv
+				left join MOADR_PERFUSU_PRI pupr on priv.ID_PRIV = pupr.ID_PRIV 
+				left join MOADD_PERFILES_USU peus on pupr.ID_PEUS = peus.ID_PEUS
+		where peus.CD_PERFIL = #{value}
+		ORDER BY priv.DS_DESCRIPCION
+	</select>
+	
+</mapper>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="MOAD_ESQ_MOADD_CONFIGURACIONES">
+
+	<!-- ResultMap para los configuración -->
+	<resultMap id="ConfiguracionResultMap" type="Configuracion">
+		<result column="ID_CONFIGURACIONES" property="id"
+			jdbcType="DECIMAL" />
+		<result column="ID_PROCEDIMIENTOS" property="idProcedimiento"
+			jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="LG_HABILITADA" property="habilitada"
+			javaType="boolean" jdbcType="CHAR" />
+	</resultMap>
+
+	<!-- ResultMap de los datos básicos de la configuración -->
+	<resultMap id="DatosBasicosResultMap" type="Configuracion">
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- ResultMap para las configuraciones que contienen instancias de herramientas distintas e instancias de parametros -->
+	<resultMap id="ConfiguracionInsHerrInsParamResultMap" type="Configuracion">
+		<id column="ID_CONFIGURACIONES" property="id" jdbcType="DECIMAL" />
+		<result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="LG_HABILITADA" property="habilitada" javaType="boolean" jdbcType="CHAR" />
+		<result column="PROCED_TX_CLAVE_CIFRADO" property="txClaveValor" jdbcType="VARCHAR" />
+		<collection property="listaHerr" resultMap="MOAD_ESQ_MOADD_CONFIGURACIONES.InsHerrInsParamResultMap"/>
+	</resultMap>
+
+	<!-- ResultMap para las instancias de herramientas distintas que contienen instancias de parametros -->
+	<resultMap id="InsHerrInsParamResultMap" type="InstHerramienta">
+		<id column="INSTHERR_ID_INSTHERRAMIENTA" property="id" jdbcType="DECIMAL" />
+	    <result column="INSTHERR_ID_HERRAMIENTAS" property="idHerramienta" jdbcType="DECIMAL" />
+		<result column="INSTHERR_ID_CONFIGURACIONES" property="idConfiguracion" jdbcType="DECIMAL" />
+		<result column="INSTHERR_DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="INSTHERR_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="INSTHERR_ID_TIPOSHERRAMIENT" property="idTipoHerramienta" jdbcType="DECIMAL" />
+		
+		<result column="HERRAMIENTA_ID_HERRAMIENTAS" property="herramienta.id" jdbcType="DECIMAL" />
+		<result column="HERRAMIENTA_DS_NOMBRE" property="herramienta.nombre" jdbcType="VARCHAR" />
+		<result column="HERRAMIENTA_DS_DESCRIPCION" property="herramienta.descripcion" jdbcType="VARCHAR" />
+		<result column="HERRAMIENTA_ID_TIPOSHERRAMIENT" property="herramienta.idTipoHerramienta" jdbcType="DECIMAL" />
+		<collection property="instParametros" resultMap="MOAD_ESQ_MOADD_CONFIGURACIONES.InsParamResultMap"/>
+	</resultMap>
+
+	<!-- ResultMap para las instancias de parametros contenidas en instancias de herramientas -->
+	<resultMap id="InsParamResultMap" type="InstParametro">
+		<result column="INSTPARAM_ID_INSTPARAM" property="id" jdbcType="DECIMAL" />
+		<result column="INSTPARAM_ID_INSTHERRAMIENTA" property="idInstHerramienta" jdbcType="DECIMAL" />
+		<result column="INSTPARAM_ID_PARAMETROS" property="idParametro" jdbcType="DECIMAL" />
+		<result column="INSTPARAM_TX_VALOR" property="valor" jdbcType="VARCHAR" />
+
+		<result column="PARAM_ID_PARAMETROS" property="parametro.id"/>
+		<result column="PARAM_ID_HERRAMIENTAS" property="parametro.idHerramienta"/>
+		<result column="PARAM_DS_DESCRIPCION" property="parametro.descripcion"/>
+		<result column="PARAM_DS_DESCRIPCIONCORT" property="parametro.descripcionCorta"/>
+		<result column="PARAM_DS_NOMBRE" property="parametro.nombre"/>
+		<result column="PARAM_TX_TIPO" property="parametro.tipo"/>
+		<result column="PARAM_LG_OBLIGATORIO" property="parametro.obligatorio" javaType="boolean" jdbcType="CHAR"/>
+		<result column="PARAM_LG_TIPO_CIFRADO" property="parametro.tipoCifrado"/>
+	</resultMap>
+
+	<!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="ConfiguracionResultMap"
+		parameterType="Configuracion">
+		select ID_CONFIGURACIONES, ID_PROCEDIMIENTOS, DS_NOMBRE,
+		DS_DESCRIPCION, LG_HABILITADA from MOADD_CONFIGURACIONES where
+		ID_CONFIGURACIONES = #{id,jdbcType=DECIMAL}
+	</select>
+
+
+	<!-- Selecciona una Lista de configuraciones que contiene el mismo Procedimiento -->
+	<select id="obtenerConfiguraciones"
+		resultMap="ConfiguracionResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_CONFIGURACIONES, ID_PROCEDIMIENTOS, DS_NOMBRE,
+		DS_DESCRIPCION, LG_HABILITADA from MOADD_CONFIGURACIONES where
+		ID_PROCEDIMIENTOS = #{value} ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Selecciona una Lista de configuraciones que no están asociadas a ningún procedimiento en concreto -->
+	<select id="obtenerConfiguracionesGenericas"
+		resultMap="ConfiguracionResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_CONFIGURACIONES, 0 as ID_PROCEDIMIENTOS, DS_NOMBRE,
+		DS_DESCRIPCION, LG_HABILITADA from MOADD_CONFIGURACIONES where
+		ID_PROCEDIMIENTOS is null ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="deleteByPrimaryKey" parameterType="Configuracion">
+		delete from MOADD_CONFIGURACIONES where ID_CONFIGURACIONES =
+		#{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_CONFIGURACIONES -->
+	<insert id="insert" parameterType="Configuracion">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_CONF.NEXTVAL FROM DUAL
+		</selectKey>
+
+		insert into MOADD_CONFIGURACIONES (ID_CONFIGURACIONES,
+		ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION, LG_HABILITADA)
+		values (#{id,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL},
+		#{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}
+		<if test="habilitada != null">
+			,#{habilitada,typeHandler=SiNOHandler}
+		</if>
+		)
+	</insert>
+
+	<!-- modifica un registro en la tabla MOADD_CONFIGURACIONES -->
+	<update id="updateByPrimaryKey" parameterType="Configuracion">
+		UPDATE MOADD_CONFIGURACIONES SET DS_NOMBRE = #nombre:VARCHAR#,
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+		<if test="habilitada != null">
+			,LG_HABILITADA = #{habilitada,typeHandler=SiNOHandler}
+		</if>
+		WHERE ID_CONFIGURACIONES = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_CONFIGURACIONES -->
+	<update id="updateByPrimaryKeySelective"
+		parameterType="Configuracion">
+		update MOADD_CONFIGURACIONES
+		<set>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="habilitada != null">
+				LG_HABILITADA = #{habilitada,typeHandler=SiNOHandler}
+			</if>
+		</set>
+		where ID_CONFIGURACIONES = #{id}
+	</update>
+
+	<update id="deshabilitar" parameterType="java.math.BigDecimal">
+		UPDATE MOADD_CONFIGURACIONES SET LG_HABILITADA = 'N' WHERE
+		ID_PROCEDIMIENTOS = #{value}
+	</update>
+
+	<update id="deshabilitarGenericas"
+		parameterType="java.math.BigDecimal">
+		UPDATE MOADD_CONFIGURACIONES SET LG_HABILITADA = 'N' WHERE
+		ID_PROCEDIMIENTOS is null
+	</update>
+
+	<!-- Devuelve el nombre de la configuracion en el bean ConfiguracionImpl -->
+	<select id="obtenerDatosBasicosConfiguracion"
+		resultMap="DatosBasicosResultMap"
+		parameterType="java.math.BigDecimal">
+		select DS_NOMBRE from MOADD_CONFIGURACIONES where
+		ID_CONFIGURACIONES = #{value}
+	</select>
+
+	<!-- Selecciona un registro a partir de una clave primaria de procedimiento y ds_nombre -->
+	<select id="obtenerConfigPorProcNomb" resultMap="ConfiguracionResultMap"
+		parameterType="Configuracion">
+		select ID_CONFIGURACIONES, ID_PROCEDIMIENTOS, DS_NOMBRE,
+		DS_DESCRIPCION, LG_HABILITADA from MOADD_CONFIGURACIONES where
+		DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+
+		<if test="idProcedimiento == null">
+			AND ID_PROCEDIMIENTOS is null
+		</if>
+		<if test="idProcedimiento != null">
+			AND ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+		</if>
+		
+	</select>
+
+
+	<!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="obtenerConfiguracionActiva"
+		resultMap="ConfiguracionResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_CONFIGURACIONES, ID_PROCEDIMIENTOS, DS_NOMBRE,
+		DS_DESCRIPCION, LG_HABILITADA from MOADD_CONFIGURACIONES where
+		ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL} and LG_HABILITADA = 'S' ORDER
+		BY DS_NOMBRE
+	</select>
+    
+    <!-- 
+        Devuelve la configuración activa asociada a un procedimiento filtrando
+        por el código del sistema Trew@ al que está asociado
+     -->
+    <select id="obtenerConfigActivaPorSistema"
+        resultMap="ConfiguracionInsHerrInsParamResultMap"
+        parameterType="java.lang.String">
+        SELECT conf.ID_CONFIGURACIONES,
+          conf.ID_PROCEDIMIENTOS,
+          conf.DS_NOMBRE,
+          conf.DS_DESCRIPCION,
+          conf.LG_HABILITADA,
+          instherr.ID_INSTHERRAMIENTA  AS INSTHERR_ID_INSTHERRAMIENTA,
+          instherr.ID_HERRAMIENTAS     AS INSTHERR_ID_HERRAMIENTAS,
+          instherr.ID_CONFIGURACIONES  AS INSTHERR_ID_CONFIGURACIONES,
+          instherr.DS_NOMBRE           AS INSTHERR_DS_NOMBRE,
+          instherr.DS_DESCRIPCION      AS INSTHERR_DS_DESCRIPCION,
+          instherr.ID_TIPOSHERRAMIENT  AS INSTHERR_ID_TIPOSHERRAMIENT,
+          herr.ID_HERRAMIENTAS         AS HERRAMIENTA_ID_HERRAMIENTAS,
+          herr.DS_NOMBRE               AS HERRAMIENTA_DS_NOMBRE,
+          herr.DS_DESCRIPCION          AS HERRAMIENTA_DS_DESCRIPCION,
+          herr.ID_TIPOSHERRAMIENT      AS HERRAMIENTA_ID_TIPOSHERRAMIENT,
+          instparam.ID_INSTPARAM       AS INSTPARAM_ID_INSTPARAM,
+          instparam.ID_INSTHERRAMIENTA AS INSTPARAM_ID_INSTHERRAMIENTA,
+          instparam.ID_PARAMETROS      AS INSTPARAM_ID_PARAMETROS,
+          instparam.TX_VALOR           AS INSTPARAM_TX_VALOR,
+          param.ID_PARAMETROS          AS PARAM_ID_PARAMETROS,
+          param.ID_HERRAMIENTAS        AS PARAM_ID_HERRAMIENTAS,
+          param.DS_DESCRIPCION         AS PARAM_DS_DESCRIPCION,
+          param.DS_DESCRIPCIONCORT     AS PARAM_DS_DESCRIPCIONCORT,
+          param.DS_NOMBRE              AS PARAM_DS_NOMBRE,
+          param.TX_TIPO                AS PARAM_TX_TIPO,
+          param.LG_OBLIGATORIO         AS PARAM_LG_OBLIGATORIO,
+          param.LG_TIPO_CIFRADO		   AS PARAM_LG_TIPO_CIFRADO
+        FROM MOADD_PROCEDIMIENTOS PROC
+        JOIN MOADD_CONFIGURACIONES conf
+        ON ((proc.ID_PROCEDIMIENTOS = conf.ID_PROCEDIMIENTOS
+        OR conf.ID_PROCEDIMIENTOS  IS NULL)
+        AND conf.LG_HABILITADA      = 'S')
+        JOIN MOADD_INSTHERRAMIENTA instherr
+        ON (conf.ID_CONFIGURACIONES = instherr.ID_CONFIGURACIONES)
+        JOIN MOADD_INSTPARAM instparam
+        ON (instherr.ID_INSTHERRAMIENTA = instparam.ID_INSTHERRAMIENTA),
+          MOADD_HERRAMIENTAS herr,
+          MOADD_PARAMETROS param
+        WHERE (instherr.ID_HERRAMIENTAS = herr.ID_HERRAMIENTAS)
+        AND (instparam.ID_PARAMETROS    = param.ID_PARAMETROS)
+        AND proc.cd_sistematrewa        = #{value}
+        ORDER BY conf.ID_CONFIGURACIONES,
+          instherr.ID_INSTHERRAMIENTA,
+          instparam.ID_INSTPARAM    
+    </select>
+
+	<select id="obtenerConfigPorCdAplicacion"
+		resultMap="ConfiguracionInsHerrInsParamResultMap"
+		parameterType="java.lang.String">
+			select conf.ID_CONFIGURACIONES, conf.ID_PROCEDIMIENTOS,
+				   conf.DS_NOMBRE, conf.DS_DESCRIPCION, conf.LG_HABILITADA,
+				   instherr.ID_INSTHERRAMIENTA as INSTHERR_ID_INSTHERRAMIENTA,
+				   instherr.ID_HERRAMIENTAS as INSTHERR_ID_HERRAMIENTAS,
+				   instherr.ID_CONFIGURACIONES as INSTHERR_ID_CONFIGURACIONES,
+				   instherr.DS_NOMBRE as INSTHERR_DS_NOMBRE,
+				   instherr.DS_DESCRIPCION as INSTHERR_DS_DESCRIPCION,
+				   instherr.ID_TIPOSHERRAMIENT as INSTHERR_ID_TIPOSHERRAMIENT,
+				   herr.ID_HERRAMIENTAS as HERRAMIENTA_ID_HERRAMIENTAS,
+				   herr.DS_NOMBRE as HERRAMIENTA_DS_NOMBRE,
+				   herr.DS_DESCRIPCION as HERRAMIENTA_DS_DESCRIPCION,
+				   herr.ID_TIPOSHERRAMIENT as HERRAMIENTA_ID_TIPOSHERRAMIENT,
+				   instparam.ID_INSTPARAM as INSTPARAM_ID_INSTPARAM,
+				   instparam.ID_INSTHERRAMIENTA as INSTPARAM_ID_INSTHERRAMIENTA,
+				   instparam.ID_PARAMETROS as INSTPARAM_ID_PARAMETROS,
+				   instparam.TX_VALOR as INSTPARAM_TX_VALOR,
+				   param.ID_PARAMETROS as PARAM_ID_PARAMETROS,
+				   param.ID_HERRAMIENTAS as PARAM_ID_HERRAMIENTAS,
+				   param.DS_DESCRIPCION as PARAM_DS_DESCRIPCION,
+				   param.DS_DESCRIPCIONCORT as PARAM_DS_DESCRIPCIONCORT,
+				   param.DS_NOMBRE as PARAM_DS_NOMBRE,
+				   param.TX_TIPO as PARAM_TX_TIPO,
+				   param.LG_OBLIGATORIO as PARAM_LG_OBLIGATORIO,
+				   param.LG_TIPO_CIFRADO as PARAM_LG_TIPO_CIFRADO
+			from MOADD_APLICACIONES apl join MOADD_PROCEDIMIENTOS proc
+				 on (apl.ID_APLICACIONES = proc.ID_APLICACIONES)
+				 join MOADD_CONFIGURACIONES conf
+				 on ((proc.ID_PROCEDIMIENTOS = conf.ID_PROCEDIMIENTOS or conf.ID_PROCEDIMIENTOS is null) and conf.LG_HABILITADA = 'S')
+				 join MOADD_INSTHERRAMIENTA instherr
+				 on (conf.ID_CONFIGURACIONES = instherr.ID_CONFIGURACIONES)
+				 join MOADD_INSTPARAM instparam
+				 on (instherr.ID_INSTHERRAMIENTA = instparam.ID_INSTHERRAMIENTA),
+				 MOADD_HERRAMIENTAS herr,
+				 MOADD_PARAMETROS param
+			where (instherr.ID_HERRAMIENTAS = herr.ID_HERRAMIENTAS)
+				 AND (instparam.ID_PARAMETROS = param.ID_PARAMETROS)
+				 AND (apl.CD_APLICACIONES = #{value})
+		    order by conf.ID_CONFIGURACIONES,
+		    	 instherr.ID_INSTHERRAMIENTA,
+		    	 instparam.ID_INSTPARAM
+	</select>
+	
+	<!-- Obtiene las configuraciones completas de un procedimiento -->
+	<select id="obtenerConfiguracionesEXT"
+		resultMap="ConfiguracionInsHerrInsParamResultMap"
+		parameterType="java.math.BigDecimal">
+		select conf.ID_CONFIGURACIONES, conf.ID_PROCEDIMIENTOS,
+				   conf.DS_NOMBRE, conf.DS_DESCRIPCION, conf.LG_HABILITADA,
+				   instherr.ID_INSTHERRAMIENTA as INSTHERR_ID_INSTHERRAMIENTA,
+				   instherr.ID_HERRAMIENTAS as INSTHERR_ID_HERRAMIENTAS,
+				   instherr.ID_CONFIGURACIONES as INSTHERR_ID_CONFIGURACIONES,
+				   instherr.DS_NOMBRE as INSTHERR_DS_NOMBRE,
+				   instherr.DS_DESCRIPCION as INSTHERR_DS_DESCRIPCION,
+				   instherr.ID_TIPOSHERRAMIENT as INSTHERR_ID_TIPOSHERRAMIENT,
+				   herr.ID_HERRAMIENTAS as HERRAMIENTA_ID_HERRAMIENTAS,
+				   herr.DS_NOMBRE as HERRAMIENTA_DS_NOMBRE,
+				   herr.DS_DESCRIPCION as HERRAMIENTA_DS_DESCRIPCION,
+				   herr.ID_TIPOSHERRAMIENT as HERRAMIENTA_ID_TIPOSHERRAMIENT,
+				   instparam.ID_INSTPARAM as INSTPARAM_ID_INSTPARAM,
+				   instparam.ID_INSTHERRAMIENTA as INSTPARAM_ID_INSTHERRAMIENTA,
+				   instparam.ID_PARAMETROS as INSTPARAM_ID_PARAMETROS,
+				   instparam.TX_VALOR as INSTPARAM_TX_VALOR,
+				   param.ID_PARAMETROS as PARAM_ID_PARAMETROS,
+				   param.ID_HERRAMIENTAS as PARAM_ID_HERRAMIENTAS,
+				   param.DS_DESCRIPCION as PARAM_DS_DESCRIPCION,
+				   param.DS_DESCRIPCIONCORT as PARAM_DS_DESCRIPCIONCORT,
+				   param.DS_NOMBRE as PARAM_DS_NOMBRE,
+				   param.TX_TIPO as PARAM_TX_TIPO,
+				   param.LG_OBLIGATORIO as PARAM_LG_OBLIGATORIO,
+				   param.LG_TIPO_CIFRADO as PARAM_LG_TIPO_CIFRADO,
+           proce.TX_CLAVE_CIFRADO as PROCED_TX_CLAVE_CIFRADO
+            from MOADD_CONFIGURACIONES conf
+                 left outer join MOADD_INSTHERRAMIENTA instherr
+                 on (conf.ID_CONFIGURACIONES = instherr.ID_CONFIGURACIONES)
+                 left outer join MOADD_INSTPARAM instparam
+                 on (instherr.ID_INSTHERRAMIENTA = instparam.ID_INSTHERRAMIENTA)
+                 left outer join MOADD_HERRAMIENTAS herr
+                 on (instherr.ID_HERRAMIENTAS = herr.ID_HERRAMIENTAS)
+                 left outer join MOADD_PARAMETROS param
+                 on (instparam.ID_PARAMETROS = param.ID_PARAMETROS)
+                 left outer join MOADD_PROCEDIMIENTOS proce
+                 on (conf.ID_PROCEDIMIENTOS = proce.ID_PROCEDIMIENTOS)
+            where conf.ID_PROCEDIMIENTOS = #{value}
+            order by conf.ID_CONFIGURACIONES,
+                 instherr.ID_INSTHERRAMIENTA,
+                 instparam.ID_INSTPARAM
+	</select>
+	
+	<!-- Obtiene la configuracion completa -->
+	<select id="obtenerConfiguracionEXT"
+		resultMap="ConfiguracionInsHerrInsParamResultMap"
+		parameterType="java.math.BigDecimal">
+			select conf.ID_CONFIGURACIONES, conf.ID_PROCEDIMIENTOS,
+				   conf.DS_NOMBRE, conf.DS_DESCRIPCION, conf.LG_HABILITADA,
+				   instherr.ID_INSTHERRAMIENTA as INSTHERR_ID_INSTHERRAMIENTA,
+				   instherr.ID_HERRAMIENTAS as INSTHERR_ID_HERRAMIENTAS,
+				   instherr.ID_CONFIGURACIONES as INSTHERR_ID_CONFIGURACIONES,
+				   instherr.DS_NOMBRE as INSTHERR_DS_NOMBRE,
+				   instherr.DS_DESCRIPCION as INSTHERR_DS_DESCRIPCION,
+				   instherr.ID_TIPOSHERRAMIENT as INSTHERR_ID_TIPOSHERRAMIENT,
+				   herr.ID_HERRAMIENTAS as HERRAMIENTA_ID_HERRAMIENTAS,
+				   herr.DS_NOMBRE as HERRAMIENTA_DS_NOMBRE,
+				   herr.DS_DESCRIPCION as HERRAMIENTA_DS_DESCRIPCION,
+				   herr.ID_TIPOSHERRAMIENT as HERRAMIENTA_ID_TIPOSHERRAMIENT,
+				   instparam.ID_INSTPARAM as INSTPARAM_ID_INSTPARAM,
+				   instparam.ID_INSTHERRAMIENTA as INSTPARAM_ID_INSTHERRAMIENTA,
+				   instparam.ID_PARAMETROS as INSTPARAM_ID_PARAMETROS,
+				   instparam.TX_VALOR as INSTPARAM_TX_VALOR,
+				   param.ID_PARAMETROS as PARAM_ID_PARAMETROS,
+				   param.ID_HERRAMIENTAS as PARAM_ID_HERRAMIENTAS,
+				   param.DS_DESCRIPCION as PARAM_DS_DESCRIPCION,
+				   param.DS_DESCRIPCIONCORT as PARAM_DS_DESCRIPCIONCORT,
+				   param.DS_NOMBRE as PARAM_DS_NOMBRE,
+				   param.TX_TIPO as PARAM_TX_TIPO,
+				   param.LG_OBLIGATORIO as PARAM_LG_OBLIGATORIO,
+				   param.LG_TIPO_CIFRADO as PARAM_LG_TIPO_CIFRADO,
+				   proce.TX_CLAVE_CIFRADO as PROCED_TX_CLAVE_CIFRADO
+            from MOADD_CONFIGURACIONES conf
+                 left outer join MOADD_INSTHERRAMIENTA instherr
+                 on (conf.ID_CONFIGURACIONES = instherr.ID_CONFIGURACIONES)
+                 left outer join MOADD_INSTPARAM instparam
+                 on (instherr.ID_INSTHERRAMIENTA = instparam.ID_INSTHERRAMIENTA)
+                 left outer join MOADD_HERRAMIENTAS herr
+                 on (instherr.ID_HERRAMIENTAS = herr.ID_HERRAMIENTAS)
+                 left outer join MOADD_PARAMETROS param
+                 on (instparam.ID_PARAMETROS = param.ID_PARAMETROS)
+				 left outer join MOADD_PROCEDIMIENTOS proce
+				 on (conf.ID_PROCEDIMIENTOS = proce.ID_PROCEDIMIENTOS)
+            where conf.ID_CONFIGURACIONES = #{value}
+            order by conf.ID_CONFIGURACIONES,
+                 instherr.ID_INSTHERRAMIENTA,
+                 instparam.ID_INSTPARAM
+	</select>
+
+</mapper>

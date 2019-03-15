@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_CONVOCATORIAS">
+
+	<!-- Mapeo de las columnas de la tabla MOADD_CONVOCATORIAS y los datos miembro 
+		de la clase ConvocatoriaImpl -->
+	<resultMap id="ConvocatoriaResultMap" type="Convocatoria">
+		<result column="ID_CONVOCATORIAS" property="id" jdbcType="DECIMAL" />
+		<result column="ID_ORDENES" property="idOrden" jdbcType="DECIMAL" />
+		<result column="FH_FECHACOMIENZO" property="fechaComienzo"
+			jdbcType="TIMESTAMP" />
+		<result column="FH_FECHAFIN" property="fechaFin" jdbcType="TIMESTAMP" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="CD_PROCTREWA" property="cdProcTrewa" jdbcType="VARCHAR" />
+		<result column="CD_TIPOEXPTREWA" property="cdTipoExpTrewa"
+			jdbcType="VARCHAR" />
+		<result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+		<result column="LG_VISIBLE" property="visible" javaType="boolean"
+			jdbcType="CHAR" />
+		<result column="TX_NOMBREFICHERO" property="nombreFichero"
+			jdbcType="VARCHAR" />
+		<result column="LB_FICHERO" property="fichero" jdbcType="BLOB" />
+	</resultMap>
+
+	<!-- Mapeo de las columnas de la tabla MOADD_CONVOCATORIAS y los datos miembro 
+		de la clase ConvocatoriaImpl -->
+	<!-- Además se añaden los campos de MOADD_MOADD_FECHASPRESCONV -->
+	<resultMap id="ConvocatoriaResultMapEXT" type="Convocatoria">
+		<result column="ID_CONVOCATORIAS" property="id" jdbcType="DECIMAL" />
+		<result column="ID_ORDENES" property="idOrden" jdbcType="DECIMAL" />
+		<result column="FH_FECHACOMIENZO" property="fechaComienzo"
+			jdbcType="TIMESTAMP" />
+		<result column="FH_FECHAFIN" property="fechaFin" jdbcType="TIMESTAMP" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="CD_PROCTREWA" property="cdProcTrewa" jdbcType="VARCHAR" />
+		<result column="CD_TIPOEXPTREWA" property="cdTipoExpTrewa"
+			jdbcType="VARCHAR" />
+		<result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+		<result column="LG_VISIBLE" property="visible" javaType="boolean"
+			jdbcType="CHAR" />
+		<result column="TX_NOMBREFICHERO" property="nombreFichero"
+			jdbcType="VARCHAR" />
+		<result column="LB_FICHERO" property="fichero" jdbcType="BLOB" />
+
+		<!-- Fecha Presentación Convocatoria -->
+		<result column="FECHAPRESCONV_ID_FECHAPRESCONV" property="fechaPresentacion.id"
+			jdbcType="DECIMAL" />
+		<result column="FECHAPRESCONV_FECHAINICIO" property="fechaPresentacion.fechaInicio"
+			jdbcType="TIMESTAMP" />
+		<result column="FECHAPRESCONV_FECHAFIN" property="fechaPresentacion.fechaFin"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<!-- Selección de registro de la tabla MOADD_CONVOCATORIAS por su clave 
+		primaria -->
+	<select id="selectByPrimaryKey" resultMap="ConvocatoriaResultMapEXT"
+		parameterType="Convocatoria">
+		select c.ID_CONVOCATORIAS, c.ID_ORDENES, c.FH_FECHACOMIENZO, c.FH_FECHAFIN,
+		c.DS_DESCRIPCION, c.CD_PROCTREWA, c.CD_TIPOEXPTREWA, c.DS_TITULO,
+		c.LG_VISIBLE,
+		c.LB_FICHERO, c.TX_NOMBREFICHERO,
+		f.ID_FECHASPRESCONV AS FECHAPRESCONV_ID_FECHAPRESCONV,
+		f.FH_INICIO AS FECHAPRESCONV_FECHAINICIO,
+		f.FH_FIN AS FECHAPRESCONV_FECHAFIN
+		from MOADD_CONVOCATORIAS c
+
+		left outer join MOADD_FECHASPRESCONV f
+		on c.ID_CONVOCATORIAS = f.ID_CONVOCATORIAS
+
+		where c.ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+
+		ORDER BY FH_FECHACOMIENZO
+	</select>
+
+	<!-- Borrado de registro de la tabla MOADD_CONVOCATORIAS por su clave primaria -->
+	<delete id="deleteByPrimaryKey" parameterType="Convocatoria">
+		delete from MOADD_CONVOCATORIAS
+		where ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- Borrado de registro de la tabla MOADD_CONVOCATORIAS por su clave primaria 
+		y el identificador de versión -->
+	<delete id="borrarConvocatoriaOrden" parameterType="Convocatoria">
+		delete from MOADD_CONVOCATORIAS
+		where ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+		and ID_ORDENES = #{idOrden,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- Inserción de registro en la tabla MOADD_CONVOCATORIAS -->
+	<insert id="insert" parameterType="Convocatoria">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_CONV.NEXTVAL FROM DUAL
+		</selectKey>
+
+		insert into MOADD_CONVOCATORIAS (ID_CONVOCATORIAS, ID_ORDENES,
+		LG_VISIBLE,
+		FH_FECHACOMIENZO, FH_FECHAFIN, DS_DESCRIPCION, CD_PROCTREWA,
+		CD_TIPOEXPTREWA, DS_TITULO, LB_FICHERO, TX_NOMBREFICHERO)
+		values (#{id,jdbcType=DECIMAL}, #{idOrden,jdbcType=DECIMAL}
+		<if test="visible != null">
+			,#{visible,typeHandler=SiNOHandler}
+		</if>
+		, #{fechaComienzo,jdbcType=TIMESTAMP},
+		#{fechaFin,jdbcType=TIMESTAMP}, #{descripcion,jdbcType=VARCHAR}, #{cdProcTrewa,jdbcType=VARCHAR},
+		#{cdTipoExpTrewa,jdbcType=VARCHAR}, #{titulo,jdbcType=VARCHAR}, #{fichero,jdbcType=BLOB},
+		#{nombreFichero,jdbcType=VARCHAR})
+	</insert>
+
+
+	<!-- Actualiza un registro de la tabla MOADD_CONVOCATORIAS -->
+	<update id="updateByPrimaryKey" parameterType="Convocatoria">
+		update MOADD_CONVOCATORIAS
+		set ID_ORDENES = #{idOrden,jdbcType=DECIMAL},
+		FH_FECHACOMIENZO = #{fechaComienzo,jdbcType=TIMESTAMP},
+		FH_FECHAFIN = #{fechaFin,jdbcType=TIMESTAMP},
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+		<if test="visible != null">
+			LG_VISIBLE = #{visible,typeHandler=SiNOHandler},
+		</if>
+		CD_PROCTREWA = #{cdProcTrewa,jdbcType=VARCHAR},
+		CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR},
+		DS_TITULO = #{titulo,jdbcType=VARCHAR}
+		<if test="fichero != null">
+			,LB_FICHERO = #{fichero,jdbcType=BLOB}
+			,TX_NOMBREFICHERO = #{nombreFichero,jdbcType=VARCHAR}
+		</if>
+		where ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Actualiza los campos no nulos de un registro de la tabla MOADD_CONVOCATORIAS -->
+	<update id="updateByPrimaryKeySelective" parameterType="Convocatoria">
+		update MOADD_CONVOCATORIAS
+		<set>
+			<if test="idOrden != null">
+				ID_ORDENES = #{idOrden,jdbcType=DECIMAL},
+			</if>
+			<if test="fechaComienzo != null">
+				FH_FECHACOMIENZO = #{fechaComienzo,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fechaFin != null">
+				FH_FECHAFIN = #{fechaFin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="cdProcTrewa != null">
+				CD_PROCTREWA = #{cdProcTrewa,jdbcType=VARCHAR},
+			</if>
+			<if test="cdTipoExpTrewa != null">
+				CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR},
+			</if>
+			<if test="titulo != null">
+				DS_TITULO = #{titulo,jdbcType=VARCHAR},
+			</if>
+			<if test="visible != null">
+				LG_VISIBLE = #{visible,typeHandler=SiNOHandler},
+			</if>
+			<if test="fichero == null">
+				LB_FICHERO = null,
+				TX_NOMBREFICHERO = null
+			</if>
+		</set>
+
+		where ID_CONVOCATORIAS = #{id}
+	</update>
+
+	<!-- Selección de registros de la tabla MOADD_CONVOCATORIAS por el identificador 
+		de la versión -->
+	<select id="obtenerConvocatoriasPorOrden" resultMap="ConvocatoriaResultMap"
+		parameterType="Convocatoria">
+		select ID_CONVOCATORIAS, ID_ORDENES, FH_FECHACOMIENZO, FH_FECHAFIN,
+		DS_DESCRIPCION, CD_PROCTREWA, CD_TIPOEXPTREWA, DS_TITULO, LG_VISIBLE,
+		LB_FICHERO, TX_NOMBREFICHERO
+		from MOADD_CONVOCATORIAS
+		where ID_ORDENES = #{idOrden,jdbcType=DECIMAL}
+		ORDER BY FH_FECHACOMIENZO
+	</select>
+
+	<select id="selectConvocatoriasPerfilesDefecto" resultMap="ConvocatoriaResultMap">
+		select convocatorias.ID_CONVOCATORIAS, convocatorias.ID_ORDENES,
+		convocatorias.FH_FECHACOMIENZO, convocatorias.FH_FECHAFIN,
+		convocatorias.DS_DESCRIPCION, convocatorias.CD_PROCTREWA,
+		convocatorias.CD_TIPOEXPTREWA, convocatorias.DS_TITULO,
+		convocatorias.LG_VISIBLE, convocatorias.LB_FICHERO,
+		convocatorias.TX_NOMBREFICHERO
+		from MOADD_CONVOCATORIAS convocatorias join MOADD_PERFILES perfiles on
+		(convocatorias.ID_CONVOCATORIAS = perfiles.ID_CONVOCATORIAS)
+		where perfiles.LG_DEFAULT = 'S' ORDER BY FH_FECHACOMIENZO
+	</select>
+
+
+	<!-- Borrado de registro de la tabla MOADD_FECHASPRESCONV por su clave primaria -->
+	<delete id="deleteFechaPresConv" parameterType="java.math.BigDecimal">
+		delete from MOADD_FECHASPRESCONV
+		where ID_CONVOCATORIAS = #{value}
+	</delete>
+
+	<!-- Inserción de registro en la tabla MOADD_FECHASPRESCONV -->
+	<insert id="insertFechaPresConv" parameterType="Convocatoria">
+		<selectKey keyProperty="fechaPresentacion.id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_FEPC.NEXTVAL FROM DUAL
+		</selectKey>
+
+		insert into MOADD_FECHASPRESCONV (ID_FECHASPRESCONV,
+		ID_CONVOCATORIAS, FH_INICIO, FH_FIN)
+		values (#{fechaPresentacion.id,jdbcType=DECIMAL}, #{id,jdbcType=DECIMAL},
+		#{fechaPresentacion.fechaInicio,jdbcType=TIMESTAMP},
+		#{fechaPresentacion.fechaFin,jdbcType=TIMESTAMP})
+	</insert>
+
+	<!-- Actualiza un registro de la tabla MOADD_FECHASPRESCONV -->
+	<update id="updateFechaPresConv" parameterType="Convocatoria">
+		update MOADD_FECHASPRESCONV
+		set FH_INICIO =#{fechaPresentacion.fechaInicio,jdbcType=TIMESTAMP},
+		FH_FIN = #{fechaPresentacion.fechaFin,jdbcType=TIMESTAMP}
+		where ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Selección de registros de la tabla MOADD_CONVOCATORIAS por la versión 
+		de present@ -->
+	<select id="obtenerConvocatoriasPorVersionPresenta" resultMap="ConvocatoriaResultMap"
+		parameterType="java.math.BigDecimal">
+		SELECT c.ID_CONVOCATORIAS,
+		c.ID_ORDENES,
+		c.FH_FECHACOMIENZO,
+		c.FH_FECHAFIN,
+		c.DS_DESCRIPCION,
+		c.CD_PROCTREWA,
+		c.CD_TIPOEXPTREWA,
+		c.DS_TITULO,
+		c.LG_VISIBLE,
+		c.LB_FICHERO,
+		c.TX_NOMBREFICHERO
+		FROM MOADD_CONVOCATORIAS c
+		inner join MOADR_CONV_VPRESENTA cv
+		ON c.ID_CONVOCATORIAS =
+		cv.ID_CONVOCATORIAS
+		WHERE cv.ID_VERSIONPRESENTA = #{value}
+		ORDER BY FH_FECHACOMIENZO
+	</select>
+
+	<!-- Selección de registros de la tabla MOADD_CONVOCATORIAS que son asignables 
+		a una versión present@ -->
+	<select id="obtenerConvocatoriasAsignablesAVersionPresenta"
+		resultMap="ConvocatoriaResultMap" parameterType="VersionPresenta">
+		SELECT ID_CONVOCATORIAS,
+		ID_ORDENES,
+		FH_FECHACOMIENZO,
+		FH_FECHAFIN,
+		DS_DESCRIPCION,
+		CD_PROCTREWA,
+		CD_TIPOEXPTREWA,
+		DS_TITULO,
+		LG_VISIBLE,
+		LB_FICHERO,
+		TX_NOMBREFICHERO
+		FROM MOADD_CONVOCATORIAS c
+		WHERE ID_CONVOCATORIAS not in (SELECT c.ID_CONVOCATORIAS
+		FROM MOADR_CONV_VPRESENTA cvp, MOADD_CONVOCATORIAS c
+		WHERE c.ID_CONVOCATORIAS = cvp.ID_CONVOCATORIAS AND
+		cvp.ID_VERSIONPRESENTA = #{id,jdbcType=DECIMAL})
+		AND ID_CONVOCATORIAS IN (SELECT c.ID_CONVOCATORIAS
+		FROM MOADD_ORDENES o, MOADD_CONVOCATORIAS c
+		WHERE c.ID_ORDENES = o.ID_ORDENES AND
+		o.ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL})
+		ORDER BY FH_FECHACOMIENZO
+	</select>
+
+	<!-- Borra el fichero adjunto de la convocatoria -->
+	<update id="borrarFicheroAdjunto" parameterType="java.math.BigDecimal">
+		update MOADD_CONVOCATORIAS
+		set LB_FICHERO = null,
+		TX_NOMBREFICHERO = null
+		where ID_CONVOCATORIAS = #{value}
+	</update>
+
+	<select id="obtenerConvocatoriasPorProcTrewaYExpTrewa"
+		resultMap="ConvocatoriaResultMapEXT" parameterType="Convocatoria">
+		select c.ID_CONVOCATORIAS, c.ID_ORDENES, c.FH_FECHACOMIENZO, c.FH_FECHAFIN,
+		c.DS_DESCRIPCION, c.CD_PROCTREWA, c.CD_TIPOEXPTREWA, c.DS_TITULO,
+		c.LG_VISIBLE,
+		c.LB_FICHERO, c.TX_NOMBREFICHERO,
+		f.ID_FECHASPRESCONV AS FECHAPRESCONV_ID_FECHAPRESCONV,
+		f.FH_INICIO AS FECHAPRESCONV_FECHAINICIO,
+		f.FH_FIN AS FECHAPRESCONV_FECHAFIN
+		from MOADD_CONVOCATORIAS c
+
+		left outer join MOADD_FECHASPRESCONV f
+		on c.ID_CONVOCATORIAS = f.ID_CONVOCATORIAS
+
+		where c.CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR}
+		and c.CD_PROCTREWA = #{cdProcTrewa,jdbcType=VARCHAR}
+
+		ORDER BY FH_FECHACOMIENZO
+	</select>
+
+</mapper>

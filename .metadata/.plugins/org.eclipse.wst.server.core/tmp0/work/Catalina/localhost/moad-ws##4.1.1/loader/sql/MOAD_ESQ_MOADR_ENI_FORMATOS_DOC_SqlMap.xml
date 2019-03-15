@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOADR_ENI_FORMATOS_DOC" >
+
+	<!-- ResultMap para los formatos de documentos ENI -->
+	<resultMap id="FormatosDocENIResultMap" type="FormatosDocENI" >
+		<id column="X_ENFD" property="id" jdbcType="DECIMAL" />    
+		<result column="C_CODIGO" property="codigo" jdbcType="VARCHAR" />
+		<result column="T_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="C_TIPO_MIME" property="tipoMime" jdbcType="VARCHAR" />
+	</resultMap>  
+  
+	<!-- Selecciona todos los registros de la tabla -->  
+	<select id="obtenerFormatosDoc" resultMap="FormatosDocENIResultMap" >
+		select X_ENFD,
+		       C_CODIGO,
+		       T_DESCRIPCION,
+		       C_TIPO_MIME
+		from MOADR_ENI_FORMATOS_DOC ORDER BY C_CODIGO
+	</select>
+	
+</mapper>

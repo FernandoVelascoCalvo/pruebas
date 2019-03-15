@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE form-validation PUBLIC
+     "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+     "http://commons.apache.org/dtds/validator_1_3_0.dtd">
+     
+<form-validation>
+     <global>
+      <constant>
+        <constant-name>phone</constant-name>
+        <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>zip</constant-name>
+        <constant-value>^\d{5}\d*$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>currency</constant-name>
+        <constant-value>^\d{1,3}(,?\d{1,3})*\.?(\d{1,2})?$</constant-value>
+      </constant>
+   </global>
+
+  <formset>
+    <form name="editarEmpleoForm">
+        <field property="idUO" depends="required">
+            <arg position="0" key="uo.campo.uo" />
+        </field>
+        <field property="cdPuestoTrabajo" depends="required">
+            <arg position="0" key="puestoTrabajo.campo.puestoTrabajo" />
+        </field>
+        <field property="tratamiento" depends="maxlength">
+            <arg position="0" key="empleo.campo.tratamiento" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>70</var-value>
+            </var>
+        </field>
+        <field property="referencia" depends="maxlength">
+            <arg position="0" key="empleo.campo.referencia" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="fechaNombramiento" depends="required,date">
+            <arg position="0" key="empleo.campo.fechaNombramiento" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy</var-value>
+            </var>
+        </field>
+        <field property="fechaCese" depends="date">
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de una configuración -->
+    <form name="editarConfiguracionForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="importarConfiguracionForm">
+        <field property="fichero" depends="required">
+            <arg position="0" key="configuracion.campo.fichero" />
+        </field>
+    </form>
+
+    <!-- validación de un rol -->
+    <form name="editarRolForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de una Herramienta -->
+    <form name="editarHerramientaForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de la instancia de una herramienta -->
+    <form name="editarInstHerramientaForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="parametros" depends="instanciasParametros">
+            <arg position="0" key="${var:maxlength}" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="crearInstHerramientaForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de un parámetro -->
+    <form name="editarParametroForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>70</var-value>
+            </var>
+        </field>
+        <field property="descripcionCorta" depends="maxlength">
+            <arg position="0" key="parametro.campo.descripcionCorta" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>70</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="tipoCifrado" depends="required">
+            <arg position="0" key="parametro.campo.tipoCifrado" />
+        </field>
+    </form>
+
+    <!-- validación de un listado -->
+    <form name="editarListadoForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="tabla" depends="required,maxlength">
+            <arg position="0" key="listado.campo.tabla" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de un campo -->
+    <form name="editarCampoForm">
+        <field property="campo" depends="required,maxlength">
+            <arg position="0" key="campo.campo.campo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="campo.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="titulo" depends="required,maxlength">
+            <arg position="0" key="campo.campo.titulo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!--  validación de un procedimiento -->
+    <form name="editarProcedimientoForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="ayudaAcceso" depends="maxlength">
+            <arg position="0" key="editarProcedimiento.campo.ayudaAcceso" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>4000</var-value>
+            </var>
+        </field>
+        <field property="mensajeBienvenida" depends="maxlength">
+            <arg position="0" key="editarProcedimiento.campo.mensajeBienvenida" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>4000</var-value>
+            </var>
+        </field>
+        <field property="url" depends="maxlength">
+            <arg position="0" key="editarProcedimiento.campo.url" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>250</var-value>
+            </var>
+        </field>
+        <field property="idTipoProcedimiento" depends="required">
+            <arg position="0" key="editarProcedimiento.campo.tiposProcedimiento" />
+        </field>
+        <field property="claveCifrado" depends="required, maxlength">
+            <arg position="0" key="editarProcedimiento.campo.claveCifrado" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>32</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!--  valicadión de una orden -->
+        <form name="editarOrdenForm">
+        <field property="cdTipoExpTrewa" depends="required,maxlength">
+            <arg position="0" key="orden.campo.tipoTrewa" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="titulo" depends="required,maxlength">
+            <arg position="0" key="orden.campo.titulo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="fecha" depends="date">
+            <arg position="0" key="orden.campo.fecha" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy</var-value>
+            </var>
+        </field>
+        <field property="convocante" depends="maxlength">
+            <arg position="0" key="orden.campo.convocante" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>250</var-value>
+            </var>
+        </field>
+        <field property="beneficiario" depends="maxlength">
+            <arg position="0" key="orden.campo.beneficiario" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>250</var-value>
+            </var>
+        </field>
+        <field property="referenciaBoja" depends="maxlength">
+            <arg position="0" key="orden.campo.referenciaBoja" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>250</var-value>
+            </var>
+        </field>
+    </form>
+    
+    <form name="editarTramiteForm">
+        <field property="codigo" depends="required,maxlength">
+            <arg position="0" key="tramite.campo.codigo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="tramite.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="required,maxlength">
+            <arg position="0" key="tramite.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="urlTramite" depends="maxlength">
+            <arg position="0" key="tramite.campo.url" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>256</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!--  validación de un usuarios -->
+    <form name="editarUsuarioForm">
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="apellido1" depends="required, maxlength">
+            <arg position="0" key="usuario.campo.apellido1" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="apellido2" depends="required, maxlength">
+            <arg position="0" key="usuario.campo.apellido2" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="usuario" depends="required, maxlength">
+            <arg position="0" key="usuario.campo.usuario" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="contrasena" depends="required, maxlength">
+            <arg position="0" key="usuario.campo.contrasena" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="dni" depends="required, maxlength, nif">
+            <arg position="0" key="usuario.campo.dni" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>10</var-value>
+            </var>
+        </field>
+        <field property="nombreVia" depends="maxlength">
+            <arg position="0" key="usuario.campo.nombreVia" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>250</var-value>
+            </var>
+        </field>
+        <field property="numero" depends="maxlength">
+            <arg position="0" key="usuario.campo.numero" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>5</var-value>
+            </var>
+        </field>
+        <field property="piso" depends="maxlength">
+            <arg position="0" key="usuario.campo.piso" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>3</var-value>
+            </var>
+        </field>
+        <field property="letra" depends="maxlength">
+            <arg position="0" key="usuario.campo.letra" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>2</var-value>
+            </var>
+        </field>
+        <field property="escalera" depends="maxlength">
+            <arg position="0" key="usuario.campo.escalera" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>2</var-value>
+            </var>
+        </field>
+        <field property="puerta" depends="maxlength">
+            <arg position="0" key="usuario.campo.puerta" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>5</var-value>
+            </var>
+        </field>
+        <field property="codigoPostal" depends="maxlength">
+            <arg position="0" key="usuario.campo.cp" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>10</var-value>
+            </var>
+        </field>
+        <field property="telefono" depends="maxlength">
+            <arg position="0" key="usuario.campo.telefono" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="movil" depends="maxlength">
+            <arg position="0" key="usuario.campo.movil" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="fax" depends="maxlength">
+            <arg position="0" key="usuario.campo.fax" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="email" depends="maxlength, email">
+            <arg position="0" key="usuario.campo.email" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>128</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="editarConvocatoriaForm">
+        <field property="fechaComienzo" depends="required, date">
+            <arg position="0" key="convocatoria.campo.fechaComienzo" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy</var-value>
+            </var>
+        </field>
+        <field property="fechaFin" depends="date">
+            <arg position="0" key="convocatoria.campo.fechaFin" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="titulo" depends="required, maxlength">
+            <arg position="0" key="convocatoria.campo.titulo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>70</var-value>
+            </var>
+        </field>
+        <field property="fechaInicioPresentacion" depends="date">
+            <arg position="0" key="fechaPresConv.campo.fechaComienzo" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy HH:mm</var-value>
+            </var>
+        </field>
+        <field property="fechaFinPresentacion" depends="date">
+            <arg position="0" key="fechaPresConv.campo.fechaFin" />
+            <var>
+                <var-name>datePattern</var-name>
+                <var-value>dd/MM/yyyy HH:mm</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="editarPerfilForm">
+        <field property="descripcion" depends="required, maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="cdNombreTrewa" depends="required, maxlength">
+            <arg position="0" key="perfil.campo.cdNombreTrewa" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="editarPlantillaForm">
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>200</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>100</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="plantilla.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+        <field property="nombreFase" depends="maxlength">
+            <arg position="0" key="plantilla.campo.nombreFase" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>50</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="crearPlantillaForm">
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>200</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>100</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="plantilla.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+        <field property="nombreFase" depends="maxlength">
+            <arg position="0" key="plantilla.campo.nombreFase" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>50</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="editarAnexoForm">
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>200</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>100</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="anexo.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+        <field property="tamMaximo" depends="integer">
+            <arg position="0" key="anexo.campo.tamMaximo"/>
+        </field>
+        <field property="nombreFase" depends="maxlength">
+            <arg position="0" key="anexo.campo.nombreFase" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>50</var-value>
+            </var>
+        </field>
+    </form>
+
+    <form name="editarDocumentoForm">
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>70</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="anexo.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de editar una aplicación -->
+    <form name="editarAplicacionForm">
+    	<field property="codigo" depends="required, maxlength">
+            <arg position="0" key="aplicacion.campo.codigo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de crear/editar una oficina de registro  -->
+    <form name="editarOficinaForm">
+    	<field property="idUO" depends="required">
+            <arg position="0" key="oficina.campo.uo" />
+        </field>
+        <field property="cdProvincia" depends="required">
+            <arg position="0" key="oficina.campo.provincia" />
+        </field>
+    	<field property="codigo" depends="required, maxlength">
+            <arg position="0" key="oficina.campo.codigo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>20</var-value>
+            </var>
+        </field>
+        <field property="nombre" depends="required, maxlength">
+            <arg position="0" key="comun.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="usuarioAries" depends="required, maxlength">
+            <arg position="0" key="oficina.campo.usuarioAries" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="contrasenaAries" depends="required, longitudContrasena">
+            <arg position="0" key="oficina.campo.contrasenaAries" />
+            <arg position="1" key="${var:maxlength}" name="longitudContrasena" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+            <var>
+                <var-name>mostrarCampo</var-name>
+                <var-value>mostrarCampoContrasena</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de una version presenta -->
+    <form name="editarVersionPresentaForm">
+        <field property="codigo" depends="required,maxlength">
+            <arg position="0" key="comun.campo.codigo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>50</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+
+    <!-- validación de una version presenta -->
+    <form name="crearVersionPresentaForm">
+        <field property="codigo" depends="required,maxlength">
+            <arg position="0" key="comun.campo.codigo" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>50</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="comun.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+    </form>
+    
+    <!--  validación de un menú -->
+    <form name="editarMenusForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="menu.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>40</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="menu.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="url" depends="maxlength">
+            <arg position="0" key="menu.campo.url" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="menu.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+    </form>
+    <!--  validación de un submenú -->
+    <form name="editarSubMenusForm">
+        <field property="nombre" depends="required,maxlength">
+            <arg position="0" key="subMenu.campo.nombre" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>150</var-value>
+            </var>
+        </field>
+        <field property="descripcion" depends="maxlength">
+            <arg position="0" key="subMenu.campo.descripcion" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="url" depends="maxlength">
+            <arg position="0" key="subMenu.campo.url" />
+            <arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>1000</var-value>
+            </var>
+        </field>
+        <field property="orden" depends="short,intRange">
+            <arg position="0" key="subMenu.campo.orden"/>
+            <arg position="1" key="${var:min}" name="intRange" resource="false"/>
+            <arg position="2" key="${var:max}" name="intRange" resource="false"/>
+            <var>
+                <var-name>min</var-name>
+                <var-value>1</var-value>
+            </var>
+            <var>
+                <var-name>max</var-name>
+                <var-value>32767</var-value>
+            </var>
+        </field>
+    </form>
+    <!-- Validacion de Configuraciones Trew@ -->
+    <form name="editarConfiguracionTrewaForm">
+        <field property="nombre" depends="required">
+            <arg position="0" key="confTrewa.campo.nombre" />
+        </field>
+        <field property="usuario" depends="required">
+            <arg position="0" key="confTrewa.campo.usuario" />
+        </field>
+        <field property="password" depends="required">
+            <arg position="0" key="confTrewa.campo.password" />
+        </field>
+        <field property="conexion" depends="required">
+            <arg position="0" key="confTrewa.campo.conexion" />
+        </field>
+    </form>
+    <form name="cambiarPasswordForm">
+        <field property="password" depends="required">
+            <arg position="0" key="cambiarPassword.campo.passwordActual" />
+        </field>
+        <field property="nuevo" depends="required">
+            <arg position="0" key="cambiarPassword.campo.passwordNueva1" />
+        </field>
+        <field property="confirmacion" depends="required">
+            <arg position="0" key="cambiarPassword.campo.passwordNueva2" />
+        </field>
+    </form>
+
+    <!-- ********************************************************* -->
+    <!--  VALIDACIÓN DE LOS FORMULARIOS AL PULSAR EL BOTÓN ASIGNAR -->
+    <!-- ********************************************************* -->
+
+    <!-- validación de la asignación de una funcionalidad a un rol -->
+    <form name="asignarFuncionalidadForm">
+        <field property="idFuncionalidad" depends="required">
+            <arg position="0" key="funcionalidad.campo.funcionalidad" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un listado a un procedimiento -->
+    <form name="asignarListadoForm">
+        <field property="idListado" depends="required">
+            <arg position="0" key="listado.campo.listado" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un perfil a un tipo de certificado y un procedimiento -->
+    <form name="asignarPerfilTipoCertificadoForm">
+        <field property="idPerfil" depends="required">
+            <arg position="0" key="perfil.campo.perfil" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un tipo de identificacion a un perfil -->
+    <form name="asignarTipoIdentificacionPerfilForm">
+        <field property="idTipoIdentificacion" depends="required">
+            <arg position="0" key="perfil.campo.tipoIdentificacion" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un rol y un procedimiento a un usuario -->
+    <form name="asignarRolForm">
+        <field property="idRol" depends="required">
+            <arg position="0" key="rol.campo.rol" />
+        </field>
+        <field property="idProcedimiento" depends="required">
+            <arg position="0" key="procedimiento.campo.procedimiento" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un tipo de certificado a un procedimiento -->
+    <form name="asignarTipoCertificadoForm">
+        <field property="idTipoCertificado" depends="required">
+            <arg position="0" key="tipoCertificado.campo.tipoCertificado" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de un perfil a una orden de un usuario -->
+    <form name="asignarPerfilForm">
+        <field property="idOrden" depends="required">
+            <arg position="0" key="orden.campo.orden" />
+        </field>
+        <field property="idPerfil" depends="required">
+            <arg position="0" key="perfil.campo.perfil" />
+        </field>
+    </form>
+    
+    <!-- validacion de la asignacion de una configuracion trewa a un usuario -->
+    <form name="asignarConfTrewaForm">
+    	<field property="idConfTrewa" depends="required">
+            <arg position="0" key="confTrewa.campo.confTrewa" />
+        </field>
+    </form>
+    
+     <!-- validacion de la asignacion de un un perfil de usuario a un usuario -->
+    <form name="asignarPerfilMoadForm">
+        <field property="idPerfilMoad" depends="required">
+            <arg position="0" key="perfilMoad.campo.perfilMoad" />
+        </field>
+    </form>
+
+    <!-- validación de la asignación de una convocatoria a una versión de presenta -->
+    <form name="asignarConvocatoriaVersionPresentaForm">
+        <field property="idConvocatoria" depends="required">
+            <arg position="0" key="convocatoria.campo.convocatoria" />
+        </field>
+    </form>
+
+	<!-- Validación formulario de cambiar clave procedimiento -->
+	<form name="cambiarClaveCifradoForm">
+		<field property="claveCifrado" depends="required, maxlength">
+			<arg position="0" key="procedimiento.campo.claveActual" />
+			<arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>32</var-value>
+            </var>
+		</field>
+		<field property="nueva" depends="required, maxlength">
+			<arg position="0" key="procedimiento.campo.claveNueva1" />
+			<arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>32</var-value>
+            </var>
+		</field>
+		<field property="confirmacion" depends="required, maxlength">
+			<arg position="0" key="procedimiento.campo.claveNueva2" />
+			<arg position="1" key="${var:maxlength}" name="maxlength" resource="false"/>
+            <var>
+                <var-name>maxlength</var-name>
+                <var-value>32</var-value>
+            </var>
+		</field>
+	</form>
+	
+	<!-- Validación formulario de cambiar clave instancia parámetros -->
+	<form name="cambiarClaveInstParamForm">
+		<field property="clave" depends="required">
+			<arg position="0" key="cambiarClaveInstHerramienta.campo.claveActual" />
+		</field>
+		<field property="nueva" depends="required">
+			<arg position="0" key="cambiarClaveInstHerramienta.campo.claveNueva1" />
+		</field>
+		<field property="confirmacion" depends="required">
+			<arg position="0" key="cambiarClaveInstHerramienta.campo.claveNueva2" />
+		</field>
+	</form>
+	
+  </formset>
+</form-validation>

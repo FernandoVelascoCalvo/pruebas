@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_AGRUPACIONES_PAIS">
+
+	<!-- ResultMap del modelo AgrupacionPais -->
+	<resultMap id="AgrupacionPaisResultMap" type="AgrupacionPais">
+		<result column="X_AGPA" property="id" jdbcType="DECIMAL" />
+		<result column="CD_AGRUPACION" property="codigo" jdbcType="CHAR" />
+		<result column="T_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- Obtiene la lista de todos las agrupaciones de paises -->
+	<select id="obtenerAgrupaciones" resultMap="AgrupacionPaisResultMap">
+		select * from MOADD_AGRUPACIONES_PAIS ORDER BY T_DESCRIPCION
+	</select>
+	
+	<!-- Obtiene la agrupacion a partir del codigo -->
+	<select id="obtenerAgrupacionPorCodigo" resultMap="AgrupacionPaisResultMap" parameterType="java.lang.String">
+		select * from MOADD_AGRUPACIONES_PAIS where CD_AGRUPACION = #{value} ORDER BY T_DESCRIPCION
+	</select>
+
+</mapper>

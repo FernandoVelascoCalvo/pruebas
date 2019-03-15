@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="MOAD_ESQ_MOADD_ACCIONES" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="AccionResultMap" type="Accion" >
+    <result column="ID_ACCIONES" property="id" jdbcType="DECIMAL" />
+    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="LG_EVENTOS" property="evento" jdbcType="CHAR" javaType="boolean" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="AccionResultMap" parameterType="Accion" > 
+    select ID_ACCIONES, DS_NOMBRE, LG_EVENTOS
+    from MOADD_ACCIONES
+    where ID_ACCIONES = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="Accion" >
+    delete from MOADD_ACCIONES
+    where ID_ACCIONES = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="Accion">
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_ACCI.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_ACCIONES (ID_ACCIONES, DS_NOMBRE, LG_EVENTOS)
+    values (#{id,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR}
+    		<if test="evento != null ">
+	            #{evento,typeHandler=SiNOHandler}
+            </if>
+    		)
+  </insert>
+  
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="Accion" >
+    update MOADD_ACCIONES
+    set DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+      <if test="evento != null ">
+	 	LG_EVENTOS = #{evento,typeHandler=SiNOHandler}
+      </if>
+    where ID_ACCIONES = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="Accion" > 
+    update MOADD_ACCIONES
+    <!-- 
+	    <dynamic prepend="set" >
+	      <isNotNull prepend="," property="nombre" >
+	        DS_NOMBRE = #nombre:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="evento" >
+	        LG_EVENTOS = #evento:CHAR#
+	      </isNotNull>
+	    </dynamic>
+     -->
+     
+    <set>
+      <if test="nombre != null ">
+       	DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="evento != null ">
+       	LG_EVENTOS = #{evento,typeHandler=SiNOHandler}
+      </if>
+     </set>
+    where ID_ACCIONES = #{id}
+  </update>
+  
+</mapper>

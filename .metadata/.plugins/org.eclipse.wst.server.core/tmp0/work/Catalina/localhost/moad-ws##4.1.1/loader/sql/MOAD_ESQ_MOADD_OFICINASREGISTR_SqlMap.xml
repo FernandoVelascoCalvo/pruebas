@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_OFICINASREGISTR" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_OFICINASREGISTR y los datos miembro de la clase OficinaRegistro -->
+  <resultMap id="OficinaRegistroResultMap" type="OficinaRegistro" >
+	    <result column="ID_OFICINASREGISTR" property="id" jdbcType="DECIMAL" />
+	    <result column="CD_OFICINAREGISTRO" property="codigo" jdbcType="VARCHAR" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="ID_UNIDADESORGANIC" property="idUO" jdbcType="DECIMAL" />
+	    <result column="CD_PROVINCIA" property="cdProvincia" jdbcType="VARCHAR" />
+	    <result column="TX_USUARIOARIES" property="usuarioAries" jdbcType="VARCHAR" />
+	    <result column="TX_CONTRASENAARIES" property="contrasenaAries" jdbcType="VARCHAR" />	    
+  </resultMap>
+  
+  <!-- Inserción de registro en la tabla MOADD_OFICINASREGISTR -->
+  <insert id="insertarOficinaRegistro" parameterType="OficinaRegistro" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_OFRE.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_OFICINASREGISTR (ID_OFICINASREGISTR, CD_OFICINAREGISTRO,
+      DS_NOMBRE, DS_DESCRIPCION, ID_UNIDADESORGANIC, CD_PROVINCIA,
+      TX_USUARIOARIES, TX_CONTRASENAARIES)
+    values (#{id,jdbcType=DECIMAL}, #{codigo,jdbcType=VARCHAR}, #{nombre,jdbcType=VARCHAR},
+      #{descripcion,jdbcType=VARCHAR}, #{idUO,jdbcType=DECIMAL}, #{cdProvincia,jdbcType=VARCHAR},
+      #{usuarioAries,jdbcType=VARCHAR}, #{contrasenaAries,jdbcType=VARCHAR}           
+      )
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_OFICINASREGISTR -->
+  <update id="actualizarOficinaRegistro" parameterType="OficinaRegistro" >
+    update MOADD_OFICINASREGISTR
+    set CD_OFICINAREGISTRO = #{codigo,jdbcType=VARCHAR},
+      DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      ID_UNIDADESORGANIC = #{idUO,jdbcType=DECIMAL},
+      CD_PROVINCIA = #{cdProvincia,jdbcType=VARCHAR},
+      TX_USUARIOARIES = #{usuarioAries,jdbcType=VARCHAR},
+      TX_CONTRASENAARIES = #{contrasenaAries,jdbcType=VARCHAR}
+      
+    where ID_OFICINASREGISTR = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Selección de registro de la tabla MOADD_OFICINASREGISTR por su clave primaria -->
+  <select id="obtenerOficinaRegistro" resultMap="OficinaRegistroResultMap" parameterType="java.math.BigDecimal" >
+    select ID_OFICINASREGISTR, CD_OFICINAREGISTRO, DS_NOMBRE, DS_DESCRIPCION,
+    	ID_UNIDADESORGANIC, CD_PROVINCIA, TX_USUARIOARIES,
+    	TX_CONTRASENAARIES
+    from MOADD_OFICINASREGISTR
+    where ID_OFICINASREGISTR = #{value}
+  </select>
+  
+  <!-- Selección de todos los registros de la tabla MOADD_OFICINASREGISTR de la BD -->
+  <select id="obtenerOficinasRegistro" resultMap="OficinaRegistroResultMap" >
+    select ID_OFICINASREGISTR, CD_OFICINAREGISTRO, DS_NOMBRE, DS_DESCRIPCION,
+    	ID_UNIDADESORGANIC, CD_PROVINCIA, TX_USUARIOARIES,
+    	TX_CONTRASENAARIES
+    from MOADD_OFICINASREGISTR
+  </select>
+
+  <!-- Selección de todos los registros de la tabla MOADD_OFICINASREGISTR de la BD
+  	   asociados a una unidad orgánica -->
+  <select id="obtenerOficinasRegistroPorUO" resultMap="OficinaRegistroResultMap" parameterType="java.lang.String" >
+	select oreg.ID_OFICINASREGISTR, oreg.CD_OFICINAREGISTRO, oreg.DS_NOMBRE,
+		   oreg.DS_DESCRIPCION, oreg.ID_UNIDADESORGANIC, oreg.CD_PROVINCIA,
+		   oreg.TX_USUARIOARIES, oreg.TX_CONTRASENAARIES
+
+    from MOADD_OFICINASREGISTR oreg,MOADD_UNIDADESORGANIC uo
+
+    where oreg.ID_UNIDADESORGANIC = uo.ID_UNIDADESORGANIC AND
+          uo.CD_UNIDADORGANICA = #{value}
+    order by oreg.CD_OFICINAREGISTRO
+  </select>
+  
+  <!-- Borrado de registro de la tabla MOADD_OFICINASREGISTR por su clave primaria -->
+  <delete id="borrarOficinaRegistro" parameterType="java.math.BigDecimal" >
+    delete from MOADD_OFICINASREGISTR
+    where ID_OFICINASREGISTR = #{value}
+  </delete>
+
+</mapper>

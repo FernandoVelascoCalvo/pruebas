@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_FUNCS_ACCIONES" >
+  
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="FuncionalidadAccionResultMap" type="FuncionalidadAccion" >
+    <result column="ID_FUNCS_ACCIONES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_FUNCIONALIDADES" property="idFuncionalidad" jdbcType="DECIMAL" />
+    <result column="ID_ACCIONES" property="idAccion" jdbcType="DECIMAL" />
+    <result column="DS_DESCRIPCION" property="dsDescripcion" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="FuncionalidadAccionResultMap" parameterType="FuncionalidadAccion" >
+    select ID_FUNCS_ACCIONES, ID_FUNCIONALIDADES, ID_ACCIONES, DS_DESCRIPCION
+    from MOADR_FUNCS_ACCIONES
+    where ID_FUNCS_ACCIONES = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="FuncionalidadAccion" >
+    delete from MOADR_FUNCS_ACCIONES
+    where ID_FUNCS_ACCIONES = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="FuncionalidadAccion" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal"  order="BEFORE">	
+	       SELECT MOAD_SQ_FUAC.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADR_FUNCS_ACCIONES (ID_FUNCS_ACCIONES,
+    	ID_FUNCIONALIDADES, ID_ACCIONES, DS_DESCRIPCION)
+    values (#{id,jdbcType=DECIMAL}, #{idFuncionalidad,jdbcType=DECIMAL},
+      #{idAccion,jdbcType=DECIMAL}, #{dsDescripcion,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="FuncionalidadAccion" >
+    update MOADR_FUNCS_ACCIONES
+    set ID_FUNCIONALIDADES = #{idFuncionalidad,jdbcType=DECIMAL},
+      ID_ACCIONES = #{idAccion,jdbcType=DECIMAL},
+      DS_DESCRIPCION = #{dsDescripcion,jdbcType=VARCHAR}
+    where ID_FUNCS_ACCIONES = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="FuncionalidadAccion" >
+    update MOADR_FUNCS_ACCIONES
+    <set>
+      <if test="idFuncionalidad != null" >
+        ID_FUNCIONALIDADES = #{idFuncionalidad,jdbcType=DECIMAL}
+      </if>
+      <if test="idAccion != null" >
+        ,ID_ACCIONES = #{idAccion,jdbcType=DECIMAL}
+      </if>
+      <if test="dsDescripcion != null" >
+        ,DS_DESCRIPCION = #{dsDescripcion,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_FUNCS_ACCIONES = #{id}
+  </update>
+</mapper>

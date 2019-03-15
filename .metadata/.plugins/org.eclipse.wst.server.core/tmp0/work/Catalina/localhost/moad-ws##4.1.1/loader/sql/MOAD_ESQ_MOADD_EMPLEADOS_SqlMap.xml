@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_EMPLEADOS" >
+
+  <!-- ResultMap para los Empleados -->
+  <resultMap id="EmpleadoResultMap" type="Empleado" >
+    <result column="ID_EMPLEADOS" property="id" jdbcType="DECIMAL" />
+    <result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+    <result column="ID_UNIDADESORGANIC" property="idUO" jdbcType="DECIMAL" />
+    <result column="CD_PUESTOSTRABAJO" property="cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="TX_TIPO" property="tipo" jdbcType="CHAR" />
+    <result column="FH_NOMBRAMIENTO" property="fechaNombramiento" jdbcType="TIMESTAMP" />
+    <result column="FH_CESE" property="fechaCese" jdbcType="TIMESTAMP" />
+    <result column="TX_TRATAMIENTO" property="tratamiento" jdbcType="VARCHAR" />
+    <result column="TX_REFERENCIA" property="referencia" jdbcType="VARCHAR" />
+    <result column="ID_USUARIO_CONFTREWA" property="idUsuarioConfTrewa" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <resultMap id="PuestoTrabajoUOResultMap" type="PuestoTrabajoUOView" >
+    <result column="ID_EMPLEADOS" property="id" jdbcType="DECIMAL" />
+    <result column="ID_UNIDADESORGANIC" property="idUO" jdbcType="DECIMAL" />
+    <result column="CD_PUESTOSTRABAJO" property="cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="DS_UNIDADESORGANIC" property="nombreUO" jdbcType="VARCHAR" />
+    <result column="DS_PUESTOSTRABAJO" property="nombrePuesto" jdbcType="VARCHAR" />
+    <result column="FH_CESE" property="fechaCese" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- ResultMap para los Empleados incluidas las tablas foráneas -->
+  <resultMap id="EmpleadoEXTResultMap" type="Empleado" >
+    <result column="ID_EMPLEADOS" property="id" jdbcType="DECIMAL" />
+    <result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+    <result column="ID_UNIDADESORGANIC" property="idUO" jdbcType="DECIMAL" />
+    <result column="CD_PUESTOSTRABAJO" property="cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="TX_TIPO" property="tipo" jdbcType="CHAR" />
+    <result column="FH_NOMBRAMIENTO" property="fechaNombramiento" jdbcType="TIMESTAMP" />
+    <result column="FH_CESE" property="fechaCese" jdbcType="TIMESTAMP" />
+    <result column="TX_TRATAMIENTO" property="tratamiento" jdbcType="VARCHAR" />
+    <result column="TX_REFERENCIA" property="referencia" jdbcType="VARCHAR" />
+    <result column="ID_USUARIO_CONFTREWA" property="idUsuarioConfTrewa" jdbcType="DECIMAL" />
+
+    <result column="UO_ID_UNIDADESORGANIC" property="unidadOrganica.id" jdbcType="DECIMAL" />
+    <result column="UO_CD_UNIDADORGANICA" property="unidadOrganica.codigo" jdbcType="VARCHAR" />
+    <result column="UO_DS_BREVE" property="unidadOrganica.descripcionBreve" jdbcType="VARCHAR" />
+    <result column="UO_DS_EXTENDIDA" property="unidadOrganica.descripcionExtendida" jdbcType="VARCHAR" />
+    <result column="UO_TX_TIPO" property="unidadOrganica.tipo" jdbcType="CHAR" />
+    <result column="UO_CD_MUNICIPIO" property="unidadOrganica.cdMunicipio" jdbcType="CHAR" />
+    <result column="UO_CD_PROVINCIA" property="unidadOrganica.cdProvincia" jdbcType="CHAR" />
+    <result column="UO_CD_TIPOVIA" property="unidadOrganica.cdTipoVia" jdbcType="VARCHAR" />
+    <result column="UO_CD_TIPOORGANISMO" property="unidadOrganica.cdTipoOrganismo" jdbcType="DECIMAL" />
+    <result column="UO_TX_NOMBREVIA" property="unidadOrganica.nombreVia" jdbcType="VARCHAR" />
+    <result column="UO_NU_NUMERO" property="unidadOrganica.numero" jdbcType="DECIMAL" />
+    <result column="UO_TX_LETRA" property="unidadOrganica.letra" jdbcType="CHAR" />
+    <result column="UO_TX_ESCALERA" property="unidadOrganica.escalera" jdbcType="CHAR" />
+    <result column="UO_NU_PISO" property="unidadOrganica.piso" jdbcType="DECIMAL" />
+    <result column="UO_TX_PUERTA" property="unidadOrganica.puerta" jdbcType="CHAR" />
+    <result column="UO_NU_CODIGOPOSTAL" property="unidadOrganica.codigoPostal" jdbcType="DECIMAL" />
+    <result column="UO_TX_TELEFONO" property="unidadOrganica.telefono" jdbcType="VARCHAR" />
+    <result column="UO_TX_MOVIL" property="unidadOrganica.movil" jdbcType="VARCHAR" />
+    <result column="UO_TX_FAX" property="unidadOrganica.fax" jdbcType="VARCHAR" />
+    <result column="UO_TX_EMAIL" property="unidadOrganica.email" jdbcType="VARCHAR" />
+    <result column="UO_CD_CIWA" property="unidadOrganica.cdCiwa" jdbcType="VARCHAR" />
+    <result column="UO_TX_IDARIES" property="unidadOrganica.idAries" jdbcType="VARCHAR" />
+    <result column="UO_TX_IDENTIFICADOR" property="unidadOrganica.identificador" jdbcType="VARCHAR" />
+    <result column="UO_TX_DIGITOCONTROL" property="unidadOrganica.digitoControl" jdbcType="CHAR" />
+    <result column="UO_FH_INICIOVIGENCIA" property="unidadOrganica.fechaInicioIncidencia" jdbcType="TIMESTAMP" />
+    <result column="UO_FH_FINVIGENCIA" property="unidadOrganica.fechaFinIncidencia" jdbcType="TIMESTAMP" />
+    <result column="UO_CD_UO_SUPERIOR" property="unidadOrganica.cdUOSuperior" jdbcType="DECIMAL" />
+    <result column="UO_CD_TIPOORGANIZA" property="unidadOrganica.cdTipoOrganizacion" jdbcType="CHAR" />
+
+    <result column="PT_ID_PUESTOSTRABAJO" property="puestoTrabajo.id" jdbcType="DECIMAL" />
+    <result column="PT_CD_PUESTOSTRABAJO" property="puestoTrabajo.cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="PT_DS_BREVE" property="puestoTrabajo.descripcionBreve" jdbcType="VARCHAR" />
+    <result column="PT_DS_EXTENDIDA" property="puestoTrabajo.descripcionExtendida" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<!-- Selecciona un registro a partir de una clave primaria -->
+
+	<select id="obtenerPorClave" resultMap="EmpleadoResultMap" parameterType="Empleado" >
+		<![CDATA[
+			SELECT E.ID_EMPLEADOS, 
+				 E.CD_USUARIOS,
+				 E.ID_UNIDADESORGANIC, 
+				 E.CD_PUESTOSTRABAJO,
+				 E.TX_TIPO, 
+				 E.FH_NOMBRAMIENTO, 
+				 E.FH_CESE, 
+				 E.TX_TRATAMIENTO, 
+				 E.TX_REFERENCIA, 
+				 E.ID_USUARIO_CONFTREWA
+			 
+			FROM MOADD_EMPLEADOS E
+			
+			INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+			ON E.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONFTREWA
+			
+			INNER JOIN MOADD_USUARIOS U
+			ON UCT.ID_USUARIOS = U.ID_USUARIOS
+			
+			WHERE E.ID_EMPLEADOS = #{id,jdbcType=DECIMAL}
+			AND U.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+			                              FROM MOADD_ESTADOSUSUARIO
+			                              WHERE LG_ANULAUSUARIO = 'N')
+		  ]]>
+	</select>
+  
+  	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="eliminarPorClave" parameterType="Empleado" >
+	  delete from MOADD_EMPLEADOS
+	  where ID_EMPLEADOS = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_EMPLEADOS -->
+ 
+	<insert id="insertar" parameterType="Empleado" >
+	  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_EMPL.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into MOADD_EMPLEADOS (ID_EMPLEADOS,
+		 							 CD_USUARIOS,
+									 ID_UNIDADESORGANIC,
+	   								 CD_PUESTOSTRABAJO,
+	   								 TX_TIPO,
+	   								 FH_NOMBRAMIENTO,
+	   								 FH_CESE,
+	   								 TX_TRATAMIENTO,
+									 TX_REFERENCIA,
+									 ID_USUARIO_CONFTREWA)
+		values (#{id,jdbcType=DECIMAL},
+				#{cdUsuario,jdbcType=VARCHAR},
+				#{idUO,jdbcType=DECIMAL},
+				#{cdPuestoTrabajo,jdbcType=VARCHAR},
+				#{tipo,jdbcType=CHAR},
+				#{fechaNombramiento,jdbcType=TIMESTAMP},
+				#{fechaCese,jdbcType=TIMESTAMP},
+				#{tratamiento,jdbcType=VARCHAR},
+				#{referencia,jdbcType=VARCHAR},
+				#{idUsuarioConfTrewa,jdbcType=DECIMAL})
+	</insert>
+ 	
+  <!-- modifica un registro en la tabla MOADD_EMPLEADOS -->
+
+   <update id="modificarPorClave" parameterType="Empleado" >
+    UPDATE MOADD_EMPLEADOS
+    
+    SET ID_UNIDADESORGANIC = #{idUO,jdbcType=DECIMAL},
+	      CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR},
+	      TX_TIPO = #{tipo,jdbcType=CHAR},
+	      FH_NOMBRAMIENTO = #{fechaNombramiento,jdbcType=TIMESTAMP},
+	      FH_CESE = #{fechaCese,jdbcType=TIMESTAMP},
+	      TX_TRATAMIENTO = #{tratamiento,jdbcType=VARCHAR},
+	      TX_REFERENCIA = #{referencia,jdbcType=VARCHAR},
+	      ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+	      
+    WHERE ID_EMPLEADOS = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- modifica un registro en la tabla MOADD_EMPLEADOS -->
+
+	<update id="modificarPorClaveSelectivo" parameterType="Empleado" >
+	   update MOADD_EMPLEADOS
+	   <set>
+  		  <if test="idUO != null">
+	       ID_UNIDADESORGANIC = #{idUO,jdbcType=DECIMAL},
+	     </if>
+	     <if test="cdPuestoTrabajo != null">
+	       CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR},
+	     </if>
+	     <if test="tipo != null" >
+	       TX_TIPO = #{tipo,jdbcType=CHAR},
+	     </if>
+	     <if test="fechaNombramiento != null" >
+	       FH_NOMBRAMIENTO = #{fechaNombramiento,jdbcType=TIMESTAMP},
+	     </if>
+	     <if test="fechaCese != null" >
+	       FH_CESE = #{fechaCese,jdbcType=TIMESTAMP},
+	     </if>
+	    <if test="tratamiento != null" >
+	       TX_TRATAMIENTO = #{tratamiento,jdbcType=VARCHAR},
+	     </if>
+	     <if test="referencia != null" >
+	       TX_REFERENCIA = #{referencia,jdbcType=VARCHAR},
+	     </if>
+	     <if test="idUsuarioConfTrewa != null" >
+	       ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+	     </if>
+	   </set>
+	   where ID_EMPLEADOS = #{id}
+	</update>
+  
+  	<!-- Selecciona una lista a partir del codigo del usuario -->
+	<select id="obtenerEmpleadoPorUsuario" resultMap="EmpleadoResultMap" parameterType="Empleado">
+   	   SELECT E.ID_EMPLEADOS, 
+                 E.CD_USUARIOS, 
+                 E.ID_UNIDADESORGANIC, 
+                 E.CD_PUESTOSTRABAJO,
+                 E.TX_TIPO, 
+                 E.FH_NOMBRAMIENTO, 
+                 E.FH_CESE, 
+                 E.TX_TRATAMIENTO, 
+                 E.TX_REFERENCIA, 
+                 E.ID_USUARIO_CONFTREWA
+	   FROM MOADD_USUARIOS U
+	   INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+            ON U.ID_USUARIOS = UCT.ID_USUARIOS
+	   INNER JOIN MOADD_EMPLEADOS E 
+	   		ON E.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONFTREWA
+	   WHERE U.CD_USUARIOS = #{cdUsuario} 
+	   ORDER BY U.CD_USUARIOS
+	</select>
+
+	<select id="obtenerEmpleadoPorUsuConfTrewa" resultMap="EmpleadoResultMap" parameterType="Empleado">
+	    SELECT E.ID_EMPLEADOS, 
+	    	E.CD_USUARIOS,
+		    E.ID_UNIDADESORGANIC, 
+		    E.CD_PUESTOSTRABAJO,
+	     	E.TX_TIPO,
+	     	E.FH_NOMBRAMIENTO, 
+	     	E.FH_CESE, 
+	     	E.TX_TRATAMIENTO, 
+	     	E.TX_REFERENCIA, 
+	     	E.ID_USUARIO_CONFTREWA
+	    
+	    FROM MOADD_EMPLEADOS E,
+	    MOADR_USUARIO_CONFTREWA UCT
+	    
+	    WHERE E.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONFTREWA
+	    AND UCT.ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL} 
+	    
+	    ORDER BY E.ID_EMPLEADOS
+	</select>
+	
+	<!-- Selecciona una lista a partir del codigo del usuario -->
+<!-- 
+	<select id="obtenerEmpleadoPorUsuConfTrewa" resultMap="EmpleadoResultMap" parameterClass="Empleado">
+	    SELECT ID_EMPLEADOS, 
+		    ID_UNIDADESORGANIC, 
+		    CD_PUESTOSTRABAJO,
+	     	TX_TIPO, 
+	     	FH_NOMBRAMIENTO, 
+	     	FH_CESE, 
+	     	TX_TRATAMIENTO, 
+	     	TX_REFERENCIA, 
+	     	ID_USUARIO_CONFTREWA
+	    	
+	    FROM MOADD_EMPLEADOS
+	    
+	    WHERE ID_USUARIO_CONFTREWA = #idUsuarioConfTrewa:DECIMAL# 
+	    
+	    ORDER BY ID_EMPLEADOS
+	</select>
+-->
+	<!-- Selecciona una lista a partir de la unidad organica -->
+	<select id="obtenerEmpleadoPorUnidad" resultMap="EmpleadoResultMap" parameterType="java.math.BigDecimal">
+	    SELECT ID_EMPLEADOS, 
+	    	CD_USUARIOS,
+		    ID_UNIDADESORGANIC, 
+		    CD_PUESTOSTRABAJO,
+		    TX_TIPO, 
+		    FH_NOMBRAMIENTO, 
+		    FH_CESE, 
+		    TX_TRATAMIENTO, 
+		    TX_REFERENCIA,
+		    ID_USUARIO_CONFTREWA
+	    
+	    FROM MOADD_EMPLEADOS
+	    
+	    WHERE ID_UNIDADESORGANIC = #{idUO}
+	</select>
+	
+	<!-- Selecciona una lista a partir de la unidad organica -->
+	<!-- 
+	<select id="obtenerEmpleadoPorUsuConfTrewa" resultMap="EmpleadoResultMap" parameterClass="java.math.BigDecimal">
+	    SELECT E.ID_EMPLEADOS, 
+	    	E.CD_USUARIOS,
+		    E.ID_UNIDADESORGANIC, 
+		    E.CD_PUESTOSTRABAJO,
+		    E.TX_TIPO, 
+		    E.FH_NOMBRAMIENTO, 
+		    E.FH_CESE, 
+		    E.TX_TRATAMIENTO, 
+		    E.TX_REFERENCIA,
+		    E.ID_USUARIO_CONFTREWA
+	    
+	    FROM MOADD_EMPLEADOS E
+	    
+	    INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+	    ON E.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONTREWA
+	    
+	    WHERE E.ID_USUARIO_CONFTREWA = #idUsuConfTrewa:DECIMAL#
+	</select>
+	 -->
+
+	<!-- revoca la unidad org&aacute;nica idUnidad al usuario idUsuario con puesto de trabajo cdPuesto -->
+<!-- 
+	<select id="obtenerPorUsuarioPuestoUnidad" resultMap="EmpleadoResultMap" parameterClass="Empleado" >
+	select ID_EMPLEADOS, CD_USUARIOS, ID_UNIDADESORGANIC, CD_PUESTOSTRABAJO,
+	    TX_TIPO, FH_NOMBRAMIENTO, FH_CESE, TX_TRATAMIENTO, TX_REFERENCIA, ID_USUARIO_CONFTREWA
+	from MOADD_EMPLEADOS
+	where CD_USUARIOS = #cdUsuario#
+	    and ID_UNIDADESORGANIC = #idUO#
+	    and CD_PUESTOSTRABAJO = #cdPuestoTrabajo# ORDER BY CD_USUARIOS
+	</select>
+-->
+	<select id="obtenerPorUsuarioPuestoUnidad" resultMap="EmpleadoResultMap" parameterType="Empleado" >
+		SELECT ID_EMPLEADOS, 
+				CD_USUARIOS,
+				ID_UNIDADESORGANIC, 
+				CD_PUESTOSTRABAJO,
+			    TX_TIPO, 
+			    FH_NOMBRAMIENTO, 
+			    FH_CESE, 
+			    TX_TRATAMIENTO, 
+			    TX_REFERENCIA, 
+			    ID_USUARIO_CONFTREWA
+		    
+		FROM MOADD_EMPLEADOS
+		
+		WHERE CD_USUARIOS = #{cdUsuario}
+		AND ID_UNIDADESORGANIC = #{idUO}
+		AND CD_PUESTOSTRABAJO = #{cdPuestoTrabajo} 
+		
+		ORDER BY ID_EMPLEADOS
+	</select>
+	  
+	<!-- Consulta de los empleos de un usuario -->
+	<!-- <select id="obtenerUnidadPuestoPorUsuario" resultMap="PuestoTrabajoUOResultMap" parameterClass="string" >
+	         select e.ID_EMPLEADOS,
+	                e.ID_UNIDADESORGANIC,
+	                e.CD_PUESTOSTRABAJO,
+	                e.ID_USUARIO_CONFTREWA,
+	                u.DS_EXTENDIDA AS DS_UNIDADESORGANIC,
+	                p.DS_BREVE AS DS_PUESTOSTRABAJO
+	         from MOADD_EMPLEADOS e,
+	              MOADD_UNIDADESORGANIC u,
+	              MOADD_PUESTOSTRABAJO p
+	         where e.CD_USUARIOS = #value#
+	               and e.CD_PUESTOSTRABAJO = p.CD_PUESTOSTRABAJO
+	               and e.ID_UNIDADESORGANIC = u.ID_UNIDADESORGANIC
+	               ORDER BY CD_USUARIOS
+	</select>-->
+
+	<select id="obtenerUnidadPuestoPorUsuConfTrewa" resultMap="PuestoTrabajoUOResultMap" parameterType="java.math.BigDecimal" >
+	    SELECT e.ID_EMPLEADOS,
+	           e.ID_UNIDADESORGANIC,
+	           e.CD_PUESTOSTRABAJO,
+	           e.ID_USUARIO_CONFTREWA,
+	           u.DS_EXTENDIDA AS DS_UNIDADESORGANIC,
+	           p.DS_BREVE AS DS_PUESTOSTRABAJO,
+	           e.FH_CESE AS FH_CESE
+	           
+	    FROM MOADD_EMPLEADOS e,
+	         MOADD_UNIDADESORGANIC u,
+	         MOADD_PUESTOSTRABAJO p,
+	         MOADR_USUARIO_CONFTREWA uct
+	         
+	    WHERE e.ID_USUARIO_CONFTREWA = uct.ID_USUARIO_CONFTREWA
+	        AND e.CD_PUESTOSTRABAJO = p.CD_PUESTOSTRABAJO
+	        AND e.ID_UNIDADESORGANIC = u.ID_UNIDADESORGANIC
+	        AND uct.ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+	          
+	    ORDER BY ID_USUARIOS
+	</select>
+
+	<!-- Selecciona una lista de empleados -->
+<!-- 
+	<select id="selectEmpleados" resultMap="EmpleadoResultMap" >
+	   select ID_EMPLEADOS, CD_USUARIOS, ID_UNIDADESORGANIC, CD_PUESTOSTRABAJO,
+	    	TX_TIPO, FH_NOMBRAMIENTO, FH_CESE, TX_TRATAMIENTO, TX_REFERENCIA, ID_USUARIO_CONFTREWA
+	   from MOADD_EMPLEADOS ORDER BY CD_USUARIOS
+	</select>
+-->
+	<select id="selectEmpleados" resultMap="EmpleadoResultMap" >
+	   SELECT ID_EMPLEADOS, 
+	   		CD_USUARIOS,
+		    ID_UNIDADESORGANIC, 
+		    CD_PUESTOSTRABAJO,
+		    TX_TIPO, 
+		    FH_NOMBRAMIENTO, 
+		    FH_CESE, 
+		    TX_TRATAMIENTO, 
+		    TX_REFERENCIA, 
+		    ID_USUARIO_CONFTREWA
+	   
+	   FROM MOADD_EMPLEADOS 
+	   
+	   ORDER BY ID_EMPLEADOS
+	</select>
+
+	<!-- Actualiza un registro en la tabla MOADD_EMPLEADOS -->
+	<update id="actualizar" parameterType="Empleado" >
+		UPDATE MOADD_EMPLEADOS
+		
+		SET TX_TIPO = #{tipo,jdbcType=CHAR},
+			FH_NOMBRAMIENTO = #{fechaNombramiento,jdbcType=TIMESTAMP},
+			FH_CESE = #{fechaCese,jdbcType=TIMESTAMP},
+			TX_TRATAMIENTO = #{tratamiento,jdbcType=VARCHAR},
+			TX_REFERENCIA = #{referencia,jdbcType=VARCHAR},
+			ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+			
+		WHERE ID_EMPLEADOS = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Elimina registros a partir del código del usuario -->
+<!-- 
+	<delete id="eliminarEmpleados" parameterClass="java.lang.String" >
+	<![CDATA[
+		delete from MOADD_EMPLEADOS
+		where CD_USUARIOS in (select U.CD_USUARIOS
+							  from MOADD_USUARIOS U
+							  inner join MOADD_ESTADOSUSUARIO E
+							  on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+							  where U.CD_USUARIOS = #value#
+							    and U.LG_PUBLICO = 'N'
+							    and E.LG_ANULAUSUARIO = 'N'
+							    )
+							    ]]>
+	</delete>
+-->
+	<delete id="eliminarEmpleadosByUsuario" parameterType="java.math.BigDecimal" >
+		<![CDATA[
+			DELETE FROM MOADD_EMPLEADOS
+		
+			WHERE ID_USUARIO_CONFTREWA IN (
+					SELECT UCT.ID_USUARIO_CONFTREWA
+	
+				  	FROM MOADD_USUARIOS U
+				  
+				  	INNER JOIN MOADD_ESTADOSUSUARIO E
+				  	ON U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+				  
+				  	INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+				  	ON U.ID_USUARIOS = UCT.ID_USUARIOS
+				  
+				  	WHERE UCT.ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+				  	AND U.LG_PUBLICO = 'N'
+				  	AND E.LG_ANULAUSUARIO = 'N'
+				  	)
+		]]>
+	</delete>
+ 	<delete id="eliminarEmpleados" parameterType="java.math.BigDecimal" >
+		<![CDATA[
+			DELETE FROM MOADD_EMPLEADOS
+			
+			WHERE ID_USUARIO_CONFTREWA IN (
+				  SELECT UCT.ID_USUARIO_CONFTREWA
+	
+				  FROM MOADD_USUARIOS U
+				  
+				  INNER JOIN MOADD_ESTADOSUSUARIO E
+				  ON U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+				  
+				  INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+				  ON U.ID_USUARIOS = UCT.ID_USUARIOS
+				  
+				  WHERE UCT.ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+				  AND U.LG_PUBLICO = 'N'
+				  AND E.LG_ANULAUSUARIO = 'N'
+				  )
+		]]>
+	</delete>
+	
+	<!-- Obtiene los empleados (con su unidad organica y puesto de trabajo) a partir del codigo del usuario -->
+    <!-- <select id="obtenerEmpleadoPorUsuarioEXT" resultMap="EmpleadoEXTResultMap" parameterClass="string">
+    <![CDATA[
+	    select E.ID_EMPLEADOS,
+	     	E.CD_USUARIOS,
+	      	E.ID_UNIDADESORGANIC,
+	       	E.CD_PUESTOSTRABAJO,
+	     	E.TX_TIPO,
+	     	E.FH_NOMBRAMIENTO,
+	     	E.FH_CESE,
+	     	E.TX_TRATAMIENTO,
+	     	E.TX_REFERENCIA,
+	     	E.ID_USUARIO_CONFTREWA, 
+	     	UO.ID_UNIDADESORGANIC AS UO_ID_UNIDADESORGANIC,
+	     	UO.CD_UNIDADORGANICA AS UO_CD_UNIDADORGANICA,
+	     	UO.DS_BREVE AS UO_DS_BREVE,
+	     	UO.DS_EXTENDIDA AS UO_DS_EXTENDIDA,
+      		UO.TX_TIPO AS UO_TX_TIPO,
+       		UO.CD_MUNICIPIO AS UO_CD_MUNICIPIO,
+        	UO.CD_PROVINCIA AS UO_CD_PROVINCIA,
+         	UO.CD_TIPOVIA AS UO_CD_TIPOVIA,
+          	UO.CD_TIPOORGANISMO AS UO_CD_TIPOORGANISMO,
+           	UO.TX_NOMBREVIA AS UO_TX_NOMBREVIA,
+            UO.NU_NUMERO AS UO_NU_NUMERO,
+      		UO.TX_LETRA AS UO_TX_LETRA,
+       		UO.TX_ESCALERA AS UO_TX_ESCALERA,
+        	UO.NU_PISO AS UO_NU_PISO,
+        	UO.TX_PUERTA AS UO_TX_PUERTA,
+        	UO.NU_CODIGOPOSTAL AS UO_NU_CODIGOPOSTAL,
+        	UO.TX_TELEFONO AS UO_TX_TELEFONO,
+        	UO.TX_MOVIL AS UO_TX_MOVIL,
+        	UO.TX_FAX AS UO_TX_FAX,
+      		UO.TX_EMAIL AS UO_TX_EMAIL,
+       		UO.CD_CIWA AS UO_CD_CIWA,
+        	UO.TX_IDARIES AS UO_TX_IDARIES,
+         	UO.TX_IDENTIFICADOR AS UO_TX_IDENTIFICADOR,
+          	UO.TX_DIGITOCONTROL AS UO_TX_DIGITOCONTROL,
+           	UO.FH_INICIOVIGENCIA AS UO_FH_INICIOVIGENCIA,
+      		UO.FH_FINVIGENCIA AS UO_FH_FINVIGENCIA,
+       		UO.CD_UO_SUPERIOR AS UO_CD_UO_SUPERIOR,
+        	UO.CD_TIPOORGANIZA AS UO_CD_TIPOORGANIZA,
+        	PT.ID_PUESTOSTRABAJO AS PT_ID_PUESTOSTRABAJO,
+        	PT.CD_PUESTOSTRABAJO AS PT_CD_PUESTOSTRABAJO,
+        	PT.DS_BREVE AS PT_DS_BREVE,
+        	PT.DS_EXTENDIDA AS PT_DS_EXTENDIDA
+
+	    from MOADD_EMPLEADOS E
+
+	    left outer join MOADD_UNIDADESORGANIC UO
+		on E.ID_UNIDADESORGANIC = UO.ID_UNIDADESORGANIC
+
+	    left outer join MOADD_PUESTOSTRABAJO PT
+		on E.CD_PUESTOSTRABAJO = PT.CD_PUESTOSTRABAJO
+
+	    where E.CD_USUARIOS = #value# ORDER BY E.CD_USUARIOS
+	    ]]>
+    </select>-->
+    
+    <!-- Obtiene los empleados (con su unidad organica y puesto de trabajo) a partir del codigo del usuario -->
+    <select id="obtenerEmpleadoPorUsuarioEXT" resultMap="EmpleadoEXTResultMap" parameterType="string">
+    <![CDATA[
+	    select E.ID_EMPLEADOS,
+	     	E.CD_USUARIOS,
+	      	E.ID_UNIDADESORGANIC,
+	       	E.CD_PUESTOSTRABAJO,
+	     	E.TX_TIPO,
+	     	E.FH_NOMBRAMIENTO,
+	     	E.FH_CESE,
+	     	E.TX_TRATAMIENTO,
+	     	E.TX_REFERENCIA,
+	     	E.ID_USUARIO_CONFTREWA, 
+	     	UO.ID_UNIDADESORGANIC AS UO_ID_UNIDADESORGANIC,
+	     	UO.CD_UNIDADORGANICA AS UO_CD_UNIDADORGANICA,
+	     	UO.DS_BREVE AS UO_DS_BREVE,
+	     	UO.DS_EXTENDIDA AS UO_DS_EXTENDIDA,
+      		UO.TX_TIPO AS UO_TX_TIPO,
+       		UO.CD_MUNICIPIO AS UO_CD_MUNICIPIO,
+        	UO.CD_PROVINCIA AS UO_CD_PROVINCIA,
+         	UO.CD_TIPOVIA AS UO_CD_TIPOVIA,
+          	UO.CD_TIPOORGANISMO AS UO_CD_TIPOORGANISMO,
+           	UO.TX_NOMBREVIA AS UO_TX_NOMBREVIA,
+            UO.NU_NUMERO AS UO_NU_NUMERO,
+      		UO.TX_LETRA AS UO_TX_LETRA,
+       		UO.TX_ESCALERA AS UO_TX_ESCALERA,
+        	UO.NU_PISO AS UO_NU_PISO,
+        	UO.TX_PUERTA AS UO_TX_PUERTA,
+        	UO.NU_CODIGOPOSTAL AS UO_NU_CODIGOPOSTAL,
+        	UO.TX_TELEFONO AS UO_TX_TELEFONO,
+        	UO.TX_MOVIL AS UO_TX_MOVIL,
+        	UO.TX_FAX AS UO_TX_FAX,
+      		UO.TX_EMAIL AS UO_TX_EMAIL,
+       		UO.CD_CIWA AS UO_CD_CIWA,
+        	UO.TX_IDARIES AS UO_TX_IDARIES,
+         	UO.TX_IDENTIFICADOR AS UO_TX_IDENTIFICADOR,
+          	UO.TX_DIGITOCONTROL AS UO_TX_DIGITOCONTROL,
+           	UO.FH_INICIOVIGENCIA AS UO_FH_INICIOVIGENCIA,
+      		UO.FH_FINVIGENCIA AS UO_FH_FINVIGENCIA,
+       		UO.CD_UO_SUPERIOR AS UO_CD_UO_SUPERIOR,
+        	UO.CD_TIPOORGANIZA AS UO_CD_TIPOORGANIZA,
+        	PT.ID_PUESTOSTRABAJO AS PT_ID_PUESTOSTRABAJO,
+        	PT.CD_PUESTOSTRABAJO AS PT_CD_PUESTOSTRABAJO,
+        	PT.DS_BREVE AS PT_DS_BREVE,
+        	PT.DS_EXTENDIDA AS PT_DS_EXTENDIDA
+	    FROM MOADD_USUARIOS U
+        INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+        	ON U.ID_USUARIOS = UCT.ID_USUARIOS
+        INNER JOIN MOADD_EMPLEADOS E
+            ON E.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONFTREWA
+	    LEFT OUTER JOIN MOADD_UNIDADESORGANIC UO
+			ON E.ID_UNIDADESORGANIC = UO.ID_UNIDADESORGANIC
+	    LEFT OUTER JOIN MOADD_PUESTOSTRABAJO PT
+			ON E.CD_PUESTOSTRABAJO = PT.CD_PUESTOSTRABAJO
+		WHERE U.CD_USUARIOS = #{value}
+	    ORDER BY U.CD_USUARIOS
+	    ]]>
+    </select>
+
+    <select id="obtenerEmpleadoPorUsuConfTrewaEXT" resultMap="EmpleadoEXTResultMap" parameterType="java.math.BigDecimal">
+    	<![CDATA[
+		    SELECT E.ID_EMPLEADOS,
+		    		E.CD_USUARIOS,
+			      	E.ID_UNIDADESORGANIC,
+			       	E.CD_PUESTOSTRABAJO,
+			     	E.TX_TIPO,
+			     	E.FH_NOMBRAMIENTO,
+			     	E.FH_CESE,
+			     	E.TX_TRATAMIENTO,
+			     	E.TX_REFERENCIA,
+			     	E.ID_USUARIO_CONFTREWA, 
+			     	UO.ID_UNIDADESORGANIC AS UO_ID_UNIDADESORGANIC,
+			     	UO.CD_UNIDADORGANICA AS UO_CD_UNIDADORGANICA,
+			     	UO.DS_BREVE AS UO_DS_BREVE,
+			     	UO.DS_EXTENDIDA AS UO_DS_EXTENDIDA,
+		      		UO.TX_TIPO AS UO_TX_TIPO,
+		       		UO.CD_MUNICIPIO AS UO_CD_MUNICIPIO,
+		        	UO.CD_PROVINCIA AS UO_CD_PROVINCIA,
+		         	UO.CD_TIPOVIA AS UO_CD_TIPOVIA,
+		          	UO.CD_TIPOORGANISMO AS UO_CD_TIPOORGANISMO,
+		           	UO.TX_NOMBREVIA AS UO_TX_NOMBREVIA,
+		            UO.NU_NUMERO AS UO_NU_NUMERO,
+		      		UO.TX_LETRA AS UO_TX_LETRA,
+		       		UO.TX_ESCALERA AS UO_TX_ESCALERA,
+		        	UO.NU_PISO AS UO_NU_PISO,
+		        	UO.TX_PUERTA AS UO_TX_PUERTA,
+		        	UO.NU_CODIGOPOSTAL AS UO_NU_CODIGOPOSTAL,
+		        	UO.TX_TELEFONO AS UO_TX_TELEFONO,
+		        	UO.TX_MOVIL AS UO_TX_MOVIL,
+		        	UO.TX_FAX AS UO_TX_FAX,
+		      		UO.TX_EMAIL AS UO_TX_EMAIL,
+		       		UO.CD_CIWA AS UO_CD_CIWA,
+		        	UO.TX_IDARIES AS UO_TX_IDARIES,
+		         	UO.TX_IDENTIFICADOR AS UO_TX_IDENTIFICADOR,
+		          	UO.TX_DIGITOCONTROL AS UO_TX_DIGITOCONTROL,
+		           	UO.FH_INICIOVIGENCIA AS UO_FH_INICIOVIGENCIA,
+		      		UO.FH_FINVIGENCIA AS UO_FH_FINVIGENCIA,
+		       		UO.CD_UO_SUPERIOR AS UO_CD_UO_SUPERIOR,
+		        	UO.CD_TIPOORGANIZA AS UO_CD_TIPOORGANIZA,
+		        	PT.ID_PUESTOSTRABAJO AS PT_ID_PUESTOSTRABAJO,
+		        	PT.CD_PUESTOSTRABAJO AS PT_CD_PUESTOSTRABAJO,
+		        	PT.DS_BREVE AS PT_DS_BREVE,
+		        	PT.DS_EXTENDIDA AS PT_DS_EXTENDIDA
+	
+		    FROM MOADD_EMPLEADOS E
+	
+		    LEFT OUTER JOIN MOADD_UNIDADESORGANIC UO
+			ON E.ID_UNIDADESORGANIC = UO.ID_UNIDADESORGANIC
+	
+		    LEFT OUTER JOIN MOADD_PUESTOSTRABAJO PT
+			ON E.CD_PUESTOSTRABAJO = PT.CD_PUESTOSTRABAJO
+			
+			INNER JOIN MOADD_USUARIOS_CONFTREWA uct
+			ON e.ID_USUARIOS = uct.ID_USUARIOS
+	
+		    WHERE uct.ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL} 
+		    
+		    ORDER BY E.ID_EMPLEADOS
+		]]>
+    </select>
+</mapper>

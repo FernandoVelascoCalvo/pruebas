@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_CONV_VPRESENTA" >
+
+  <!-- Mapeo de las columnas de la tabla MOADR_CONV_VPRESENTA y los datos miembro de la clase VersionPresentaConvocatoria -->
+  <resultMap id="VersionPresentaConvocatoriaResultMap" type="VersionPresentaConvocatoria" >
+	    <result column="ID_CONV_VPRESENTA" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_VERSIONPRESENTA" property="idVersionPresenta" jdbcType="DECIMAL" />
+	    <result column="ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+	    <result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- Inserción de registro en la tabla MOADR_CONV_VPRESENTA -->
+  <insert id="asignarConvocatoriaVersionPresenta" parameterType="VersionPresentaConvocatoria" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal"  order="BEFORE">
+	       SELECT MOAD_SQ_CVPR.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADR_CONV_VPRESENTA (ID_CONV_VPRESENTA, ID_VERSIONPRESENTA,
+    		ID_CONVOCATORIAS, DS_TITULO)
+    values (#{id,jdbcType=DECIMAL}, #{idVersionPresenta,jdbcType=DECIMAL}, #{idConvocatoria,jdbcType=DECIMAL},
+     #{titulo,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- Borrado de registro de la tabla MOADR_CONV_VPRESENTA por el identificador de
+         la versión Present@ y el identificador de la convocatoria -->
+  <delete id="revocarConvocatoriaVersionPresenta" parameterType="VersionPresentaConvocatoria" >
+    delete from MOADR_CONV_VPRESENTA
+    where ID_VERSIONPRESENTA = #{idVersionPresenta,jdbcType=DECIMAL}
+    and ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL}
+  </delete>
+
+</mapper>

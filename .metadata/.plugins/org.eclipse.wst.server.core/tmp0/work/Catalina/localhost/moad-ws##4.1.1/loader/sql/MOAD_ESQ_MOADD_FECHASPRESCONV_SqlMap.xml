@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_FECHASPRESCONV" >
+
+    <!-- Mapeo de las columnas de la tabla MOADD_FECHASPRESCONV y los datos miembro de la clase FechaPresentacionConvocatoria -->
+  <resultMap id="FechaPresentacionConvocatoriaResultMap" type="FechaPresentacionConvocatoria" >
+    <result column="ID_FECHASPRESCONV" property="id" jdbcType="DECIMAL" />
+    <result column="ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+    <result column="FH_INICIO" property="fechaInicio" jdbcType="TIMESTAMP" />
+    <result column="FH_FIN" property="fechaFin" jdbcType="TIMESTAMP" />
+    <result column="TX_OBSERVACIONES" property="observaciones" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <!-- Selección de registro de la tabla MOADD_FECHASPRESCONV por su clave primaria -->
+  <select id="selectByPrimaryKey" resultMap="FechaPresentacionConvocatoriaResultMap" parameterType="FechaPresentacionConvocatoria" >
+    select ID_FECHASPRESCONV,
+      ID_CONVOCATORIAS, FH_INICIO, FH_FIN, TX_OBSERVACIONES
+    from MOADD_FECHASPRESCONV
+    where ID_FECHASPRESCONV = #{id,jdbcType=DECIMAL}
+  </select>
+  
+    <!-- Borrado de registro de la tabla MOADD_FECHASPRESCONV por su clave primaria -->
+  <delete id="deleteByPrimaryKey" parameterType="FechaPresentacionConvocatoria" >
+    delete from MOADD_FECHASPRESCONV
+    where ID_FECHASPRESCONV = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+    <!-- Inserción de registro en la tabla MOADD_FECHASPRESCONV -->
+  <insert id="insert" parameterType="FechaPresentacionConvocatoria" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_FEPC.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADD_FECHASPRESCONV (ID_FECHASPRESCONV,
+      ID_CONVOCATORIAS, FH_INICIO, FH_FIN, TX_OBSERVACIONES)
+    values (#{id,jdbcType=DECIMAL}, #{idConvocatoria,jdbcType=DECIMAL},
+      #{fechaInicio,jdbcType=TIMESTAMP}, #{fechaFin,jdbcType=TIMESTAMP}, #{observaciones,jdbcType=VARCHAR})
+  </insert>
+  
+    <!-- Actualiza un registro de la tabla MOADD_FECHASPRESCONV -->
+  <update id="updateByPrimaryKey" parameterType="FechaPresentacionConvocatoria" >
+    update MOADD_FECHASPRESCONV
+    set ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL},
+      FH_INICIO = #{fechaInicio,jdbcType=TIMESTAMP},
+      FH_FIN = #{fechaFin,jdbcType=TIMESTAMP},
+      TX_OBSERVACIONES = #{observaciones,jdbcType=VARCHAR}
+    where ID_FECHASPRESCONV = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  
+    <!-- Actualiza los campos no nulos de un registro de la tabla MOADD_FECHASPRESCONV -->
+  <update id="updateByPrimaryKeySelective" parameterType="FechaPresentacionConvocatoria" >
+    update MOADD_FECHASPRESCONV
+    <set>
+      <if test="idConvocatoria != null" >
+        ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL},
+      </if>
+       <if test="fechaInicio != null" >
+        FH_INICIO = #{fechaInicio,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fechaFin != null" >
+        FH_FIN = #{fechaFin,jdbcType=TIMESTAMP},
+      </if>
+       <if test="observaciones != null" >
+        TX_OBSERVACIONES = #{observaciones,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_FECHASPRESCONV = #{id}
+  </update>
+  
+  	<!-- Obtiene un registro de la tabla MOADD_FECHASPRESCONV dado el idConvocatoria -->
+	<select id="selectByIdConvocatoria" resultMap="FechaPresentacionConvocatoriaResultMap" parameterType="java.math.BigDecimal" >
+    	select ID_FECHASPRESCONV, ID_CONVOCATORIAS, FH_INICIO, FH_FIN, TX_OBSERVACIONES
+        from MOADD_FECHASPRESCONV
+        where ID_CONVOCATORIAS = #{value} AND rownum = 1
+        order by ID_FECHASPRESCONV desc
+  </select>
+  
+</mapper>

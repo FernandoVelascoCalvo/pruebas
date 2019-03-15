@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PREFERENCIAS" >
+
+	<resultMap id="PreferenciasResultMap" type="Preferencia" >
+		<result column="ID_PREFERENCIAS" property="id" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="TX_VALOR" property="valor" jdbcType="VARCHAR" />
+		<result column="TX_AMBITO" property="ambito" jdbcType="VARCHAR" />
+		<result column="TX_TIPOJAVA" property="tipoJava" jdbcType="VARCHAR" />
+		<result column="TX_TIPOORACLE" property="tipoOracle" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- Obtiene un parametro -->
+	<select id="obtenerValorParametro"
+			resultType="java.lang.String"
+			parameterType="Preferencia">
+		select TX_VALOR
+		from MOADD_PREFERENCIAS
+		where ID_PREFERENCIAS = #{id,jdbcType=DECIMAL}
+	</select>
+	
+</mapper>

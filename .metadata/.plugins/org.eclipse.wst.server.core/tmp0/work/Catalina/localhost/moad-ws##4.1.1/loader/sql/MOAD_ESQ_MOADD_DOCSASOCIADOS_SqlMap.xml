@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_DOCSASOCIADOS" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_DOCSASOCIADOS -->
+  <resultMap id="DocsAsociadosResultMap" type="DocsAsociados" >
+	    <result column="ID_DOCSASOCIADOS" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="NU_ORDEN" property="orden" jdbcType="DECIMAL" />
+	    <result column="CD_ESTADOOBLIGATO" property="cdEstadoObligatorio" jdbcType="VARCHAR" />
+	    <result column="LG_COMPULSABLE" property="compulsable" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Mapeo de las columnas de la tabla MOADD_DOCSASOCIADOS -->
+  <resultMap id="EstadosObligatoResultMap" type="EstadosObligatorios" >
+	    <result column="CD_ESTADOOBLIGATO" property="cdEstadoObligatorio" jdbcType="VARCHAR" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!-- Inserción de registro en la tabla MOADD_DOCSASOCIADOS -->
+  <insert id="insertarDocsAsociado" parameterType="DocsAsociados" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_DOCS.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_DOCSASOCIADOS 
+    	(ID_DOCSASOCIADOS, ID_PROCEDIMIENTOS, DS_NOMBRE,
+      	 DS_DESCRIPCION, NU_ORDEN, CD_ESTADOOBLIGATO, LG_COMPULSABLE)
+    values (#{id,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR},
+      		#{descripcion,jdbcType=VARCHAR}, #{orden,jdbcType=DECIMAL}, #{cdEstadoObligatorio,jdbcType=CHAR}
+	        <if test="compulsable != null">
+	      	    ,#{compulsable,typeHandler=SiNOHandler}
+	        </if>
+	        )
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_DOCSASOCIADOS -->
+  <update id="actualizarDocsAsociado" parameterType="DocsAsociados" >
+     update MOADD_DOCSASOCIADOS
+     set ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL},
+         DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+         DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+         NU_ORDEN = #{orden,jdbcType=DECIMAL},
+      	 CD_ESTADOOBLIGATO = #{cdEstadoObligatorio,jdbcType=CHAR}
+         <if test="compulsable != null">
+            ,LG_COMPULSABLE = #{compulsable,typeHandler=SiNOHandler}
+         </if>
+     where ID_DOCSASOCIADOS = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registro de la tabla MOADD_DOCSASOCIADOS por su clave primaria -->
+  <select id="obtenerDocsAsociado" resultMap="DocsAsociadosResultMap" parameterType="java.math.BigDecimal" >
+    select ID_DOCSASOCIADOS, ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION,
+    	   NU_ORDEN, CD_ESTADOOBLIGATO, LG_COMPULSABLE
+    from MOADD_DOCSASOCIADOS
+    where ID_DOCSASOCIADOS = #{value}
+  </select>
+
+  <!-- Selección de registros de la tabla MOADD_DOCSASOCIADOS a partir del campo ID_PROCEDIMIENTOS-->
+  <select id="obtenerDocsAsociadosPorProcedimiento" resultMap="DocsAsociadosResultMap" parameterType="java.math.BigDecimal" >    
+    select ID_DOCSASOCIADOS, ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION,
+    	   NU_ORDEN, CD_ESTADOOBLIGATO, LG_COMPULSABLE
+    from MOADD_DOCSASOCIADOS
+    where ID_PROCEDIMIENTOS = #{value} 
+    order by DS_NOMBRE
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_DOCSASOCIADOS por su clave primaria -->
+  <delete id="borrarDocsAsociado" parameterType="java.math.BigDecimal" >
+    delete from MOADD_DOCSASOCIADOS
+    where ID_DOCSASOCIADOS = #{value}
+  </delete>
+
+  <!-- Obtiene todos los estados obligatorios que puede tener un documento -->
+  <select id="obtenerEstadosObligatorios" resultMap="EstadosObligatoResultMap">
+    select CD_ESTADOOBLIGATO, DS_NOMBRE
+    from MOADD_ESTADOSOBLIGATO
+    order by CD_ESTADOOBLIGATO
+  </select>
+</mapper>

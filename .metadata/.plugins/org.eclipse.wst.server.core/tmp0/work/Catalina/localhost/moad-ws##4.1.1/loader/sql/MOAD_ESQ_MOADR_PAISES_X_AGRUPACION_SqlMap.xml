@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_PAISES_X_AGRUPACION">
+
+	<!-- ResultMap del modelo PaisAgrupacion -->
+	<resultMap id="PaisXAgrupacionResultMap" type="PaisAgrupacion">
+		<result column="X_PAAG" property="id" jdbcType="DECIMAL" />
+		<result column="AGPA_X_AGPA" property="idAgrupacion" jdbcType="DECIMAL" />
+		<result column="PAIS_X_ID_PAISES" property="idPais" jdbcType="DECIMAL" />
+		<result column="F_INICIO" property="fechaInicio" jdbcType="DATE" />
+		<result column="F_FIN" property="fechaFin" jdbcType="DATE" />
+	</resultMap>
+
+
+</mapper>

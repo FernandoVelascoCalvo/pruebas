@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PROVINCIAS" >
+
+	<!-- ResultMap para los provincias -->
+	<resultMap id="ProvinciaResultMap" type="Provincia" >
+		<result column="ID_PROVINCIAS" property="id" jdbcType="DECIMAL" />
+		<result column="CD_PROVINCIA" property="cdProvincia" jdbcType="CHAR" />
+		<result column="DS_BREVE" property="descripcionBreve" jdbcType="VARCHAR" />
+		<result column="DS_EXTENDIDA" property="descripcionExtendida" jdbcType="VARCHAR" />
+		<result column="CD_PAIS" property="cdPais" jdbcType="CHAR" />
+	</resultMap>
+  
+	<!-- Obtiene las provincias de un pais -->  
+	<select id="obtenerProvinciasPorPais" resultMap="ProvinciaResultMap" parameterType="java.lang.String">
+		select ID_PROVINCIAS, 
+			   CD_PROVINCIA, 
+			   DS_BREVE, 
+			   DS_EXTENDIDA, 
+			   CD_PAIS
+		from MOADD_PROVINCIAS
+		where CD_PAIS = #{value} ORDER BY DS_BREVE
+	</select>
+  
+</mapper>

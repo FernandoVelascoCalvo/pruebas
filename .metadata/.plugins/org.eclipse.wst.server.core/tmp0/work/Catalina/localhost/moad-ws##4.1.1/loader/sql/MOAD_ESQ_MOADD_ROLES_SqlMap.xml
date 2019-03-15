@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_ROLES" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="RolResultMap" type="Rol" >
+    <result column="ID_ROLES" property="id" jdbcType="DECIMAL" />
+    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="RolResultMap" parameterType="Rol" >
+    select ID_ROLES, DS_NOMBRE, DS_DESCRIPCION
+    from MOADD_ROLES
+    where ID_ROLES = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="Rol" >
+    <!-- Borra un registro de la Base de Datos -->
+    delete from MOADD_ROLES
+    where ID_ROLES = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="Rol" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_ROLE.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_ROLES (ID_ROLES, DS_NOMBRE, DS_DESCRIPCION)
+    values (#{id,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="Rol" >
+    <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+    update MOADD_ROLES
+    set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+    where ID_ROLES = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="Rol" >
+    update MOADD_ROLES
+    <set>
+      <if test="nombre != null">
+        DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcion != null">
+        ,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_ROLES = #{id,jdbcType=DECIMAL}
+  </update>
+
+    <!-- Selecciona un registro de la Base de Datos por idUsuarios y por idProcedimiento -->
+    <select id="obtenerRolesDeUsuario" resultMap="RolResultMap" parameterType="map" >
+	    select r.ID_ROLES, r.DS_NOMBRE, r.DS_DESCRIPCION
+	    from MOADD_ROLES r
+	    inner join MOADR_ROL_USUA_PROC rup
+		on r.ID_ROLES = rup.ID_ROLES
+		where rup.id_procedimientos = #{idProcedimiento}
+		and rup.cd_usuarios = #{cdUsuario} ORDER BY r.DS_NOMBRE
+  	</select>
+  	
+  <!-- Sql a incluir en otras acciones -->
+  <sql id="whereFiltro">
+   	<where>
+	   <if test="nombre != null">
+			DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+		</if>
+		<if test="descripcion != null">
+			OR DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+		</if>
+	</where>
+  </sql>	  	
+  	
+	<!-- Selecciona los roles que cumplen las condiciones de filtrado-->
+	<select id="obtenerRolesPaginada"
+			resultMap="RolResultMap" 
+			parameterType="RolFiltroPaginable">
+		select r.ID_ROLES, r.DS_NOMBRE, r.DS_DESCRIPCION 
+		from MOADD_ROLES r inner join MOADR_ROL_USUA_PROC
+			rup on r.ID_ROLES = rup.ID_ROLES 
+		<include refid="whereFiltro"/>
+		 ORDER BY r.DS_NOMBRE
+	</select>
+	
+	<!-- Cuenta los roles que cumplen las condiciones de filtrado -->
+	<select id="obtenerRolesCount"
+			resultType="java.math.BigDecimal" parameterType="RolFiltroPaginable">
+		select count(r.ID_ROLES) 
+		from MOADD_ROLES r inner join MOADR_ROL_USUA_PROC
+			rup on r.ID_ROLES = rup.ID_ROLES
+		<include refid="whereFiltro"/> 		
+		
+	</select>  	
+
+  <!-- Consulta una lista de registros definidos por por su identificador -->
+  <select id="selectByFilter" resultMap="RolResultMap" parameterType="Rol" >
+    select ID_ROLES, DS_NOMBRE, DS_DESCRIPCION
+    from MOADD_ROLES
+	<include refid="whereFiltro"/>
+	ORDER BY DS_NOMBRE
+  </select>
+
+  <!-- Consulta una lista de registros definidos por por su identificador -->
+  <select id="selectByFilterString" resultMap="RolResultMap" parameterType="string">
+    select ID_ROLES, DS_NOMBRE, DS_DESCRIPCION
+    from MOADD_ROLES
+    WHERE UPPER(DS_NOMBRE) LIKE UPPER('%${value}%')
+    OR UPPER(DS_DESCRIPCION) LIKE UPPER('%${value}%')
+    ORDER BY DS_NOMBRE
+  </select>
+
+</mapper>

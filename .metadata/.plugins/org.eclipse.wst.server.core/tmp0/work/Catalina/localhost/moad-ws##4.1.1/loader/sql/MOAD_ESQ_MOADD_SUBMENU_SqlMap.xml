@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_SUBMENU">
+
+	<!-- Mapeo de las columnas de la tabla MOADD_SUBMENU y los datos miembro de la clase MoaddSubMenu -->
+	<resultMap id="SubMenuResultMap" type="SubMenu">
+		<result column="ID_SUBMENU" property="id" jdbcType="DECIMAL" />
+		<result column="ID_MENU" property="idMenu" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="DS_URL" property="url" jdbcType="VARCHAR" />
+		<result column="NU_ORDEN" property="orden" jdbcType="INTEGER" />
+		<result column="LG_ACTIVADO" property="activado" javaType="boolean" jdbcType="CHAR" />
+		<result column="LG_ENOTRAVENTANA" property="enOtraVentana" javaType="boolean" jdbcType="CHAR" />
+	</resultMap>
+
+	<!-- Selección de registro de la tabla MOADD_SUBMENU por su clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="SubMenuResultMap" parameterType="SubMenu">
+		select ID_SUBMENU, ID_MENU, DS_NOMBRE, DS_DESCRIPCION, DS_URL, NU_ORDEN, LG_ACTIVADO, LG_ENOTRAVENTANA
+		from MOADD_SUBMENU
+		where ID_SUBMENU = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Borrado de registro de la tabla MOADD_SUBMENU por su clave primaria -->
+	<delete id="deleteByPrimaryKey" parameterType="SubMenu">
+		delete from MOADD_SUBMENU
+		where ID_SUBMENU = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- Borrado de registro de la tabla MOADD_SUBMENU por su menu -->
+	<delete id="deleteByMenu" parameterType="SubMenu">
+		delete from MOADD_SUBMENU
+		where ID_MENU = #{idMenu,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- Inserción de registro en la tabla MOADD_MENU -->
+	<insert id="insert" parameterType="SubMenu">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_SUME.NEXTVAL FROM DUAL
+		</selectKey>
+
+		insert into MOADD_SUBMENU (ID_SUBMENU, ID_MENU, DS_NOMBRE, DS_DESCRIPCION,
+		DS_URL, NU_ORDEN, LG_ACTIVADO, LG_ENOTRAVENTANA)
+		values (#{id,jdbcType=DECIMAL},#{idMenu,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR}, #{orden,jdbcType=INTEGER}, #{activado,typeHandler=SiNOHandler}, #{enOtraVentana,typeHandler=SiNOHandler})
+	</insert>
+
+	<!-- Actualiza un registro de la tabla MOADD_SUBMENU -->
+	<update id="updateByPrimaryKey" parameterType="SubMenu">
+		update MOADD_SUBMENU
+		set DS_NOMBRE= #{nombre,jdbcType=VARCHAR}, DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}, DS_URL = #{url,jdbcType=VARCHAR},
+		NU_ORDEN = #{orden,jdbcType=INTEGER}, LG_ACTIVADO = #{activado,typeHandler=SiNOHandler}, ID_MENU=#{idMenu,jdbcType=DECIMAL}, LG_ENOTRAVENTANA = #{enOtraVentana,typeHandler=SiNOHandler}
+		where ID_SUBMENU = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Actualiza los campos no nulos de un registro de la tabla MOADD_SUBMENU -->
+	<update id="updateByPrimaryKeySelective" parameterType="SubMenu">
+		update MOADD_SUBMENU
+		<set>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+			</if>
+			<if test="descripcion != null">
+				,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+			</if>
+			<if test="url != null">
+				,DS_URL = #{url,jdbcType=VARCHAR}
+			</if>
+			<if test="orden != null">
+				,NU_ORDEN = #{orden,jdbcType=INTEGER}
+			</if>
+			<if test="activado != null">
+				,LG_ACTIVADO = #{activado,typeHandler=SiNOHandler}
+			</if>
+			<if test="idMenu != null">
+				,ID_MENU = #{idMenu,jdbcType=DECIMAL}
+			</if>
+			<if test="enOtraVentana != null">
+				,LG_ENOTRAVENTANA = #{enOtraVentana,typeHandler=SiNOHandler}
+			</if>
+		</set>
+		where ID_SUBMENU = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Selección de registros de la tabla MOADD_SUBMENU -->
+	<select id="obtenerSubMenu" resultMap="SubMenuResultMap" parameterType="SubMenu">
+		select ID_SUBMENU, ID_MENU, DS_NOMBRE, DS_DESCRIPCION, DS_URL, NU_ORDEN, LG_ACTIVADO, LG_ENOTRAVENTANA
+		from MOADD_SUBMENU where ID_MENU=#{idMenu,jdbcType=DECIMAL} ORDER BY NU_ORDEN, DS_NOMBRE
+	</select>
+
+	<select id="obtenerSubMenuActivo" resultMap="SubMenuResultMap" parameterType="SubMenu">
+		select ID_SUBMENU, ID_MENU, DS_NOMBRE, DS_DESCRIPCION, DS_URL, NU_ORDEN, LG_ACTIVADO, LG_ENOTRAVENTANA
+		from MOADD_SUBMENU where ID_MENU=#{idMenu,jdbcType=DECIMAL} and LG_ACTIVADO='S' ORDER BY NU_ORDEN, DS_NOMBRE
+	</select>
+
+	<select id="selectBySubMenu" resultMap="SubMenuResultMap" parameterType="string">
+		select ID_SUBMENU, ID_MENU,DS_NOMBRE, DS_DESCRIPCION, DS_URL, NU_ORDEN, LG_ACTIVADO, LG_ENOTRAVENTANA
+		from MOADD_SUBMENU
+		where DS_NOMBRE = #{value} ORDER BY NU_ORDEN, DS_NOMBRE
+	</select>
+
+</mapper>

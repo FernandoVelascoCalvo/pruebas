@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_TIDENTIFIC_PERF" >
+  <!-- 
+    	Mapeo de las columnas de la tabla MOADR_TIDENTIFIC_PERF y los datos miembro de la clase TipoIdentificaPerfil
+    -->
+  <resultMap id="TipoIdentificaPerfilResultMap" type="TipoIdentificaPerfil" >
+    <result column="ID_TIDENTIFIC_PERF" property="id" jdbcType="DECIMAL" />
+    <result column="ID_TIPOSIDENTIFICA" property="idTipoIdentifica" jdbcType="DECIMAL" />
+    <result column="ID_PERFILES" property="idPerfil" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!--  Relacion entre las columnas de la tabla con los datos miembro de las clases   -->
+	<resultMap id="TipoIdentificacionResultMap" type="TipoIdentificacion" >
+		<result column="ID_TIPOSIDENTIFICA" property="id" jdbcType="DECIMAL" />    
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+  
+  <!--
+      Selección de registro de la tabla MOADR_TIDENTIFIC_PERF
+    -->
+  <select id="obtenerTiposIdentificacionAsignadosAPerfil" resultMap="TipoIdentificacionResultMap" parameterType="java.math.BigDecimal" >
+    
+    select TI.ID_TIPOSIDENTIFICA, TI.DS_NOMBRE, TI.DS_DESCRIPCION
+    from MOADR_TIDENTIFIC_PERF TP
+     join MOADD_TIPOSIDENTIFICA TI on 
+     (TP.ID_TIPOSIDENTIFICA = TI.ID_TIPOSIDENTIFICA)
+    where TP.ID_PERFILES = #{value}
+  </select>
+  
+  <!--
+      Selección de registro de la tabla MOADR_TIDENTIFIC_PERF
+    -->
+  <select id="obtenerTiposIdentificacionAsignablesAPerfil" resultMap="TipoIdentificacionResultMap" parameterType="java.math.BigDecimal" >
+    
+    select ID_TIPOSIDENTIFICA, DS_NOMBRE, DS_DESCRIPCION
+    from MOADD_TIPOSIDENTIFICA
+    where ID_TIPOSIDENTIFICA NOT IN
+     (select TI.ID_TIPOSIDENTIFICA
+    	from MOADR_TIDENTIFIC_PERF TP
+     	join MOADD_TIPOSIDENTIFICA TI on 
+     	(TP.ID_TIPOSIDENTIFICA = TI.ID_TIPOSIDENTIFICA)
+    	where TP.ID_PERFILES = #{value})
+  </select>
+  
+  <!--
+      Borrado de registro de la tabla MOADR_TIDENTIFIC_PERF
+    -->
+  <delete id="revocarTipoIdentificacionPerfil" parameterType="TipoIdentificaPerfil" >
+    
+    delete from MOADR_TIDENTIFIC_PERF
+    where ID_TIPOSIDENTIFICA = #{idTipoIdentifica,jdbcType=DECIMAL}
+    and ID_PERFILES = #{idPerfil,jdbcType=DECIMAL}
+  </delete>
+  
+  <!--
+      Inserción de registro en la tabla MOADR_TIDENTIFIC_PERF
+    -->
+  <insert id="asignarTipoIdentificacionPerfil" parameterType="TipoIdentificaPerfil" >
+    
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TIPE.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADR_TIDENTIFIC_PERF (ID_TIDENTIFIC_PERF, ID_TIPOSIDENTIFICA, ID_PERFILES)
+    values (#{id,jdbcType=DECIMAL}, #{idTipoIdentifica,jdbcType=DECIMAL}, #{idPerfil,jdbcType=DECIMAL})
+  </insert>
+  
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_ANEXOS" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_ANEXOS y los datos miembro de la clase Anexo -->
+  <resultMap id="AnexoResultMap" type="Anexo" >
+	    <result column="ID_ANEXOS" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_VERSIONPRESENTA" property="idVersionPresenta" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="NU_ORDEN" property="orden" jdbcType="DECIMAL" />
+	    <result column="LG_OBLIGATORIO" property="obligatorio" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_COMPULSABLE" property="compulsable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="DS_NOMBREFASE" property="nombreFase" jdbcType="VARCHAR" />
+	    <result column="NU_TAMMAXIMO" property="tamMaximo" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <!-- Inserción de registro en la tabla MOADD_ANEXOS -->
+  <insert id="insertarAnexo" parameterType="Anexo" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_ANEX.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_ANEXOS (ID_ANEXOS, ID_VERSIONPRESENTA, DS_NOMBRE,
+      DS_DESCRIPCION, NU_ORDEN, DS_NOMBREFASE, NU_TAMMAXIMO, LG_OBLIGATORIO, LG_COMPULSABLE)
+    values (#{id,jdbcType=DECIMAL}, #{idVersionPresenta,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR},
+      #{descripcion,jdbcType=VARCHAR}, #{orden,jdbcType=DECIMAL}, #{nombreFase,jdbcType=VARCHAR}, #{tamMaximo,jdbcType=DECIMAL}
+      <if test="obligatorio != null ">
+      	,#{obligatorio,typeHandler=SiNOHandler}
+      </if>
+      <if test="compulsable != null ">
+      	,#{compulsable,typeHandler=SiNOHandler}
+      </if>
+      )
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_ANEXOS -->
+  <update id="actualizarAnexo" parameterType="Anexo" >
+    update MOADD_ANEXOS
+    set ID_VERSIONPRESENTA = #{idVersionPresenta,jdbcType=DECIMAL},
+      DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      NU_ORDEN = #{orden,jdbcType=DECIMAL},
+      NU_TAMMAXIMO = #{tamMaximo,jdbcType=DECIMAL},
+      DS_NOMBREFASE = #{nombreFase,jdbcType=VARCHAR}
+      <if test="obligatorio != null ">
+      	,LG_OBLIGATORIO = #{obligatorio,typeHandler=SiNOHandler}
+      </if>
+       <if test="compulsable != null ">
+      	,LG_COMPULSABLE = #{compulsable,typeHandler=SiNOHandler}
+      </if>
+    where ID_ANEXOS = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registro de la tabla MOADD_ANEXOS por su clave primaria -->
+  <select id="obtenerAnexo" resultMap="AnexoResultMap" parameterType="java.math.BigDecimal" >
+    select ID_ANEXOS, ID_VERSIONPRESENTA, DS_NOMBRE, DS_DESCRIPCION,
+    	NU_ORDEN, LG_OBLIGATORIO, LG_COMPULSABLE, DS_NOMBREFASE, NU_TAMMAXIMO
+    from MOADD_ANEXOS
+    where ID_ANEXOS = #{value}
+  </select>
+
+  <!-- Selección de registros de la tabla MOADD_ANEXOS a partir del campo ID_VERSIONPRESENTA-->
+  <select id="obtenerAnexos" resultMap="AnexoResultMap" parameterType="java.math.BigDecimal" >
+    select ID_ANEXOS, ID_VERSIONPRESENTA, DS_NOMBRE, DS_DESCRIPCION,
+    	NU_ORDEN, LG_OBLIGATORIO, LG_COMPULSABLE, DS_NOMBREFASE, NU_TAMMAXIMO
+    from MOADD_ANEXOS
+    where ID_VERSIONPRESENTA = #{value} ORDER BY DS_NOMBRE
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_ANEXOS por su clave primaria -->
+  <delete id="borrarAnexo" parameterType="java.math.BigDecimal" >
+    delete from MOADD_ANEXOS
+    where ID_ANEXOS = #{value}
+  </delete>
+
+</mapper>

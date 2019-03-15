@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<!--  Modelo de clases -->
+		<typeAlias alias="Accion" type="es.ja.cice.pct.moad.model.Accion" />
+		<typeAlias alias="AccionRol" type="es.ja.cice.pct.moad.model.relation.AccionRol" />
+		<typeAlias alias="AgrupacionPais" type="es.ja.cice.pct.moad.model.AgrupacionPais" />
+		<typeAlias alias="Anexo" type="es.ja.cice.pct.moad.model.Anexo" />
+		<typeAlias alias="Aplicacion" type="es.ja.cice.pct.moad.model.Aplicacion" />
+		<typeAlias alias="Auditoria" type="es.ja.cice.pct.moad.model.Auditoria" />
+		<typeAlias alias="CampoListado" type="es.ja.cice.pct.moad.model.CampoListadoImpl" />
+		<typeAlias alias="Configuracion" type="es.ja.cice.pct.moad.model.ConfiguracionImpl" />
+		<typeAlias alias="Contrasena" type="es.ja.cice.pct.moad.model.Contrasena" />
+		<typeAlias alias="Convocatoria" type="es.ja.cice.pct.moad.model.ConvocatoriaImpl" />
+		<typeAlias alias="ConvocatoriaPerfil" type="es.ja.cice.pct.moad.model.view.ConvocatoriaPerfil" />
+		<typeAlias alias="DocsAsociados" type="es.ja.cice.pct.moad.model.DocsAsociados" />
+		<typeAlias alias="Empleado" type="es.ja.cice.pct.moad.model.EmpleadoImpl" />
+		<typeAlias alias="EstadosObligatorios" type="es.ja.cice.pct.moad.model.EstadosObligatorios" />
+		<typeAlias alias="EstadoUsuario" type="es.ja.cice.pct.moad.model.EstadoUsuario" />
+		<typeAlias alias="FechaPresentacionConvocatoria" type="es.ja.cice.pct.moad.model.FechaPresentacionConvocatoria" />
+		<typeAlias alias="Funcionalidad" type="es.ja.cice.pct.moad.model.Funcionalidad" />
+		<typeAlias alias="FuncionalidadAccion" type="es.ja.cice.pct.moad.model.relation.FuncionalidadAccion" />
+		<typeAlias alias="FuncionalidadRol" type="es.ja.cice.pct.moad.model.relation.FuncionalidadRol" />
+		<typeAlias alias="Herramienta" type="es.ja.cice.pct.moad.model.HerramientaImpl" />
+		<typeAlias alias="InstHerramienta" type="es.ja.cice.pct.moad.model.InstHerramientaImpl" />
+		<typeAlias alias="InstParametro" type="es.ja.cice.pct.moad.model.InstParametroImpl" />
+		<typeAlias alias="Listado" type="es.ja.cice.pct.moad.model.ListadoImpl" />
+		<typeAlias alias="ListadoProcedimiento" type="es.ja.cice.pct.moad.model.relation.ListadoProcedimiento" />
+		<typeAlias alias="Municipio" type="es.ja.cice.pct.moad.model.Municipio" />
+		<typeAlias alias="OficinaRegistro" type="es.ja.cice.pct.moad.model.OficinaRegistro" />
+		<typeAlias alias="Orden" type="es.ja.cice.pct.moad.model.OrdenImpl" />
+		<typeAlias alias="Pais" type="es.ja.cice.pct.moad.model.Pais" />
+		<typeAlias alias="PaisAgrupacion" type="es.ja.cice.pct.moad.model.relation.PaisAgrupacion" />
+		<typeAlias alias="Parametro" type="es.ja.cice.pct.moad.model.ParametroImpl" />
+		<typeAlias alias="Perfil" type="es.ja.cice.pct.moad.model.PerfilImpl" />
+		<typeAlias alias="PerfilUsu" type="es.ja.cice.pct.moad.model.PerfilUsu" />
+		<typeAlias alias="PerfusuPri" type="es.ja.cice.pct.moad.model.relation.PerfusuPri" />
+		<typeAlias alias="PerfusuUsu" type="es.ja.cice.pct.moad.model.relation.PerfusuUsu" />
+		<typeAlias alias="Plantilla" type="es.ja.cice.pct.moad.model.Plantilla" />
+		<typeAlias alias="Privilegio" type="es.ja.cice.pct.moad.model.Privilegio" />
+		<typeAlias alias="Procedimiento" type="es.ja.cice.pct.moad.model.ProcedimientoImpl" />
+		<typeAlias alias="Provincia" type="es.ja.cice.pct.moad.model.Provincia" />
+		<typeAlias alias="PuestoTrabajo" type="es.ja.cice.pct.moad.model.PuestoTrabajoImpl" />
+		<typeAlias alias="PuestoTrabajoUO" type="es.ja.cice.pct.moad.model.relation.PuestoTrabajoUO" />
+		<typeAlias alias="PuestoTrabajoUOView" type="es.ja.cice.pct.moad.model.view.PuestoTrabajoUO" />
+		<typeAlias alias="RegistroAcceso" type="es.ja.cice.pct.moad.model.RegistroAcceso" />
+		<typeAlias alias="Rol" type="es.ja.cice.pct.moad.model.Rol" />
+		<typeAlias alias="RolFiltroPaginable" type="es.ja.cice.pct.moad.model.paginable.RolFiltroPaginable" />
+		<typeAlias alias="RolUsuarioProcedimiento" type="es.ja.cice.pct.moad.model.relation.RolUsuarioProcedimiento" />
+		<typeAlias alias="TipoCertificado" type="es.ja.cice.pct.moad.model.TipoCertificado" />
+		<typeAlias alias="Menu" type="es.ja.cice.pct.moad.model.Menu" />
+		<typeAlias alias="SubMenu" type="es.ja.cice.pct.moad.model.SubMenu" />
+		<typeAlias alias="TipoCertProcedimiento" type="es.ja.cice.pct.moad.model.relation.TipoCertProcedimiento" />
+		<typeAlias alias="TipoCertProcedimientoPerfil" type="es.ja.cice.pct.moad.model.relation.TipoCertProcedimientoPerfil" />
+		<typeAlias alias="TipoHerramienta" type="es.ja.cice.pct.moad.model.TipoHerramientaImpl" />
+		<typeAlias alias="TipoIdentificacion" type="es.ja.cice.pct.moad.model.TipoIdentificacion" />
+		<typeAlias alias="TipoIdentificaPerfil" type="es.ja.cice.pct.moad.model.relation.TipoIdentificaPerfil" />
+		<typeAlias alias="TipoOrganismo" type="es.ja.cice.pct.moad.model.TipoOrganismo" />
+		<typeAlias alias="TipoOrganizacion" type="es.ja.cice.pct.moad.model.TipoOrganizacion" />
+		<typeAlias alias="TipoProcedimiento" type="es.ja.cice.pct.moad.model.TipoProcedimiento" />
+		<typeAlias alias="TipoVia" type="es.ja.cice.pct.moad.model.TipoVia" />
+		<typeAlias alias="Tramite" type="es.ja.cice.pct.moad.model.Tramite" />
+		<typeAlias alias="UnidadOrganicaArbol" type="es.ja.cice.pct.moad.model.view.UnidadOrganicaArbol" />
+		<typeAlias alias="UnidadOrganica" type="es.ja.cice.pct.moad.model.UnidadOrganicaImpl" />
+		<typeAlias alias="Usuario" type="es.ja.cice.pct.moad.model.UsuarioImpl" />
+		<typeAlias alias="UsuarioPerfil" type="es.ja.cice.pct.moad.model.relation.UsuarioPerfil" />
+		<typeAlias alias="VersionPresenta" type="es.ja.cice.pct.moad.model.VersionPresenta" />
+		<typeAlias alias="VersionPresentaConvocatoria" type="es.ja.cice.pct.moad.model.relation.VersionPresentaConvocatoria" />
+		<typeAlias alias="UsuarioFiltroPaginable" type="es.ja.cice.pct.moad.model.paginable.UsuarioFiltroPaginable" />
+		<typeAlias alias="PerfilPaginable" type="es.ja.cice.pct.moad.model.paginable.PerfilPaginable" />
+		<typeAlias alias="Preferencia" type="es.ja.cice.pct.moad.model.Preferencia" />
+		<typeAlias alias="ClaveCifrado" type="es.ja.cice.pct.moad.model.ClaveCifradoImpl" />
+		<typeAlias alias="ConfiguracionTrewa" type="es.ja.cice.pct.moad.model.ConfiguracionTrewa" />
+		<typeAlias alias="UsuarioConfTrewa" type="es.ja.cice.pct.moad.model.relation.UsuarioConfTrewa" />
+		<typeAlias alias="InstanciaParametro" type="es.ja.cice.pct.moad.model.InstParametroImpl" />
+		<typeAlias alias="InstanciaHerramienta" type="es.ja.cice.pct.moad.model.InstHerramientaImpl" />
+		<typeAlias alias="RolProcedimiento" type="es.ja.cice.pct.moad.model.view.RolProcedimiento" />
+		<typeAlias alias="EstadoElaboracionENI" type="es.ja.cice.pct.moad.model.EstadoElaboracionENI" />
+		<typeAlias alias="FormatosDocENI" type="es.ja.cice.pct.moad.model.FormatosDocENI" />
+		<typeAlias alias="TipoDocumentalENI" type="es.ja.cice.pct.moad.model.TipoDocumentalENI" />
+		<typeAlias alias="DocumentoTramiteENI" type="es.ja.cice.pct.moad.model.DocumentoTramiteENI" />
+	
+		<!--  Clases de soporte a la capa de seguridad -->
+		<typeAlias alias="UsuarioAutorizado" type="es.ja.cice.pct.moad.model.security.UsuarioAutorizado" />
+	
+		<!--  Classes de soporte a la capa común de seguridad -->
+		<typeAlias alias="Ticket" type="es.ja.cice.pct.common.security.model.Ticket" />
+		
+		<typeAlias alias="SiNOHandler" type="es.ja.cice.pct.moad.dao.ibatis.handler.SiNoBoolTypeHandlerCallback"/>
+			
+	</typeAliases>
+	
+	<typeHandlers> 	
+		<typeHandler javaType="boolean" jdbcType="CHAR" handler="es.ja.cice.pct.moad.dao.ibatis.handler.SiNoBoolTypeHandlerCallback" />
+	</typeHandlers>
+	
+	<mappers>
+	    <!-- Identify all SQL Map XML files to be loaded by this SQL map. Relative to classpath -->
+	    <mapper resource="sql/MOAD_ESQ_MOADD_ACCIONES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_AGRUPACIONES_PAIS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_ANEXOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_APLICACIONES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_AUDITORIA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_CAMPOSLISTADO_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_CONFIGURACIONES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_CONTRASENAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_CONVOCATORIAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_DOCSASOCIADOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_EMPLEADOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_FECHASPRESCONV_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_FUNCIONALIDADES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_HERRAMIENTAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_INSTHERRAMIENTA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_INSTPARAM_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_LISTADOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_MUNICIPIOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_ORDENES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_OFICINASREGISTR_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PAISES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PARAMETROS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PERFILES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PERFILES_USU_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_PERFUSU_PRI_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_PERFUSU_USU_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PLANTILLASPDF_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PREFERENCIAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PRIVILEGIOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PROCEDIMIENTOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PROVINCIAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PUESTOSTRABAJO_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_PUESTRAB_UNIORG_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_REGACCESOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_ROLES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TICKETS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSCERTIFICADO_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSHERRAMIENTAS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSIDENTIFICA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSORGANISMO_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSORGANIZA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TIPOSVIA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_TRAMITES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_UNIDADESORGANIC_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_USUARIOS_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_MENU_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_SUBMENU_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_CONFTREWA_SqlMap.xml"/>
+		<mapper resource="sql/MOAD_ESQ_MOADR_USUARIO_CONFTREWA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADD_VERSIONPRESENTA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ACCIONES_ROLES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_CONV_VPRESENTA_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_FUNCS_ACCIONES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_FUNCS_ROLES_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_LISTAD_PROCEDI_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_PAISES_X_AGRUPACION_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ROL_USUA_PROC_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_TCERT_PROC_PERF_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_TIDENTIFIC_PERF_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_TIPOCERT_PROCED_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_USUARIO_PERFIL_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ENI_ESTADO_ELABORACION_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ENI_FORMATOS_DOC_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ENI_TIPO_DOCUMENTAL_SqlMap.xml"/>
+	    <mapper resource="sql/MOAD_ESQ_MOADR_ENI_DOCU_TRAMITA_SqlMap.xml"/>
+	</mappers>
+</configuration>

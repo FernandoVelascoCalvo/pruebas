@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_TIPOSVIA" >
+
+	<!-- ResultMap para los tipos de via -->
+	<resultMap id="TipoViaResultMap" type="TipoVia" >
+		<result column="ID_TIPOSVIA" property="id" jdbcType="DECIMAL" />    
+		<result column="CD_TIPOVIA" property="cdTipoVia" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="LG_OBSOLETO" property="obsoleto" javaType="boolean" jdbcType="CHAR" />
+		<result column="CD_NIWA" property="cdNiwa" jdbcType="VARCHAR" />
+	</resultMap>  
+  
+	<!-- Selecciona todos los registros de la tabla -->  
+	<select id="obtenerTiposVia" resultMap="TipoViaResultMap" >
+		select ID_TIPOSVIA, 
+		       CD_TIPOVIA, 
+		       DS_DESCRIPCION, 
+		       LG_OBSOLETO, 
+		       CD_NIWA
+		from MOADD_TIPOSVIA  ORDER BY DS_DESCRIPCION
+	</select>
+  
+</mapper>

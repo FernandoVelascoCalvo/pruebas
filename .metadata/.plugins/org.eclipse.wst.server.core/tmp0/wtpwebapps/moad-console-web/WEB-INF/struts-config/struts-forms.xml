@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+       "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+       
+<struts-config>
+	<form-beans>
+		<form-bean name="errorGeneralForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ********************** SEGURIDAD *********************** -->
+		<form-bean name="loginForm" type="org.apache.struts.action.DynaActionForm">
+		</form-bean>
+
+		<!-- ********************* -->
+		<!-- CHEQUEO DE INTEGRIDAD -->
+		<!-- ********************* -->
+
+		<form-bean name="chequearIntegridadForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ********************* -->
+		<!-- TRAMITES -->
+		<!-- ********************* -->
+
+		<form-bean name="tramitesForm" type="org.apache.struts.action.DynaActionForm" />
+		<form-bean name="borrarTramiteForm" type="org.apache.struts.action.DynaActionForm" />
+		<form-bean name="editarTramiteForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idTramite" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="codigo" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="urlTramite" type="java.lang.String" />
+			<form-property name="visible" type="java.lang.Boolean" />
+		</form-bean>
+		<!-- ***************** -->
+		<!-- LISTADOS Y CAMPOS -->
+		<!-- ***************** -->
+
+		<form-bean name="listadoListadosForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="filtro" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="editarListadoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idListado" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="tabla" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarListadoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarCampoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idCampoListado" type="java.lang.String" />
+			<form-property name="idListado" type="java.lang.String" />
+			<form-property name="campo" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="titulo" type="java.lang.String" />
+			<form-property name="visible" type="java.lang.Boolean" />
+			<form-property name="busqueda" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarCampoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ************************* -->
+		<!-- HERRAMIENTAS Y PARÁMETROS -->
+		<!-- ************************* -->
+
+		<form-bean name="listadoHerramientasForm" type="org.apache.struts.validator.DynaValidatorForm" />
+
+		<form-bean name="editarHerramientaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idHerramienta" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarHerramientaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarParametroForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idParametro" type="java.lang.String" />
+			<form-property name="idHerramienta" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="descripcionCorta" type="java.lang.String" />
+			<form-property name="tipoCifrado" type="java.lang.String"/>
+		</form-bean>
+
+		<form-bean name="borrarParametroForm" type="org.apache.struts.validator.DynaValidatorForm" />
+
+		<form-bean name="listadoConfiguracionHerramientasForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarConfiguracionForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idConfiguracion" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="habilitada" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarConfiguracionForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="crearInstHerramientaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idConfiguracion" type="java.lang.String" />
+			<form-property name="idHerramienta" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="editarInstHerramientaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idInstHerramienta" type="java.lang.String" />
+			<form-property name="idConfiguracion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idHerramienta" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="parametros" type="java.util.ArrayList" />
+			<form-property name="idInstParametro" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="importarConfiguracionForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+		</form-bean>
+
+		<form-bean name="importarProcedimientoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+		</form-bean>
+
+
+		<form-bean name="borrarInstHerramientaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="chequearConfiguracionForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- *********************** -->
+		<!-- ROLES Y FUNCIONALIDADES -->
+		<!-- *********************** -->
+
+		<form-bean name="listadoRolesForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="filtro" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="editarRolForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idRol" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarRolForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarFuncionalidadForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idRol" type="java.lang.String" />
+			<form-property name="idFuncionalidad" type="java.lang.String" />
+		</form-bean>
+
+		<!-- ******** -->
+		<!-- USUARIOS -->
+		<!-- ******** -->
+
+		<form-bean name="listadoUsuarioRolesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarRolForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="idRol" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />			
+			<form-property name="idUsuarios" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarRolForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="listadoUsuariosForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="filtro" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="mostrarUsuarioForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="borrarUsuarioForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarUsuarioForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<!-- Usuario -->
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="id" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="apellido1" type="java.lang.String" />
+			<form-property name="apellido2" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="usuario" type="java.lang.String" />
+			<form-property name="contrasena" type="java.lang.String" />
+			<form-property name="sexo" type="java.lang.String" initial="V" />
+			<form-property name="fallosLogin" type="java.lang.Short" />
+			<form-property name="cdEstadoUsuario" type="java.lang.String" />
+			<form-property name="dni" type="java.lang.String" />
+			<form-property name="cdMunicipio" type="java.lang.String" />
+			<form-property name="cdProvincia" type="java.lang.String" />
+			<form-property name="cdPais" type="java.lang.String" />
+			<form-property name="cdTipoVia" type="java.lang.String" />
+			<form-property name="nombreVia" type="java.lang.String" />
+			<form-property name="numero" type="java.lang.String" />
+			<form-property name="letra" type="java.lang.String" />
+			<form-property name="escalera" type="java.lang.String" />
+			<form-property name="piso" type="java.lang.String" />
+			<form-property name="puerta" type="java.lang.String" />
+			<form-property name="codigoPostal" type="java.lang.String" />
+			<form-property name="telefono" type="java.lang.String" />
+			<form-property name="movil" type="java.lang.String" />
+			<form-property name="fax" type="java.lang.String" />
+			<form-property name="email" type="java.lang.String" />
+			<form-property name="permisoCambioContrasena" type="java.lang.Boolean" />
+			<form-property name="activar" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="listadoUsuarioPerfilesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="listadoUsuarioEmpleosForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="listadoUsuarioConfTrewaForm" type="org.apache.struts.action.DynaActionForm" />
+		
+		<form-bean name="listadoPerfilMoadForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarConfTrewaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idConfTrewa" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="idUsuarios" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarConfTrewaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="sincronizarConfTrewaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarPerfilForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idOrden" type="java.lang.String" />
+			<form-property name="idPerfil" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="idUsuarios" type="java.lang.String" />
+			<form-property name="idUsuConfTrewa" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="cambiarContrasenaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="contrasena" type="java.lang.String" />
+			<form-property name="nueva" type="java.lang.String" />
+			<form-property name="confirmacion" type="java.lang.String" />
+			<form-property name="retorno" type="java.lang.String" />
+		</form-bean>
+		
+		<form-bean name="cambiarClaveCifradoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="claveCifrado" type="java.lang.String" />
+			<form-property name="nueva" type="java.lang.String" />
+			<form-property name="confirmacion" type="java.lang.String" />
+			<form-property name="retorno" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="cambiarClaveInstParamForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idInstParam" type="java.lang.String" />
+			<form-property name="idInstHerramienta" type="java.lang.String" />
+			<form-property name="idConfiguracion" type="java.lang.String" />
+			<form-property name="clave" type="java.lang.String" />
+			<form-property name="nueva" type="java.lang.String" />
+			<form-property name="confirmacion" type="java.lang.String" />
+			<form-property name="retorno" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="cambiarPasswordForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idConfTrewa" type="java.lang.String" />
+			<form-property name="password" type="java.lang.String" />
+			<form-property name="nuevo" type="java.lang.String" />
+			<form-property name="confirmacion" type="java.lang.String" />
+			<form-property name="retorno" type="java.lang.String" />
+		</form-bean>
+		
+		<form-bean name="listadoUsuarioPerfilesMoadForm" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="habilitarAsignacion" type="java.lang.Boolean" />
+		</form-bean>
+		
+		<form-bean name="asignarPerfilMoadForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idPerfilMoad" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="idUsuarios" type="java.lang.String" />
+		</form-bean>
+		
+		<form-bean name="revocarPerfilMoadForm" type="org.apache.struts.action.DynaActionForm" />
+		
+		
+		<!-- Editar una instancia de herramienta -->
+
+		<!-- Crear una instancia de herramienta -->
+
+		<!-- ******************************** -->
+		<!-- PROCEDIMIENTOS -->
+		<!-- ******************************** -->
+
+		<form-bean name="listadoProcedimientosForm" type="org.apache.struts.action.DynaActionForm">
+			<!-- <form-property name="idProcedimiento" type="java.math.BigDecimal"/> -->
+		</form-bean>
+
+		<form-bean name="editarProcedimientoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="cdSistemaTrewa" type="java.lang.String" />
+			<form-property name="idAplicacion" type="java.lang.String" />
+			<form-property name="idTipoProcedimiento" type="java.lang.String" />
+			<form-property name="url" type="java.lang.String" />
+			<form-property name="administrable" type="java.lang.Boolean" />
+			<form-property name="presentable" type="java.lang.Boolean" />
+			<form-property name="visible" type="java.lang.Boolean" />
+			<form-property name="sistemas" type="java.util.List" />
+			<form-property name="autorizacionEspecifica" type="java.lang.Boolean" />
+			<form-property name="ayudaAcceso" type="java.lang.String" />
+			<form-property name="mensajeBienvenida" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+			<form-property name="claveCifrado" type="java.lang.String" />
+			<form-property name="permisoCambioClave" type="java.lang.Boolean" />
+			<form-property name="descargarFichero" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarProcedimientoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ******************************** -->
+		<!-- PROCEDIMIENTOS Y CONFIGURACIONES -->
+		<!-- ******************************** -->
+
+		<form-bean name="listadoProcedimientoConfiguracionesForm" type="org.apache.struts.action.DynaActionForm" />
+
+
+		<form-bean name="listadoConfiguracionesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ******************************** -->
+		<!-- PROCEDIMIENTOS Y LISTADOS -->
+		<!-- ******************************** -->
+
+		<form-bean name="listadoProcedimientoListadosForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarListadoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idListado" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarListadoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ***************************************** -->
+		<!-- PROCEDIMIENTOS Y TIPOSCERTIFICADOS -->
+		<!-- ***************************************** -->
+
+		<form-bean name="listadoProcedimientoTiposCertificadoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarTipoCertificadoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idTipoCertificado" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarTipoCertificadoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- *************************************************** -->
+		<!-- PROCEDIMIENTOS, TIPOSCERTIFICADOS Y PERFILES -->
+		<!-- *****************************************^********* -->
+
+		<form-bean name="listadoTipoCertificadoPerfilesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarPerfilTipoCertificadoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idTipoCertificado" type="java.lang.String" />
+			<form-property name="idPerfil" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarPerfilTipoCertificadoForm" type="org.apache.struts.action.DynaActionForm" />
+
+
+
+		<!-- ******************************** -->
+		<!-- PROCEDIMIENTOS Y ORDENES -->
+		<!-- ******************************** -->
+
+		<form-bean name="listadoProcedimientoOrdenesForm" type="org.apache.struts.action.DynaActionForm" />
+		<form-bean name="borrarOrdenForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarOrdenForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idOrden" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="cdTipoExpTrewa" type="java.lang.String" />
+			<form-property name="titulo" type="java.lang.String" />
+			<form-property name="fecha" type="java.lang.String" />
+			<form-property name="convocante" type="java.lang.String" />
+			<form-property name="beneficiario" type="java.lang.String" />
+			<form-property name="referenciaBoja" type="java.lang.String" />
+			<form-property name="visible" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="listadoOrdenConvocatoriasForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="borrarConvocatoriaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarConvocatoriaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idConvocatoria" type="java.lang.String" />
+			<form-property name="idOrden" type="java.lang.String" />
+			<form-property name="fechaComienzo" type="java.lang.String" />
+			<form-property name="fechaFin" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="cdProcTrewa" type="java.lang.String" />
+			<form-property name="cdTipoExpTrewa" type="java.lang.String" />
+			<form-property name="titulo" type="java.lang.String" />
+			<form-property name="fechaInicioPresentacion" type="java.lang.String" />
+			<form-property name="fechaFinPresentacion" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+			<form-property name="visible" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="listadoConvocatoriaPerfilesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="borrarPerfilForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarPerfilForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idPerfil" type="java.lang.String" />
+			<form-property name="idConvocatoria" type="java.lang.String" />
+			<form-property name="defecto" type="java.lang.Boolean" />
+			<form-property name="publico" type="java.lang.Boolean" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="cdNombreTrewa" type="java.lang.String" />
+			<form-property name="idTipoIdentificacion" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="sincronizarPerfilForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="revocarTipoIdentificacionPerfilForm" type="org.apache.struts.action.DynaActionForm">
+		</form-bean>
+
+		<form-bean name="asignarTipoIdentificacionPerfilForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idTipoIdentificacion" type="java.lang.String" />
+			<form-property name="idPerfil" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idOrden" type="java.lang.String" />
+			<form-property name="idConvocatoria" type="java.lang.String" />
+			<form-property name="pordefecto" type="java.lang.Boolean" />
+		</form-bean>
+
+		<!-- ***************************************** -->
+		<!-- PROCEDIMIENTOS Y VERSIONES PRESENTA -->
+		<!-- ***************************************** -->
+
+		<form-bean name="listadoVersionPresentaConvocatoriasForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="asignarConvocatoriaVersionPresentaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="idConvocatoria" type="java.lang.String" />
+			<form-property name="titulo" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="revocarConvocatoriaVersionPresentaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="listadoProcedimientoVersionesPresentaForm" type="org.apache.struts.validator.DynaValidatorForm" />
+
+		<form-bean name="editarVersionPresentaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="codigo" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="crearVersionPresentaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="codigo" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="fichero" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarVersionPresentaForm" type="org.apache.struts.validator.DynaValidatorForm" />
+
+		<form-bean name="listadoVersionPresentaPlantillasForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarPlantillaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="idPlantilla" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="obligatorio" type="java.lang.Boolean" />
+			<form-property name="plantilla" type="org.apache.struts.upload.FormFile" />
+			<form-property name="plantillaImp" type="org.apache.struts.upload.FormFile" />
+			<form-property name="plantillaAnon" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+			<form-property name="nombreFicheroImp" type="java.lang.String" />
+			<form-property name="nombreFicheroAnon" type="java.lang.String" />
+			<form-property name="nombreFase" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="crearPlantillaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="idPlantilla" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="obligatorio" type="java.lang.Boolean" />
+			<form-property name="plantilla" type="org.apache.struts.upload.FormFile" />
+			<form-property name="plantillaImp" type="org.apache.struts.upload.FormFile" />
+			<form-property name="plantillaAnon" type="org.apache.struts.upload.FormFile" />
+			<form-property name="nombreFichero" type="java.lang.String" />
+			<form-property name="nombreFicheroImp" type="java.lang.String" />
+			<form-property name="nombreFicheroAnon" type="java.lang.String" />
+			<form-property name="nombreFase" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarPlantillaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="listadoVersionPresentaAnexoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarAnexoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idVersionPresenta" type="java.lang.String" />
+			<form-property name="idAnexo" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="obligatorio" type="java.lang.Boolean" />
+			<form-property name="compulsable" type="java.lang.Boolean" />
+			<form-property name="nombreFase" type="java.lang.String" />
+			<form-property name="tamMaximo" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarAnexoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ********************************* -->
+		<!-- PROCEDIMIENTOS Y DOCUMENTOS -->
+		<!-- ********************************* -->
+
+		<form-bean name="listadoVersionPresentaDocumentosForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarDocumentoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idProcedimiento" type="java.lang.String" />
+			<form-property name="idDocumento" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="compulsable" type="java.lang.Boolean" />
+			<form-property name="cdEstadoObligatorio" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarDocumentoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ************** -->
+		<!-- EMPLEO -->
+		<!-- ************** -->
+
+		<form-bean name="revocarPerfilForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="borrarEmpleoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarEmpleoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="id" type="java.lang.String" />
+			<form-property name="idUsuConfTrewa" type="java.lang.String" />
+			<form-property name="cdUsuario" type="java.lang.String" />
+			<form-property name="cdPuestoTrabajo" type="java.lang.String" />
+			<form-property name="idUO" type="java.lang.String" />
+			<form-property name="fechaNombramiento" type="java.lang.String" />
+			<form-property name="fechaCese" type="java.lang.String" />
+			<form-property name="tipo" type="java.lang.String" initial="F" />
+			<form-property name="tratamiento" type="java.lang.String" />
+			<form-property name="referencia" type="java.lang.String" />
+			<form-property name="cdPuesto" type="java.lang.String" />
+			<form-property name="idUsuarios" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="sincronizarEmpleoForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ***************** -->
+		<!-- APLICACIONES -->
+		<!-- ***************** -->
+
+		<form-bean name="listadoAplicacionesForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarAplicacionForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idAplicacion" type="java.lang.String" />
+			<form-property name="codigo" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="cdUsuarios" type="java.lang.String" />
+			<form-property name="username" type="java.lang.String" />
+			<form-property name="contrasena" type="java.lang.String" />
+			<form-property name="contrasenaSinEncriptar" type="java.lang.String" />
+			<form-property name="contrasenaSoloLectura" type="java.lang.String" />
+			<form-property name="presentable" type="java.lang.Boolean" />
+			<form-property name="accesoServioWeb" type="java.lang.Boolean" initial="false" />
+			<form-property name="usuarioBloqueado" type="java.lang.Boolean" />
+			<form-property name="mostrarContrasena" type="java.lang.Boolean" />
+			<form-property name="mostrarBotonesCambioContrasena" type="java.lang.Boolean" />
+			<form-property name="modificarUsername" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarAplicacionForm" type="org.apache.struts.action.DynaActionForm" />
+
+
+		<!-- ************************* -->
+		<!-- OFICINAS DE REGISTRO -->
+		<!-- ************************* -->
+
+		<form-bean name="listadoOficinasForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarOficinaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idOficina" type="java.lang.String" />
+			<form-property name="idUO" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="codigo" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="usuarioAries" type="java.lang.String" />
+			<form-property name="contrasenaAries" type="java.lang.String" />
+			<form-property name="cdProvincia" type="java.lang.String" />
+			<form-property name="mostrarCampoContrasena" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarOficinaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="cambiarContrasenaOficinaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idOficina" type="java.lang.String" />
+			<form-property name="idUO" type="java.lang.String" />
+			<form-property name="clave" type="java.lang.String" />
+			<form-property name="nueva" type="java.lang.String" />
+			<form-property name="confirmacion" type="java.lang.String" />
+			<form-property name="retorno" type="java.lang.String" />
+		</form-bean>
+		
+
+		<!-- ************************* -->
+		<!-- TIPOS DE CERTIFICADOS -->
+		<!-- ************************* -->
+		<form-bean name="listadoTiposCertificadosForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarTiposCertificadosForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idTipoCertificado" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="entidad" type="java.lang.String" />
+			<form-property name="tipo" type="java.lang.String" />
+			<form-property name="idCodigoFirma" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="borrarTiposCertificadosForm" type="org.apache.struts.action.DynaActionForm" />
+
+
+		<!-- ************************* -->
+		<!-- MENUS -->
+		<!-- ************************* -->
+		<form-bean name="listadoMenusForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarMenusForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idMenu" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="url" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="activado" type="java.lang.Boolean" />
+			<form-property name="subMenu" type="java.util.List" />
+			<form-property name="enOtraVentana" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarMenusForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ************************* -->
+		<!-- SUBMENUS -->
+		<!-- ************************* -->
+		<form-bean name="listadoSubMenusForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarSubMenusForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idSubMenu" type="java.lang.String" />
+			<form-property name="idMenu" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="url" type="java.lang.String" />
+			<form-property name="orden" type="java.lang.String" />
+			<form-property name="activado" type="java.lang.Boolean" />
+			<form-property name="enOtraVentana" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarSubMenusForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<!-- ************************* -->
+		<!-- CONFIGURACIONES TREWA -->
+		<!-- ************************* -->
+		<form-bean name="listadoConfiguracionTrewaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="editarConfiguracionTrewaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="accion" type="java.lang.String" />
+			<form-property name="idConfTrewa" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="usuario" type="java.lang.String" />
+			<form-property name="password" type="java.lang.String" />
+			<form-property name="conexion" type="java.lang.String" />
+			<form-property name="permisoCambioPassword" type="java.lang.Boolean" />
+			<form-property name="mostrarBotones" type="java.lang.Boolean" />
+		</form-bean>
+
+		<form-bean name="borrarConfiguracionTrewaForm" type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean name="validarConfiguracionTrewaForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="idConfTrewa" type="java.lang.String" />
+			<form-property name="nombre" type="java.lang.String" />
+			<form-property name="descripcion" type="java.lang.String" />
+			<form-property name="usuario" type="java.lang.String" />
+			<form-property name="password" type="java.lang.String" />
+			<form-property name="conexion" type="java.lang.String" />
+			<form-property name="mensaje" type="java.lang.String" />
+		</form-bean>
+
+	</form-beans>
+</struts-config>

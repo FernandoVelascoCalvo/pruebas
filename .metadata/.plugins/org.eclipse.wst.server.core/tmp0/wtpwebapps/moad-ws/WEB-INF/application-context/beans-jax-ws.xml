@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:util="http://www.springframework.org/schema/util"
+      xmlns:simple="http://cxf.apache.org/simple"
+      xmlns:soap="http://cxf.apache.org/bindings/soap"
+      xmlns:jaxws="http://cxf.apache.org/jaxws"
+      xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- JAX-WS CONFIGURACIONES -->
+	<jaxws:endpoint id="wsConfiguraciones" implementor="#configuraciones" 
+	  address="/ConfiguracionesService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS MENU CABECERA -->
+	<jaxws:endpoint id="wsMenucabecera" implementor="#menucabecera" 
+	  address="/MenuCabeceraService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS PERFILES -->
+	<jaxws:endpoint id="wsPerfiles" implementor="#perfiles" 
+	  address="/PerfilesService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS PROCEDIMIENTOS -->
+	<jaxws:endpoint id="wsProcedimientos" implementor="#procedimientos" 
+	  address="/ProcedimientosService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS UNIDADES ORGANICAS -->
+	<jaxws:endpoint id="wsUnidadesorganicas" implementor="#unidadesorganicas" 
+	  address="/UnidadesOrganicasService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS USUARIOS -->
+	<jaxws:endpoint id="wsUsuarios" implementor="#usuarios" 
+	  address="/UsuariosService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<!-- JAX-WS USUARIOS -->
+	<jaxws:endpoint id="wsValidacion" implementor="#validacion" 
+	  address="/ValidacionService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+		<!-- JAX-WS LISTAS GLOBALES -->
+	<jaxws:endpoint id="wsListasglobales" implementor="#listasglobales" 
+	  address="/ListasGlobalesService">
+	  	<jaxws:properties>
+			<entry key="attachment-directory" value="${moad.ws.attachmentDirectory}"/>
+			<entry key="attachment-memory-threshold" value="${moad.ws.attachmentMemoryThreshold}"/>
+			<entry key="attachment-max-size" value="${moad.ws.attachmentMaxSize}"/>
+			<entry key="ws-security.ut.validator" value-ref="usernameTokenValidatorMOAD"/>
+	  	</jaxws:properties>
+	  	<jaxws:binding>
+	    	<soap:soapBinding mtomEnabled="${moad.ws.mtom}" version="1.2"/>
+	    </jaxws:binding>
+    	<jaxws:inInterceptors>
+ 			<ref bean="logInBound" />
+ 			<ref bean="wss4jInInterceptor" />
+ 		</jaxws:inInterceptors>
+ 		<jaxws:outInterceptors>
+ 			<ref bean="logOutBound" />
+ 		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<bean id="logInBound" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+ 	<bean id="logOutBound" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+
+	<bean id="wss4jInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+		<constructor-arg>
+			<map>
+				<entry key="action" value="UsernameToken"/>
+				<entry key="passwordType">
+					<util:constant static-field="org.apache.ws.security.WSConstants.PW_TEXT"/>
+				</entry>
+				<entry key="addUsernameTokenNonce" value="true"/>
+				<entry key="addUsernameTokenCreated" value="true"/>
+				<entry key="passwordCallbackRef" value-ref="passwordHandler"/>
+			</map>
+		</constructor-arg>
+	</bean>
+ 	
+ 	<!-- Manejador para la autenticación mediante contraseña -->
+ 	<bean id="passwordHandler"
+        class="es.ja.cice.pct.common.support.wssecurity.ServicePasswordHandler">
+        <property name="fachadaUsuarios" ref="IUsuariosFacade" />
+        <!-- 
+        <property name="cryptoHelper">
+            <bean id="cryptoHelper"
+                class="es.ja.cice.pct.moad.security.SHA1CryptoHelper" />
+        </property>
+        -->
+    </bean>
+    
+    <bean id="usernameTokenValidatorMOAD" class="es.ja.cice.pct.common.support.wssecurity.UsernameTokenValidatorMOAD">
+    	<property name="validacionManager" ref="IValidacionManager"/>
+    </bean>
+ 	
+</beans>

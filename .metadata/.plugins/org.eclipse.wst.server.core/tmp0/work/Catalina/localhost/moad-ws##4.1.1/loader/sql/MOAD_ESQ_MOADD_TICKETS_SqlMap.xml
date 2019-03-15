@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_TICKETS" >
+
+  <!-- ResultMap del modelo MoaddTickets -->
+  <resultMap id="TicketResultMap" type="Ticket" >
+	<result column="ID_TICKETS" property="id" jdbcType="DECIMAL" />
+    <result column="ID_USUARIOS" property="idUsuario" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+    <result column="FH_CONEXION" property="fechaConexion" jdbcType="TIMESTAMP" />
+    <result column="FH_DESCONEXION" property="fechaDesconexion" jdbcType="TIMESTAMP" />
+    <result column="TX_IP" property="ip" jdbcType="VARCHAR" />
+    <result column="TX_TIPOAUTENTICA" property="tipoAutentica" jdbcType="CHAR" />
+    <result column="TX_TICKET" property="ticket" jdbcType="VARCHAR" />
+    <result column="LB_CREDENCIALES" property="credenciales" jdbcType="BLOB" />
+  </resultMap>
+
+  <!-- Inserto informacion en la tabla -->
+  <insert id="insert" parameterType="Ticket" >
+	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_TICK.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_TICKETS (ID_TICKETS, ID_USUARIOS, ID_PROCEDIMIENTOS, FH_CONEXION,
+      FH_DESCONEXION, TX_IP, TX_TIPOAUTENTICA, TX_TICKET, LB_CREDENCIALES)
+    values (#{id,jdbcType=DECIMAL}, #{idUsuario,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL},
+      sysdate, #{fechaDesconexion,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR},
+      #{tipoAutentica,jdbcType=CHAR}, #{ticket,jdbcType=VARCHAR}, #{credenciales,jdbcType=BLOB})
+  </insert>
+
+	<update id="desconectar" parameterType="string">
+		update MOADD_TICKETS
+			set FH_DESCONEXION = sysdate
+		where TX_TICKET = #{value}
+	</update>
+
+	<select id="obtenerTicketValidado" resultMap="TicketResultMap" parameterType="string">
+	<![CDATA[
+    	select TIC.ID_TICKETS, TIC.ID_USUARIOS, TIC.ID_PROCEDIMIENTOS, TIC.FH_CONEXION, TIC.FH_DESCONEXION,
+    		TX_IP, TIC.TX_TIPOAUTENTICA, TIC.TX_TICKET, TIC.LB_CREDENCIALES
+    	from MOADD_TICKETS TIC
+    		join MOADD_PREFERENCIAS PRE on PRE.DS_NOMBRE = 'HORASVALIDEZTICKET'
+    		left outer join MOADD_USUARIOS USU on TIC.ID_USUARIOS = USU.ID_USUARIOS
+				and USU.CD_ESTADOSUSUARIO <> 'L'
+				and USU.LG_PUBLICO = 'N'
+				and USU.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+       						FROM MOADD_ESTADOSUSUARIO
+      						WHERE LG_ANULAUSUARIO = 'N')
+
+    	where TX_TICKET = #{value}
+    		and FH_DESCONEXION is null and (FH_CONEXION + to_number(PRE.TX_VALOR)/24 > sysdate)
+     ]]>
+	</select>
+
+	<select id="validarTicket" resultType="java.math.BigDecimal" parameterType="string">
+	<![CDATA[
+    	select TIC.ID_TICKETS
+    	from MOADD_TICKETS TIC
+    		join MOADD_PREFERENCIAS PRE on PRE.DS_NOMBRE = 'HORASVALIDEZTICKET'
+    		left outer join MOADD_USUARIOS USU on TIC.ID_USUARIOS = USU.ID_USUARIOS
+				and USU.CD_ESTADOSUSUARIO <> 'L'
+				and USU.LG_PUBLICO = 'N'
+				and USU.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+       						FROM MOADD_ESTADOSUSUARIO
+      						WHERE LG_ANULAUSUARIO = 'N')
+
+    	where TX_TICKET = #{value}
+    		and (FH_DESCONEXION is null and (FH_CONEXION + to_number(PRE.TX_VALOR)/24 > sysdate))
+     ]]>
+
+	</select>
+    
+    <!--Purga de la tabla de tickets  -->
+    <delete id="purgarTickets">
+        <![CDATA[
+        DELETE
+          FROM MOADD_TICKETS TIC
+         WHERE EXISTS
+           (
+            SELECT TX_TICKET
+              FROM MOADD_TICKETS TIC2
+              JOIN MOADD_PREFERENCIAS PRE
+                ON PRE.DS_NOMBRE                              = 'HORASVALIDEZTICKET'
+             WHERE TIC2.TX_TICKET                             = TIC.TX_TICKET
+               AND FH_CONEXION - SYSDATE + (PRE.TX_VALOR/24)  < 0
+           )
+         ]]>
+    </delete>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_AUDITORIA" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="AuditoriaResultMap" type="Auditoria" >
+    <result column="ID_AUDITORIA" property="id" jdbcType="DECIMAL" />
+    <result column="FH_AUDITORIA" property="fechaAuditoria" jdbcType="TIMESTAMP" />
+    <result column="CD_TIPO_MODIFICACION" property="cdTipoModificacion" jdbcType="VARCHAR" />
+    <result column="TX_INFO_EXTRA" property="infoExtra" jdbcType="LONGVARCHAR" />
+    <result column="CD_USUARIO" property="cdUsuario" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="Auditoria" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_AUDI.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_AUDITORIA (ID_AUDITORIA, FH_AUDITORIA, CD_TIPO_MODIFICACION, TX_INFO_EXTRA, CD_USUARIO)
+    values (#{id,jdbcType=DECIMAL}, sysdate, #{cdTipoModificacion,jdbcType=VARCHAR}, #{infoExtra,jdbcType=LONGVARCHAR}, #{cdUsuario,jdbcType=VARCHAR})
+  </insert>
+  
+</mapper>

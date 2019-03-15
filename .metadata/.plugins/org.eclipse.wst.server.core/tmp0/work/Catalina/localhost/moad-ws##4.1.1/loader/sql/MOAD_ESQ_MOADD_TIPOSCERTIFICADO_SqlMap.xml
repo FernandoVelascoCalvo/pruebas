@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_TIPOSCERTIFICADO" >
+
+    <!-- Mapeo de las columnas de la tabla MOADD_TIPOSCERTIFICADO y los datos miembro de la clase MoaddTiposCertificado-->
+  <resultMap id="TipoCertificadoResultMap" type="TipoCertificado" >
+    <result column="ID_TIPOSCERTIFICADO" property="id" jdbcType="DECIMAL" />    
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="TX_ENTIDAD" property="entidad" jdbcType="VARCHAR" />
+    <result column="TX_TIPO" property="tipo" jdbcType="VARCHAR" />
+    <result column="CD_CODIGOAFIRMA" property="codigoAFirma" jdbcType="DECIMAL" />    
+  </resultMap>  
+  
+  <!-- Selección de registro de la tabla MOADD_TIPOSCERTIFICADO por su clave primaria-->
+  <select id="selectByPrimaryKey" resultMap="TipoCertificadoResultMap" parameterType="TipoCertificado" >
+    select ID_TIPOSCERTIFICADO, DS_DESCRIPCION, TX_ENTIDAD, TX_TIPO, CD_CODIGOAFIRMA
+    from MOADD_TIPOSCERTIFICADO
+    where ID_TIPOSCERTIFICADO = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borrado de registro de la tabla MOADD_TIPOSCERTIFICADO por su clave primaria-->
+  <delete id="deleteByPrimaryKey" parameterType="TipoCertificado" >
+    delete from MOADD_TIPOSCERTIFICADO
+    where ID_TIPOSCERTIFICADO = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Inserción de registro en la tabla MOADD_TIPOSCERTIFICADO -->
+  <insert id="insert" parameterType="TipoCertificado" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TICE.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADD_TIPOSCERTIFICADO (ID_TIPOSCERTIFICADO, DS_DESCRIPCION, 
+    		TX_ENTIDAD, TX_TIPO, CD_CODIGOAFIRMA)
+    values (#{id,jdbcType=DECIMAL}, #{descripcion,jdbcType=VARCHAR}, #{entidad,jdbcType=VARCHAR},
+    		#{tipo,jdbcType=VARCHAR}, #{codigoAFirma,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- Actualiza un registro de la tabla MOADD_TIPOSCERTIFICADO -->
+  <update id="updateByPrimaryKey" parameterType="TipoCertificado" >
+    update MOADD_TIPOSCERTIFICADO
+    set DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}, TX_ENTIDAD = #{entidad,jdbcType=VARCHAR},
+        TX_TIPO = #{tipo,jdbcType=VARCHAR}, CD_CODIGOAFIRMA = #{codigoAFirma,jdbcType=DECIMAL}
+    where ID_TIPOSCERTIFICADO = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza los campos no nulos de un registro de la tabla MOADD_TIPOSCERTIFICADO-->
+  <update id="updateByPrimaryKeySelective" parameterType="TipoCertificado" >
+    update MOADD_TIPOSCERTIFICADO
+    <set>
+      <if test="descripcion != null" >
+        DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+      <if test="entidad != null" >
+        ,TX_ENTIDAD = #{entidad,jdbcType=VARCHAR}
+      </if>
+      <if test="tipo != null" >
+        ,TX_TIPO = #{tipo,jdbcType=VARCHAR}
+      </if>
+      <if test="codigoAFirma != null" >
+        ,CD_CODIGOAFIRMA = #{codigoAFirma,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_TIPOSCERTIFICADO = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Selección de registros de la tabla MOADD_TIPOSCERTIFICADO -->
+  <select id="obtenerTiposCertificado" resultMap="TipoCertificadoResultMap">    
+    select ID_TIPOSCERTIFICADO, DS_DESCRIPCION, TX_ENTIDAD, TX_TIPO, CD_CODIGOAFIRMA
+    from MOADD_TIPOSCERTIFICADO ORDER BY TX_ENTIDAD, TX_TIPO
+  </select>
+  
+  <!-- Selección de registros de la tabla MOADD_TIPOSCERTIFICADO por el identificador de la versión-->
+  <select id="obtenerTiposCertificadoPorVersion" resultMap="TipoCertificadoResultMap" parameterType="java.math.BigDecimal">    
+    select t.ID_TIPOSCERTIFICADO, t.DS_DESCRIPCION, t.TX_ENTIDAD, t.TX_TIPO, t.CD_CODIGOAFIRMA
+    from MOADD_TIPOSCERTIFICADO t inner join MOADR_TIPOCERT_PROCED tp
+    on t.ID_TIPOSCERTIFICADO = tp.ID_TIPOSCERTIFICADO
+    where tp.ID_PROCEDIMIENTOS = #{value} ORDER BY t.DS_DESCRIPCION
+  </select>
+	
+	<!-- Selección de registro de la tabla MOADD_TIPOSCERTIFICADO por el tipo de certificado-->
+	<select id="selectByTiposCertificado" resultMap="TipoCertificadoResultMap" parameterType="string" >
+    	select ID_TIPOSCERTIFICADO, DS_DESCRIPCION, TX_ENTIDAD, TX_TIPO, CD_CODIGOAFIRMA
+	    from MOADD_TIPOSCERTIFICADO
+	    where TX_TIPO = #{value} ORDER BY TX_ENTIDAD, TX_TIPO
+  </select>
+
+  <!-- obtiene una lista de Tipos de certificados asociados a un procedimiento   -->
+  <select id="obtenerTiposCertificadoProcedimiento" resultMap="TipoCertificadoResultMap" parameterType="java.math.BigDecimal" >
+    	select tc.ID_TIPOSCERTIFICADO, tc.DS_DESCRIPCION, tc.TX_ENTIDAD, tc.TX_TIPO, tc.CD_CODIGOAFIRMA
+	    from MOADD_TIPOSCERTIFICADO tc, MOADR_TIPOCERT_PROCED tcp
+	    where tc.ID_TIPOSCERTIFICADO = tcp.ID_TIPOSCERTIFICADO AND
+	    	  tcp.ID_PROCEDIMIENTOS = #{value} ORDER BY tc.TX_ENTIDAD, tc.TX_TIPO
+  </select>
+  
+  <!-- obtiene una lista de Tipos de certificados que NO están asociados a un procedimiento   -->
+  <select id="obtenerTiposCertificadoNotProcedimiento" resultMap="TipoCertificadoResultMap" parameterType="java.math.BigDecimal" >
+    select ID_TIPOSCERTIFICADO, DS_DESCRIPCION, TX_ENTIDAD, TX_TIPO, CD_CODIGOAFIRMA
+    from MOADD_TIPOSCERTIFICADO 
+    where ID_TIPOSCERTIFICADO NOT IN (select ID_TIPOSCERTIFICADO 
+                              from MOADR_TIPOCERT_PROCED
+                              where ID_PROCEDIMIENTOS = #{value})
+                              ORDER BY TX_ENTIDAD, TX_TIPO
+  </select>
+
+      
+    <!-- Permite validar si un certificado está asociado a un procedimiento -->
+  <select id="validarCertificadoProcedimiento" 
+        resultMap="TipoCertificadoResultMap" parameterType="java.util.Map">
+    select tc.ID_TIPOSCERTIFICADO, tc.DS_DESCRIPCION, tc.TX_ENTIDAD, tc.TX_TIPO, tc.CD_CODIGOAFIRMA
+    from MOADD_TIPOSCERTIFICADO tc, MOADR_TIPOCERT_PROCED tcp
+    where tc.ID_TIPOSCERTIFICADO = tcp.ID_TIPOSCERTIFICADO AND
+          tcp.ID_PROCEDIMIENTOS = #{idProcedimiento} AND
+          tc.tx_entidad = #certificado.entidad# AND
+          tc.cd_codigoafirma = #certificado.codigoAFirma# AND 
+          tc.tx_tipo = #certificado.tipo#
+      ORDER BY tc.TX_ENTIDAD, tc.TX_TIPO    
+  </select>
+  
+</mapper>

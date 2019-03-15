@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PROCEDIMIENTOS" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_PROCEDIMIENTOS y los datos miembro de la clase MoaddProcedimientos -->
+  <resultMap id="ProcedimientoResultMap" type="Procedimiento" >
+	    <result column="ID_PROCEDIMIENTOS" property="id" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="TX_URL" property="url" jdbcType="VARCHAR" />
+	    <result column="CD_SISTEMATREWA" property="cdSistemaTrewa" jdbcType="VARCHAR" />
+	    <result column="LG_ADMINISTRABLE" property="administrable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PRESENTABLE" property="presentable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="ID_TIPOSPROCEDIMIE" property="idTipoProcedimiento" />
+	    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+	    <result column="TX_MENSAJE" property="mensajeBienvenida" jdbcType="VARCHAR" />
+	    <result column="TX_AYUDA" property="ayudaAcceso" jdbcType="VARCHAR" />
+	    <result column="ID_APLICACIONES" property="idAplicacion" jdbcType="DECIMAL" />
+	    <result column="TX_NOMBREFICHERO" property="nombreFichero" jdbcType="VARCHAR" />
+	    <result column="LB_FICHERO" property="fichero" jdbcType="BLOB" />
+	    <result column="TX_CLAVE_CIFRADO" property="claveCifrado" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ProcedimientoResultMapSinFichero" type="Procedimiento" >
+	    <result column="ID_PROCEDIMIENTOS" property="id" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="TX_URL" property="url" jdbcType="VARCHAR" />
+	    <result column="CD_SISTEMATREWA" property="cdSistemaTrewa" jdbcType="VARCHAR" />
+	    <result column="LG_ADMINISTRABLE" property="administrable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PRESENTABLE" property="presentable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="ID_TIPOSPROCEDIMIE" property="idTipoProcedimiento" />
+	    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+	    <result column="TX_MENSAJE" property="mensajeBienvenida" jdbcType="VARCHAR" />
+	    <result column="TX_AYUDA" property="ayudaAcceso" jdbcType="VARCHAR" />
+	    <result column="ID_APLICACIONES" property="idAplicacion" jdbcType="DECIMAL" />
+	    <result column="TX_NOMBREFICHERO" property="nombreFichero" jdbcType="VARCHAR" />
+	    <result column="TX_CLAVE_CIFRADO" property="claveCifrado" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- ResultMap de los datos básicos de un procedimiento -->
+  <resultMap id="DatosBasicosResultMap" type="Procedimiento" >
+    	<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- Mapeo de las columnas de la vista MOADV_PROCSUSUARIO -->
+  <resultMap id="VistaProcedimientoResultMap" type="Procedimiento" >
+	    <result column="ID_PROCEDIMIENTOS" property="id" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="TX_URL" property="url" jdbcType="VARCHAR" />
+	    <result column="CD_SISTEMATREWA" property="cdSistemaTrewa" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ProcedimientoClaveCifradoMap" type="ClaveCifrado" >
+		<result column="DS_NOMBRE" property="nombreProcedimiento" jdbcType="VARCHAR" />
+		<result column="TX_CLAVE_CIFRADO" property="claveCifrado" jdbcType="VARCHAR" />
+	</resultMap>
+
+  <!-- Selección de registro de la tabla MOADD_PROCEDIMIENTOS por su clave primaria -->
+  <select id="selectByPrimaryKey" resultMap="ProcedimientoResultMap" parameterType="Procedimiento" >
+    select ID_PROCEDIMIENTOS, DS_NOMBRE, LG_PRESENTABLE,
+      DS_DESCRIPCION, TX_URL, CD_SISTEMATREWA, LG_ADMINISTRABLE, LG_VISIBLE,
+      TX_AYUDA, TX_MENSAJE, ID_APLICACIONES,
+      LB_FICHERO, TX_NOMBREFICHERO, ID_TIPOSPROCEDIMIE, TX_CLAVE_CIFRADO
+    from MOADD_PROCEDIMIENTOS
+    where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Borrado de registro de la tabla MOADD_PROCEDIMIENTOS por su clave primaria -->
+  <delete id="deleteByPrimaryKey" parameterType="Procedimiento" >
+    delete from MOADD_PROCEDIMIENTOS
+    where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserción de registro en la tabla MOADD_PROCEDIMIENTOS -->
+  <insert id="insert" parameterType="Procedimiento" >
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal"  order="BEFORE">
+	       SELECT MOAD_SQ_PROC.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_PROCEDIMIENTOS (ID_PROCEDIMIENTOS, LG_PRESENTABLE, ID_TIPOSPROCEDIMIE,
+    	DS_NOMBRE, DS_DESCRIPCION,
+    	TX_URL, CD_SISTEMATREWA, LG_ADMINISTRABLE, LG_VISIBLE,
+    	TX_AYUDA, TX_MENSAJE, ID_APLICACIONES, LB_FICHERO, TX_NOMBREFICHERO, TX_CLAVE_CIFRADO)
+    values (#{id,jdbcType=DECIMAL}, #{presentable,typeHandler=SiNOHandler}, #{idTipoProcedimiento,jdbcType=CHAR}, #{nombre,jdbcType=VARCHAR},
+      #{descripcion,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{cdSistemaTrewa,jdbcType=VARCHAR},
+      #{administrable,typeHandler=SiNOHandler}
+      <if test="visible != null">
+      	,#{visible,typeHandler=SiNOHandler}
+      </if>
+      , #{ayudaAcceso,jdbcType=VARCHAR}, #{mensajeBienvenida,jdbcType=VARCHAR},
+      #{idAplicacion,jdbcType=DECIMAL}, #{fichero,jdbcType=BLOB}, #{nombreFichero,jdbcType=VARCHAR}, #{claveCifrado,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- Inserción de registro en la tabla MOADD_PROCEDIMIENTOS -->
+  <insert id="insertClave" parameterType="Procedimiento" >
+    update MOADD_PROCEDIMIENTOS
+	set TX_CLAVE_CIFRADO = #{claveCifrado,jdbcType=VARCHAR}
+	where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL} and TX_CLAVE_CIFRADO is null
+  </insert>
+
+  <!-- Actualiza un registro de la tabla MOADD_PROCEDIMIENTOS -->
+  <update id="updateByPrimaryKey" parameterType="Procedimiento" >
+    update MOADD_PROCEDIMIENTOS
+    set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+	      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+	      TX_URL = #{url,jdbcType=VARCHAR},
+	      CD_SISTEMATREWA = #{cdSistemaTrewa,jdbcType=VARCHAR},
+	      LG_ADMINISTRABLE = #{administrable,typeHandler=SiNOHandler},
+	      <if test="visible != null">
+	      		LG_VISIBLE = #{visible,typeHandler=SiNOHandler},
+	      </if>
+	      TX_AYUDA = #{ayudaAcceso,jdbcType=VARCHAR},
+	      TX_MENSAJE = #{mensajeBienvenida,jdbcType=VARCHAR},
+	      LG_PRESENTABLE = #{presentable,typeHandler=SiNOHandler},
+	      ID_TIPOSPROCEDIMIE = #{idTipoProcedimiento,jdbcType=CHAR},
+	      ID_APLICACIONES = #{idAplicacion,jdbcType=DECIMAL}
+	      <if test="fichero != null">
+	        ,LB_FICHERO = #{fichero,jdbcType=BLOB}
+	        ,TX_NOMBREFICHERO = #{nombreFichero,jdbcType=VARCHAR}
+	      </if>
+	      <if test="claveCifrado != null">
+	      	,TX_CLAVE_CIFRADO = #{claveCifrado,jdbcType=VARCHAR}
+	      </if>
+    where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza los campos no nulos de un registro de la tabla MOADD_PROCEDIMIENTOS  -->
+  <update id="updateByPrimaryKeySelective" parameterType="Procedimiento" >
+    update MOADD_PROCEDIMIENTOS
+    <set>
+      <if test="nombre != null" >
+        DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="descripcion != null" >
+        DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        TX_URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="cdSistemaTrewa != null" >
+        CD_SISTEMATREWA = #{cdSistemaTrewa,jdbcType=VARCHAR},
+      </if>
+      <if test="administrable != null" >
+        LG_ADMINISTRABLE = #{administrable,typeHandler=SiNOHandler},
+      </if>
+      <if test="presentable != null" >
+        LG_PRESENTABLE = #{presentable,typeHandler=SiNOHandler},
+      </if>
+      <if test="visible != null" >
+        LG_VISIBLE = #{visible,typeHandler=SiNOHandler},
+      </if>
+      <if test="ayudaAcceso != null" >
+        TX_AYUDA = #{ayudaAcceso,jdbcType=VARCHAR},
+      </if>
+      <if test="mensajeBienvenida != null" >
+        TX_MENSAJE = #{mensajeBienvenida,jdbcType=VARCHAR},
+      </if>
+      <if test="idAplicacion != null" >
+        ID_APLICACIONES = #{idAplicacion,jdbcType=DECIMAL},
+      </if>
+      <if test="fichero != null" >
+        LB_FICHERO = #{fichero,jdbcType=BLOB},
+        TX_NOMBREFICHERO = #{nombreFichero,jdbcType=VARCHAR},
+      </if>
+      <if test="claveCifrado != null" >
+        TX_CLAVE_CIFRADO = #{claveCifrado,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Selección de registros de la tabla MOADD_PROCEDIMIENTOS -->
+  <select id="obtenerProcedimientos" resultMap="ProcedimientoResultMap">
+    select ID_PROCEDIMIENTOS, LG_PRESENTABLE, DS_NOMBRE, DS_DESCRIPCION, TX_URL,
+    	   CD_SISTEMATREWA, LG_ADMINISTRABLE, LG_VISIBLE,
+    	   TX_AYUDA, TX_MENSAJE, ID_APLICACIONES, LB_FICHERO, TX_NOMBREFICHERO, ID_TIPOSPROCEDIMIE, TX_CLAVE_CIFRADO
+    from MOADD_PROCEDIMIENTOS ORDER BY DS_NOMBRE
+  </select>
+
+    <select id="obtenerProcedimientosPorAplicacion" resultMap="ProcedimientoResultMap"
+    		parameterType="string">
+  	<![CDATA[
+    select PRO.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE,
+	    PRO.DS_DESCRIPCION, PRO.TX_URL, PRO.LG_PRESENTABLE,
+	    PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE,
+	    PRO.LG_VISIBLE,
+	    PRO.TX_AYUDA,
+	    PRO.TX_MENSAJE, PRO.ID_APLICACIONES,
+	    PRO.LB_FICHERO, PRO.TX_NOMBREFICHERO, PRO.ID_TIPOSPROCEDIMIE, PRO.TX_CLAVE_CIFRADO
+    from MOADD_APLICACIONES APL
+		join MOADD_PROCEDIMIENTOS PRO
+			on (APL.ID_APLICACIONES = PRO.ID_APLICACIONES)
+	where APL.CD_APLICACIONES = #{value,jdbcType=VARCHAR}
+	order BY PRO.DS_NOMBRE
+	 ]]>
+  </select>
+
+  <select id="obtenerProcedimientosPorCdUsuario" resultMap="ProcedimientoResultMap" parameterType="string">
+  	<![CDATA[
+    SELECT procedimientos.ID_PROCEDIMIENTOS, procedimientos.DS_NOMBRE,
+	    procedimientos.DS_DESCRIPCION, procedimientos.TX_URL, procedimientos.LG_PRESENTABLE,
+	    procedimientos.ID_TIPOSPROCEDIMIE,
+	    procedimientos.CD_SISTEMATREWA, procedimientos.LG_ADMINISTRABLE,
+	    procedimientos.LG_VISIBLE,
+	    procedimientos.TX_AYUDA,
+	    procedimientos.TX_MENSAJE, procedimientos.ID_APLICACIONES,
+	    procedimientos.LB_FICHERO, procedimientos.TX_NOMBREFICHERO,
+	    procedimientos.TX_CLAVE_CIFRADO
+    FROM MOADD_USUARIOS usuarios JOIN MOADR_USUARIO_PERFIL usuario_perfil
+		ON (usuarios.CD_USUARIOS = usuario_perfil.CD_USUARIOS)
+		JOIN MOADD_PERFILES perfiles
+		ON (usuario_perfil.ID_PERFILES = perfiles.ID_PERFILES)
+		JOIN MOADD_CONVOCATORIAS convocatorias
+		ON (perfiles.ID_CONVOCATORIAS = convocatorias.ID_CONVOCATORIAS)
+		JOIN MOADD_ORDENES ordenes
+		ON (convocatorias.ID_ORDENES = ordenes.ID_ORDENES)
+		JOIN MOADD_PROCEDIMIENTOS procedimientos
+		ON (ordenes.ID_PROCEDIMIENTOS = procedimientos.ID_PROCEDIMIENTOS)
+	WHERE usuarios.CD_USUARIOS = #{value}
+	AND usuarios.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+		  							   FROM MOADD_ESTADOSUSUARIO
+		  							   WHERE LG_ANULAUSUARIO = 'N')
+	AND usuarios.LG_PUBLICO = 'N'
+	 ORDER BY procedimientos.DS_NOMBRE
+	 ]]>
+  </select>
+
+	<select id="selectProcedimientosPerfilesDefecto" resultMap="ProcedimientoResultMap" >
+	    SELECT procedimientos.ID_PROCEDIMIENTOS, procedimientos.DS_NOMBRE,
+            procedimientos.DS_DESCRIPCION, procedimientos.TX_URL, procedimientos.LG_PRESENTABLE,
+            procedimientos.CD_SISTEMATREWA, procedimientos.LG_ADMINISTRABLE, procedimientos.ID_TIPOSPROCEDIMIE,
+            procedimientos.LG_VISIBLE,
+            procedimientos.TX_AYUDA,
+            procedimientos.TX_MENSAJE, procedimientos.ID_APLICACIONES,
+      	    procedimientos.LB_FICHERO, procedimientos.TX_NOMBREFICHERO,
+      	    procedimientos.TX_CLAVE_CIFRADO
+        from MOADD_PROCEDIMIENTOS procedimientos
+	        join MOADD_ORDENES ordenes
+	        on (procedimientos.ID_PROCEDIMIENTOS = ordenes.ID_PROCEDIMIENTOS)
+	        join MOADD_CONVOCATORIAS convocatorias
+	        on (ordenes.ID_ORDENES = convocatorias.ID_ORDENES)
+	        join MOADD_PERFILES perfiles
+	        on (convocatorias.ID_CONVOCATORIAS = perfiles.ID_CONVOCATORIAS)
+        where perfiles.LG_DEFAULT = 'S' ORDER BY procedimientos.DS_NOMBRE
+    </select>
+
+  <!-- Devuelve el nombre del procedimiento en un bean ProcedimientoImpl -->
+  <select id="obtenerDatosBasicosProcedimiento" resultMap="DatosBasicosResultMap" parameterType="java.math.BigDecimal">
+    select DS_NOMBRE
+    from MOADD_PROCEDIMIENTOS
+    where ID_PROCEDIMIENTOS = #{value,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Devuelve un procedimiento por idPerfiles -->
+  <select id="obtenerProcedimientoPorPerfil" resultMap="ProcedimientoResultMap" parameterType="java.math.BigDecimal">
+	    select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+	            pr.DS_DESCRIPCION, pr.TX_URL,
+	            pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+	            pr.LG_VISIBLE,
+	            pr.TX_AYUDA,
+	            pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	            pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	            pr.TX_CLAVE_CIFRADO
+		from moadd_procedimientos pr,
+			    moadd_ordenes o,
+			    moadd_convocatorias c,
+			    moadd_perfiles pe
+		where pr.id_procedimientos = o.ID_PROCEDIMIENTOS
+			    and o.ID_ORDENES = c.ID_ORDENES
+			    and c.ID_CONVOCATORIAS = pe.ID_CONVOCATORIAS
+			    and pe.ID_PERFILES = #{value,jdbcType=DECIMAL}
+		ORDER BY pr.DS_NOMBRE
+  </select>
+
+  <!-- Devuelve un procedimiento por idConvocatorias -->
+  <select id="obtenerProcedimientoPorConvocatoria" resultMap="ProcedimientoResultMap" parameterType="java.math.BigDecimal">
+	    select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+	            pr.DS_DESCRIPCION, pr.TX_URL,
+	            pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+	            pr.LG_VISIBLE,
+	            pr.TX_AYUDA,
+	            pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	            pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	            pr.TX_CLAVE_CIFRADO
+		from moadd_procedimientos pr,
+			    moadd_ordenes o,
+			    moadd_convocatorias c
+		where pr.id_procedimientos = o.ID_PROCEDIMIENTOS
+			    and o.ID_ORDENES = c.ID_ORDENES
+			    and c.ID_CONVOCATORIAS = #{value,jdbcType=DECIMAL} ORDER BY pr.DS_NOMBRE
+  </select>
+
+  <!-- Devuelve un procedimiento por idOrden -->
+  <select id="obtenerProcedimientoPorOrden" resultMap="ProcedimientoResultMap" parameterType="java.math.BigDecimal">
+	    select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+	            pr.DS_DESCRIPCION, pr.TX_URL,
+	            pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+	            pr.LG_VISIBLE,
+	            pr.TX_AYUDA,
+	            pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	            pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	            pr.TX_CLAVE_CIFRADO
+		from moadd_procedimientos pr,
+			    moadd_ordenes o
+		where pr.id_procedimientos = o.ID_PROCEDIMIENTOS
+			    and o.ID_ORDENES = #{value,jdbcType=DECIMAL}  ORDER BY pr.DS_NOMBRE
+  </select>
+
+  <!-- Obtiene el procedimiento asociado al nombre de un perfil y a un identificador de una orden -->
+  <select id="obtenerProcedimientoPorNombrePerfilIdOrden" resultMap="ProcedimientoResultMap" parameterType="map">
+        select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+                pr.DS_DESCRIPCION, pr.TX_URL,
+                pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+                pr.LG_VISIBLE,
+                pr.TX_AYUDA,
+                pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	            pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	            pr.TX_CLAVE_CIFRADO
+        from moadd_procedimientos pr,
+                moadd_ordenes o,
+                moadd_convocatorias c,
+                moadd_perfiles pe
+        where pr.id_procedimientos = o.ID_PROCEDIMIENTOS
+                and o.ID_ORDENES = c.ID_ORDENES
+                and c.ID_CONVOCATORIAS = pe.ID_CONVOCATORIAS
+                and pe.CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}
+                and o.ID_ORDENES = #{idOrden,jdbcType=DECIMAL} ORDER BY pr.DS_NOMBRE
+  </select>
+
+  <!-- Obtiene los procedimientos asociados al nombre de un perfil -->
+  <select id="obtenerProcedimientoPorNombrePerfil" resultMap="ProcedimientoResultMap" parameterType="string">
+        select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+                pr.DS_DESCRIPCION, pr.TX_URL,
+                pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+                pr.LG_VISIBLE,
+                pr.TX_AYUDA,
+                pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	            pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	            pr.TX_CLAVE_CIFRADO
+        from moadd_procedimientos pr,
+                moadd_ordenes o,
+                moadd_convocatorias c,
+                moadd_perfiles pe
+        where pr.id_procedimientos = o.ID_PROCEDIMIENTOS
+                and o.ID_ORDENES = c.ID_ORDENES
+                and c.ID_CONVOCATORIAS = pe.ID_CONVOCATORIAS
+                and pe.CD_NOMBRETREWA = #{value,jdbcType=VARCHAR} ORDER BY pr.DS_NOMBRE
+  </select>
+
+  <!-- Obtiene los procedimientos asociados al nombre de un perfil -->
+  <select id="obtenerProcedimientosAdministrables" resultMap="ProcedimientoResultMap">
+        select pr.ID_PROCEDIMIENTOS, pr.DS_NOMBRE, pr.LG_PRESENTABLE, pr.ID_TIPOSPROCEDIMIE,
+               pr.DS_DESCRIPCION, pr.TX_URL,
+               pr.CD_SISTEMATREWA, pr.LG_ADMINISTRABLE,
+               pr.LG_VISIBLE,
+               pr.TX_AYUDA,
+               pr.TX_MENSAJE, pr.ID_APLICACIONES,
+	           pr.LB_FICHERO, pr.TX_NOMBREFICHERO,
+	           pr.TX_CLAVE_CIFRADO
+        from moadd_procedimientos pr
+        where pr.LG_ADMINISTRABLE = 'S' ORDER BY pr.DS_NOMBRE
+  </select>
+
+    <!-- Devuelve una lista de procedimientos de la vista MOADV_PROCSUSUARIO -->
+	<select id="obtenerProcedimientosPorUsuario" resultMap="VistaProcedimientoResultMap" parameterType="java.lang.String">
+		SELECT ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION, TX_URL, CD_SISTEMATREWA
+		FROM MOADV_PROCSUSUARIO
+		WHERE CD_USUARIOS = #{value,jdbcType=VARCHAR}
+	</select>
+
+    <!-- Borra el fichero adjunto del procedimiento -->
+	<update id="borrarFicheroAdjunto" parameterType="java.math.BigDecimal" >
+    	update MOADD_PROCEDIMIENTOS
+    	set LB_FICHERO = null,
+    	    TX_NOMBREFICHERO = null
+    	where ID_PROCEDIMIENTOS = #{value,jdbcType=DECIMAL}
+	</update>
+
+  <!--  Mapeo para obtener procedimientos que contienen una lista de ordenes -->
+  <resultMap id="ProcedimientoConOrdenesResultMap" type="Procedimiento">
+	    <id column="ID_PROCEDIMIENTOS" property="id" jdbcType="DECIMAL" />
+	    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="PROCEDIMIENTO_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="TX_URL" property="url" jdbcType="VARCHAR" />
+	    <result column="CD_SISTEMATREWA" property="cdSistemaTrewa" jdbcType="VARCHAR" />
+	    <result column="LG_ADMINISTRABLE" property="administrable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PRESENTABLE" property="presentable" javaType="boolean" jdbcType="CHAR" />
+	    <result column="ID_TIPOSPROCEDIMIE" property="idTipoProcedimiento" />
+	    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+	    <result column="TX_MENSAJE" property="mensajeBienvenida" jdbcType="VARCHAR" />
+	    <result column="TX_AYUDA" property="ayudaAcceso" jdbcType="VARCHAR" />
+	    <result column="CD_APLICACIONES" property="codigoAplicacion" jdbcType="DECIMAL" />
+	    <result column="TX_CLAVE_CIFRADO" property="claveCifrado" jdbcType="VARCHAR" />
+	    <collection property="ordenes" resultMap="MOAD_ESQ_MOADD_PROCEDIMIENTOS.OrdenConConvocatoriasResultMap" />
+	    <collection property="tramites" resultMap="MOAD_ESQ_MOADD_PROCEDIMIENTOS.TramitesResultMap" />
+  </resultMap>
+  
+   <!--  Mapeo para obtener tramites  -->
+  <resultMap id="TramitesResultMap" type="Tramite">
+	  	<id column="ID_TRAMITES" property="id" jdbcType="DECIMAL" />
+	    <result column="CD_TRAMITES" property="codigo" jdbcType="VARCHAR" />
+	    <result column="TRAMITE_DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+	    <result column="TRAMITE_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR"/>
+        <result column="TRAMITE_ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL"/>
+        <result column="TRAMITE_TX_URL" property="urlTramite" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <!--  Mapeo para obtener ordenes que contienen una lista de convocatorias -->
+  <resultMap id="OrdenConConvocatoriasResultMap" type="Orden">
+	  	<id column="ID_ORDENES" property="id" jdbcType="DECIMAL" />
+	    <result column="ORDEN_ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+	    <result column="ORDEN_CD_TIPOEXPTREWA" property="cdTipoExpTrewa" jdbcType="VARCHAR" />
+	    <result column="ORDEN_DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+	    <result column="FH_FECHA" property="fecha" jdbcType="TIMESTAMP" />
+	    <result column="TX_CONVOCANTE" property="convocante" jdbcType="VARCHAR" />
+        <result column="ORDEN_LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+	    <result column="TX_BENEFICIARIO" property="beneficiario" jdbcType="VARCHAR" />
+	    <result column="TX_REFERENCIABOJA" property="referenciaBoja" jdbcType="VARCHAR" />
+	    <collection property="convocatorias" resultMap="MOAD_ESQ_MOADD_PROCEDIMIENTOS.ConvocatoriaConPerfilesResultMap" />
+  </resultMap>
+
+  <!--  Mapeo para obtener convocatorias que contienen una lista de perfiles -->
+  <resultMap id="ConvocatoriaConPerfilesResultMap" type="Convocatoria">
+  		<id column="ID_CONVOCATORIAS" property="id" jdbcType="DECIMAL" />
+	    <result column="CONVOCATORIA_ID_ORDENES" property="idOrden" jdbcType="DECIMAL" />
+	    <result column="FH_FECHACOMIENZO" property="fechaComienzo" jdbcType="TIMESTAMP" />
+	    <result column="FH_FECHAFIN" property="fechaFin" jdbcType="TIMESTAMP" />
+	    <result column="CONVOCATORIA_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="CD_PROCTREWA" property="cdProcTrewa" jdbcType="VARCHAR" />       
+        <result column="CONVOCATORIA_LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />        
+	    <result column="CONVOCATORIA_CD_TIPOEXPTREWA" property="cdTipoExpTrewa" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+	    <result column="FH_INICIO" property="fechaPresentacion.fechaInicio" jdbcType="TIMESTAMP"/>
+	    <result column="FH_FIN" property="fechaPresentacion.fechaFin" jdbcType="TIMESTAMP"/>
+	    <collection property="perfiles" resultMap="MOAD_ESQ_MOADD_PROCEDIMIENTOS.PerfilResultMap" />
+  </resultMap>
+
+  <!--  Mapeo para obtener convocatorias que contienen una lista de perfiles -->
+  <resultMap id="PerfilResultMap" type="Perfil">
+  		<id column="ID_PERFILES" property="id" jdbcType="DECIMAL" />
+	    <result column="PERFIL_ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+	    <result column="PERFIL_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="CD_NOMBRETREWA" property="cdNombreTrewa" jdbcType="VARCHAR" />
+  		<result column="LG_DEFAULT" property="defecto" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+	    <result column="CD_USUARIOS_PUBLICO" property="cdUsuarioTrewa" jdbcType="VARCHAR"/>
+		<collection property="tiposIdentificacion" resultMap="MOAD_ESQ_MOADD_TIPOSIDENTIFICA.TipoIdentificacionResultMap" />
+
+  </resultMap>
+
+	<select id="obtenerProcedimientosAutorizacionEXT" parameterType="java.util.Map"
+			resultMap="ProcedimientoConOrdenesResultMap">
+		select PRO.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE, PRO.DS_DESCRIPCION as PROCEDIMIENTO_DS_DESCRIPCION, PRO.TX_URL,
+			PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE,
+			PRO.LG_VISIBLE, PRO.TX_AYUDA,
+			PRO.TX_MENSAJE, APL.CD_APLICACIONES, PRO.TX_CLAVE_CIFRADO,
+            PRO.LG_PRESENTABLE, PRO.ID_TIPOSPROCEDIMIE,
+            ORD.ID_ORDENES, ORD.ID_PROCEDIMIENTOS as ORDEN_ID_PROCEDIMIENTOS,
+            ORD.CD_TIPOEXPTREWA as ORDEN_CD_TIPOEXPTREWA, ORD.DS_TITULO as ORDEN_DS_TITULO,
+            ORD.FH_FECHA, ORD.TX_CONVOCANTE,                                
+            ORD.TX_BENEFICIARIO, ORD.TX_REFERENCIABOJA, ORD.LG_VISIBLE as ORDEN_LG_VISIBLE,
+			CON.ID_CONVOCATORIAS, CON.ID_ORDENES as CONVOCATORIA_ID_ORDENES,
+			CON.FH_FECHACOMIENZO, CON.FH_FECHAFIN,
+			CON.DS_DESCRIPCION as CONVOCATORIA_DS_DESCRIPCION, CON.CD_PROCTREWA,
+            CON.CD_TIPOEXPTREWA as CONVOCATORIA_CD_TIPOEXPTREWA,
+            CON.DS_TITULO as CONVOCATORIA_DS_TITULO, FPC.FH_INICIO, FPC.FH_FIN,                              
+            CON.LG_VISIBLE as CONVOCATORIA_LG_VISIBLE,
+            PER.ID_PERFILES, PER.ID_CONVOCATORIAS as PERFIL_ID_CONVOCATORIAS,
+            PER.DS_DESCRIPCION as PERFIL_DS_DESCRIPCION, PER.CD_NOMBRETREWA,
+			PER.LG_DEFAULT, PER.LG_PUBLICO,
+			decode(USU_P.LG_PUBLICO, 'S', USU_P.CD_USUARIOS, 'N', USU_U.CD_USUARIOS, null) as CD_USUARIOS_PUBLICO,
+			TI.ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA,
+            TI.DS_NOMBRE AS TIP_DS_NOMBRE,
+			TI.DS_DESCRIPCION AS TIP_DS_DESCRIPCION,
+			TRA.ID_TRAMITES,
+            TRA.CD_TRAMITES,
+			TRA.DS_NOMBRE AS TRAMITE_DS_NOMBRE,
+			TRA.DS_DESCRIPCION AS TRAMITE_DS_DESCRIPCION,
+			TRA.ID_PROCEDIMIENTOS AS TRAMITE_ID_PROCEDIMIENTOS,
+			TRA.TX_URL AS TRAMITE_TX_URL
+			
+		from MOADD_PROCEDIMIENTOS PRO
+			 join MOADD_APLICACIONES APL
+			 	  on APL.ID_APLICACIONES = PRO.ID_APLICACIONES
+			 	  	and PRO.LG_VISIBLE = 'S'
+			 	  <if test="filtro != null and filtro.idProcedimientoActivo != null">           	  
+             	  	and PRO.ID_PROCEDIMIENTOS = #{filtro.idProcedimientoActivo,javaType=BigDecimal}
+             	  </if>
+			 join MOADD_ORDENES ORD
+             	  on PRO.ID_PROCEDIMIENTOS = ORD.ID_PROCEDIMIENTOS
+             	  and ORD.LG_VISIBLE = 'S'
+             	  <if test="filtro != null and filtro.idOrdenActiva != null">   
+             	  	and ORD.ID_ORDENES = #{filtro.idOrdenActiva,javaType=BigDecimal}
+             	  </if>
+			 join MOADD_CONVOCATORIAS CON
+			 	  on CON.ID_ORDENES = ORD.ID_ORDENES
+                  and CON.LG_VISIBLE = 'S'
+			 	  <if test="filtro != null and filtro.idConvocatoriaActiva != null">
+             	  	and CON.ID_CONVOCATORIAS = #{filtro.idConvocatoriaActiva,javaType=BigDecimal}
+             	  </if>
+             left outer join MOADD_TRAMITES TRA
+                  on TRA.ID_PROCEDIMIENTOS = PRO.ID_PROCEDIMIENTOS
+                  and TRA.LG_VISIBLE = 'S'
+                  <if test="filtro != null and filtro.idTramiteActivo != null">                  
+                    and TRA.ID_TRAMITES = #{filtro.idTramiteActivo,javaType=BigDecimal}
+                  </if>	  
+  			 left outer join MOADD_FECHASPRESCONV FPC
+			 	  on FPC.ID_CONVOCATORIAS = CON.ID_CONVOCATORIAS
+             join MOADD_PERFILES PER
+             	  on CON.ID_CONVOCATORIAS = PER.ID_CONVOCATORIAS
+             	  	<if test="filtro != null and filtro.idPerfilActivo != null">
+             	  			and PER.ID_PERFILES = #{filtro.idPerfilActivo,javaType=BigDecimal}
+             	  	</if>
+			join MOADR_TIDENTIFIC_PERF RTI
+                  on PER.ID_PERFILES = RTI.ID_PERFILES
+            join MOADD_TIPOSIDENTIFICA TI
+                  on TI.ID_TIPOSIDENTIFICA = RTI.ID_TIPOSIDENTIFICA
+                  
+                  	<if test="username != null">
+             	  		AND TI.ID_TIPOSIDENTIFICA = 2
+					</if>
+             	  	<if test="certificado != null">
+             	  		AND TI.ID_TIPOSIDENTIFICA = 3
+             	  	</if>
+             	  	<if test="username == null and certificado == null">
+             	  		AND TI.ID_TIPOSIDENTIFICA = 4
+             	  	</if>
+
+			 left outer join MOADR_USUARIO_PERFIL USP
+			 	  on USP.ID_PERFILES = PER.ID_PERFILES
+			 left outer join MOADD_USUARIOS USU_P
+			 	  on USU_P.CD_USUARIOS = USP.CD_USUARIOS and USU_P.LG_PUBLICO = 'S'
+			 left outer join MOADD_USUARIOS USU_U
+			 	  on USU_U.CD_USUARIOS = USP.CD_USUARIOS and USU_U.LG_PUBLICO = 'N'
+			 left outer join MOADD_TIPOSPROCEDIMIE TP
+                 on (TP.ID_TIPOSPROCEDIMIE = PRO.ID_TIPOSPROCEDIMIE)
+
+		where (
+				(PER.LG_DEFAULT = 'S'
+						and USU_U.TX_DNI is null
+						and USU_P.CD_USUARIOS is not null
+				)
+				or
+				(
+				<if test="dni != null">
+					USU_U.TX_DNI = #{dni,jdbcType=VARCHAR}
+				</if>
+				<if test="username != null">
+					USU_U.TX_USUARIO = #{username,jdbcType=VARCHAR}
+				</if>
+				<if test="cdUsuario != null">
+					USU_U.CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+				</if>
+				<if test="dni == null and username == null and cdUsuario == null">
+					USU_U.TX_DNI= ''
+				</if>
+		<![CDATA[
+						and PER.LG_DEFAULT = 'N'
+						and PER.LG_PUBLICO = 'N')
+				or
+				(PER.LG_DEFAULT = 'N'
+						and USU_U.TX_DNI is null
+						and PER.LG_PUBLICO = 'S'
+						and EXISTS (
+	   				   		select PER2.ID_PERFILES
+	   				   	 	from MOADD_PERFILES PER2
+						 		join MOADR_USUARIO_PERFIL USP2
+							  		on PER2.ID_PERFILES = USP2.ID_PERFILES
+						 		join MOADD_USUARIOS USU2
+						  	  		on USU2.CD_USUARIOS = USP2.CD_USUARIOS
+							where PER2.LG_DEFAULT = 'N'
+						 		and PER2.LG_PUBLICO = 'S'
+						 		]]>
+								<if test="dni != null">
+									and USU2.TX_DNI = #{dni}
+								</if>
+								<if test="username != null">
+									and USU2.TX_USUARIO = #{username,jdbcType=VARCHAR}
+								</if>
+								<if test="cdUsuario != null">
+									and USU2.CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+								</if>
+								<if test="dni == null and username == null and cdUsuario == null">
+											and USU2.TX_DNI= ''
+								</if>
+								<![CDATA[
+								and PER.ID_PERFILES = PER2.ID_PERFILES
+							)
+				)
+			)
+
+			and (CON.FH_FECHAFIN > sysdate or CON.FH_FECHAFIN is null)
+			and CON.FH_FECHACOMIENZO < sysdate
+			and (NOT EXISTS (
+					select TPP.ID_TIPOSCERTIFICADO
+					from MOADV_TCERT_PROC_PERF TPP
+					where TPP.ID_PERFILES = PER.ID_PERFILES
+					)
+					]]>
+					<!-- 
+				<dynamic prepend="or">
+					<isPropertyAvailable property="certificado">
+           	  			EXISTS (
+           	  				select TPP.ID_TIPOSCERTIFICADO
+           	  				from MOADV_TCERT_PROC_PERF TPP
+	           	  			join MOADD_TIPOSCERTIFICADO TCE
+    	       	  				on TPP.ID_TIPOSCERTIFICADO = TCE.ID_TIPOSCERTIFICADO
+        	   	  					and TCE.TX_ENTIDAD = #certificado.ca#
+           		  					and upper(TCE.TX_TIPO) = upper(#certificado.tipoCertificado#)
+           		  			where TPP.ID_PERFILES = PER.ID_PERFILES
+           		  				<isPropertyAvailable property="filtro">
+             	  					<isNotNull property="filtro.idProcedimientoActivo">
+             	  						and TPP.ID_PROCEDIMIENTOS = #filtro.idProcedimientoActivo#
+             	  					</isNotNull>
+             	  				</isPropertyAvailable>
+           	  			)
+           	  		</isPropertyAvailable>
+           	  </dynamic>
+           	   -->
+           	   <if test="certificado != null">
+           	   		OR EXISTS (
+           	  				select TPP.ID_TIPOSCERTIFICADO
+           	  				from MOADV_TCERT_PROC_PERF TPP
+	           	  			join MOADD_TIPOSCERTIFICADO TCE
+    	       	  				on TPP.ID_TIPOSCERTIFICADO = TCE.ID_TIPOSCERTIFICADO
+        	   	  					and TCE.TX_ENTIDAD = #{certificado.ca,javaType=String}
+           		  					and upper(TCE.TX_TIPO) = upper(#{certificado.tipoCertificado,javaType=String,jdbcType=VARCHAR})
+           		  			where TPP.ID_PERFILES = PER.ID_PERFILES
+           		  			<if test="filtro != null and filtro.idProcedimientoActivo != null ">
+           		  				and TPP.ID_PROCEDIMIENTOS = #{filtro.idProcedimientoActivo,javaType=BigDecimal}
+           		  			</if>
+           		  			)
+           	   </if>
+           	   
+           	   
+           	  )
+
+		order by TP.DS_DESCRIPCION, PRO.DS_DESCRIPCION, ORD.ID_ORDENES, CON.ID_CONVOCATORIAS, PER.ID_PERFILES
+
+	</select>
+
+		<!-- Devuelve una lista de procedimientos a través del código de su aplicación -->
+	<select id="obtenerProcedimientosPorAplicacionEXT" resultMap="ProcedimientoConOrdenesResultMap" parameterType="java.lang.String">
+	<![CDATA[
+		select PRO.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE,
+               PRO.DS_DESCRIPCION as PROCEDIMIENTO_DS_DESCRIPCION, PRO.TX_URL,
+               PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE,
+               PRO.LG_VISIBLE, PRO.TX_CLAVE_CIFRADO,
+               PRO.TX_AYUDA,
+               PRO.TX_MENSAJE, APL.CD_APLICACIONES,
+               PRO.LG_PRESENTABLE, PRO.ID_TIPOSPROCEDIMIE,
+               ORD.ID_ORDENES, ORD.ID_PROCEDIMIENTOS as ORDEN_ID_PROCEDIMIENTOS,
+               ORD.CD_TIPOEXPTREWA as ORDEN_CD_TIPOEXPTREWA, ORD.DS_TITULO as ORDEN_DS_TITULO,
+               ORD.FH_FECHA, ORD.TX_CONVOCANTE,
+               ORD.TX_BENEFICIARIO, ORD.TX_REFERENCIABOJA, ORD.LG_VISIBLE as ORDEN_LG_VISIBLE,
+               CON.ID_CONVOCATORIAS, CON.ID_ORDENES as CONVOCATORIA_ID_ORDENES,
+               CON.FH_FECHACOMIENZO, CON.FH_FECHAFIN,
+               CON.DS_DESCRIPCION as CONVOCATORIA_DS_DESCRIPCION, CON.CD_PROCTREWA,
+               CON.CD_TIPOEXPTREWA as CONVOCATORIA_CD_TIPOEXPTREWA,
+               CON.DS_TITULO as CONVOCATORIA_DS_TITULO, CON.LG_VISIBLE as CONVOCATORIA_LG_VISIBLE,
+               FPC.FH_INICIO, FPC.FH_FIN,
+               PER.ID_PERFILES, PER.ID_CONVOCATORIAS as PERFIL_ID_CONVOCATORIAS,
+               PER.DS_DESCRIPCION as PERFIL_DS_DESCRIPCION, PER.CD_NOMBRETREWA,
+               PER.LG_DEFAULT,
+               PER.LG_PUBLICO,
+               USU.CD_USUARIOS as CD_USUARIOS_PUBLICO,
+               TI.ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA,
+               TI.DS_NOMBRE AS TIP_DS_NOMBRE,
+			   TI.DS_DESCRIPCION AS TIP_DS_DESCRIPCION,
+			   TRA.ID_TRAMITES,
+               TRA.CD_TRAMITES,
+			   TRA.DS_NOMBRE AS TRAMITE_DS_NOMBRE,
+			   TRA.DS_DESCRIPCION AS TRAMITE_DS_DESCRIPCION,
+			   TRA.ID_PROCEDIMIENTOS AS TRAMITE_ID_PROCEDIMIENTOS,
+			   TRA.TX_URL AS TRAMITE_TX_URL
+
+        from moadd_aplicaciones APL
+             join moadd_procedimientos PRO
+             	on (APL.ID_APLICACIONES = PRO.ID_APLICACIONES)
+             left outer join moadd_ordenes ORD
+             	on (PRO.ID_PROCEDIMIENTOS = ORD.ID_PROCEDIMIENTOS)
+             left join moadd_convocatorias CON
+             	on (ORD.ID_ORDENES = CON.ID_ORDENES)
+             left outer join MOADD_FECHASPRESCONV FPC
+			 	on (FPC.ID_CONVOCATORIAS = CON.ID_CONVOCATORIAS)
+             left outer join moadd_perfiles PER
+             	on (CON.ID_CONVOCATORIAS = PER.ID_CONVOCATORIAS)
+             left outer join MOADR_USUARIO_PERFIL USP
+			 	  on USP.ID_PERFILES = PER.ID_PERFILES
+			 	  AND USP.CD_USUARIOS LIKE 'PFL_%'
+			 left outer join MOADD_USUARIOS USU
+			 	  on USU.CD_USUARIOS = USP.CD_USUARIOS and USU.LG_PUBLICO = 'S'
+			 left join MOADR_TIDENTIFIC_PERF RTI
+				on (PER.ID_PERFILES = RTI.ID_PERFILES)
+			 left join MOADD_TIPOSIDENTIFICA TI
+				on (TI.ID_TIPOSIDENTIFICA = RTI.ID_TIPOSIDENTIFICA)
+			 left join MOADD_TRAMITES TRA
+			    on (PRO.ID_PROCEDIMIENTOS = TRA.ID_PROCEDIMIENTOS) 
+                    and TRA.LG_VISIBLE = 'S'
+             left outer join MOADD_TIPOSPROCEDIMIE TP
+                 on (TP.ID_TIPOSPROCEDIMIE = PRO.ID_TIPOSPROCEDIMIE)
+            where APL.CD_APLICACIONES = #{value,jdbcType=VARCHAR}
+			and (CON.FH_FECHAFIN > sysdate or CON.FH_FECHAFIN is null)
+			and (CON.FH_FECHACOMIENZO < sysdate or CON.FH_FECHACOMIENZO is null)
+        order by TP.DS_DESCRIPCION,
+                 PRO.DS_DESCRIPCION,
+                 ORD.ID_ORDENES,
+                 CON.ID_CONVOCATORIAS,
+                 PER.ID_PERFILES
+                 ]]>
+	</select>
+
+	<!-- Devuelve una lista de procedimientos a través del código de su aplicación con fichero-->
+	<select id="obtenerProcedimientosPorAplicacionSimpleConFichero" resultMap="ProcedimientoResultMap" parameterType="java.lang.String">
+	<![CDATA[
+		select PRO.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE, PRO.DS_DESCRIPCION, PRO.TX_URL, PRO.LG_PRESENTABLE, PRO.ID_TIPOSPROCEDIMIE,
+	    PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE, PRO.LG_VISIBLE, PRO.TX_AYUDA,
+	    PRO.TX_MENSAJE, PRO.ID_APLICACIONES, PRO.LB_FICHERO, PRO.TX_NOMBREFICHERO, PRO.TX_CLAVE_CIFRADO
+        from moadd_aplicaciones APL
+             join moadd_procedimientos PRO
+             	on (APL.ID_APLICACIONES = PRO.ID_APLICACIONES)
+            where APL.CD_APLICACIONES = #{value,jdbcType=VARCHAR}
+        order by PRO.DS_DESCRIPCION                
+                 ]]>
+	</select>
+	
+	<!-- Devuelve una lista de procedimientos a través del código de su aplicación sin fichero-->
+	<select id="obtenerProcedimientosPorAplicacionSimpleSinFichero" resultMap="ProcedimientoResultMapSinFichero" parameterType="java.lang.String">
+	<![CDATA[
+		select PRO.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE, PRO.DS_DESCRIPCION, PRO.TX_URL, PRO.LG_PRESENTABLE, PRO.ID_TIPOSPROCEDIMIE,
+	    PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE, PRO.LG_VISIBLE, PRO.TX_AYUDA,
+	    PRO.TX_MENSAJE, PRO.ID_APLICACIONES, PRO.TX_NOMBREFICHERO, PRO.TX_CLAVE_CIFRADO
+        from moadd_aplicaciones APL
+             join moadd_procedimientos PRO
+             	on (APL.ID_APLICACIONES = PRO.ID_APLICACIONES)
+            where APL.CD_APLICACIONES = #{value,jdbcType=VARCHAR}
+        order by PRO.DS_DESCRIPCION                
+                 ]]>
+	</select>
+	
+	<!-- Devuelve una lista de procedimientos -->
+	<select id="obtenerProcedimientosEXT" resultMap="ProcedimientoConOrdenesResultMap">
+	<![CDATA[
+		select PRO.ID_PROCEDIMIENTOS,
+			   PRO.DS_NOMBRE,
+               PRO.DS_DESCRIPCION as PROCEDIMIENTO_DS_DESCRIPCION, PRO.TX_URL,
+               PRO.CD_SISTEMATREWA, PRO.LG_ADMINISTRABLE,
+               PRO.LG_VISIBLE, PRO.TX_CLAVE_CIFRADO,
+               PRO.TX_AYUDA,
+               PRO.TX_MENSAJE, APL.CD_APLICACIONES,
+               PRO.LG_PRESENTABLE, PRO.ID_TIPOSPROCEDIMIE,
+               ORD.ID_ORDENES, ORD.ID_PROCEDIMIENTOS as ORDEN_ID_PROCEDIMIENTOS,
+               ORD.CD_TIPOEXPTREWA as ORDEN_CD_TIPOEXPTREWA, ORD.DS_TITULO as ORDEN_DS_TITULO,
+               ORD.FH_FECHA, ORD.TX_CONVOCANTE,
+               ORD.TX_BENEFICIARIO, ORD.TX_REFERENCIABOJA, ORD.LG_VISIBLE as ORDEN_LG_VISIBLE,
+               CON.ID_CONVOCATORIAS, CON.ID_ORDENES as CONVOCATORIA_ID_ORDENES,
+               CON.FH_FECHACOMIENZO, CON.FH_FECHAFIN,
+               CON.DS_DESCRIPCION as CONVOCATORIA_DS_DESCRIPCION, CON.CD_PROCTREWA,
+               CON.CD_TIPOEXPTREWA as CONVOCATORIA_CD_TIPOEXPTREWA,
+               CON.DS_TITULO as CONVOCATORIA_DS_TITULO, CON.LG_VISIBLE as CONVOCATORIA_LG_VISIBLE,
+               FPC.FH_INICIO, FPC.FH_FIN,
+               PER.ID_PERFILES, PER.ID_CONVOCATORIAS as PERFIL_ID_CONVOCATORIAS,
+               PER.DS_DESCRIPCION as PERFIL_DS_DESCRIPCION, PER.CD_NOMBRETREWA,
+               PER.LG_DEFAULT,
+               PER.LG_PUBLICO,
+               USU.CD_USUARIOS as CD_USUARIOS_PUBLICO,
+               TI.ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA,
+               TI.DS_NOMBRE AS TIP_DS_NOMBRE,
+			   TI.DS_DESCRIPCION AS TIP_DS_DESCRIPCION,
+               TRA.ID_TRAMITES,
+               TRA.CD_TRAMITES,
+			   TRA.DS_NOMBRE AS TRAMITE_DS_NOMBRE,
+			   TRA.DS_DESCRIPCION AS TRAMITE_DS_DESCRIPCION,
+			   TRA.ID_PROCEDIMIENTOS AS TRAMITE_ID_PROCEDIMIENTOS,
+			   TRA.TX_URL AS TRAMITE_TX_URL
+
+        from moadd_procedimientos PRO
+             left outer join moadd_aplicaciones APL
+             	on (APL.ID_APLICACIONES = PRO.ID_APLICACIONES)
+             left outer join moadd_ordenes ORD
+             	on (PRO.ID_PROCEDIMIENTOS = ORD.ID_PROCEDIMIENTOS)
+             left join moadd_convocatorias CON
+             	on (ORD.ID_ORDENES = CON.ID_ORDENES)
+             left outer join MOADD_FECHASPRESCONV FPC
+			 	on (FPC.ID_CONVOCATORIAS = CON.ID_CONVOCATORIAS)
+             left outer join moadd_perfiles PER
+             	on (CON.ID_CONVOCATORIAS = PER.ID_CONVOCATORIAS)
+			 left outer join MOADR_USUARIO_PERFIL USP
+			 	  on USP.ID_PERFILES = PER.ID_PERFILES
+			 	  AND USP.CD_USUARIOS LIKE 'PFL_%'
+			 left outer join MOADD_USUARIOS USU
+			 	  on USU.CD_USUARIOS = USP.CD_USUARIOS and USU.LG_PUBLICO = 'S'
+			 left join MOADR_TIDENTIFIC_PERF RTI
+				on (PER.ID_PERFILES = RTI.ID_PERFILES)
+			 left join MOADD_TIPOSIDENTIFICA TI
+				on (TI.ID_TIPOSIDENTIFICA = RTI.ID_TIPOSIDENTIFICA)
+ 			 left join MOADD_TRAMITES TRA
+			    on (PRO.ID_PROCEDIMIENTOS = TRA.ID_PROCEDIMIENTOS)
+			     and TRA.LG_VISIBLE = 'S'
+			 left outer join MOADD_TIPOSPROCEDIMIE TP
+                 on (TP.ID_TIPOSPROCEDIMIE = PRO.ID_TIPOSPROCEDIMIE)
+        where (CON.FH_FECHAFIN > sysdate or CON.FH_FECHAFIN is null)
+			and (CON.FH_FECHACOMIENZO < sysdate or CON.FH_FECHACOMIENZO is null)
+
+        order by TP.DS_DESCRIPCION,
+                 PRO.DS_DESCRIPCION,
+                 ORD.ID_ORDENES,
+                 CON.ID_CONVOCATORIAS,
+                 PER.ID_PERFILES
+                 ]]>
+	</select>
+
+	<!-- Devuelve una lista de órdenes a partir del identificador del procedimiento -->
+	<select id="obtenerOrdenesEXT" resultMap="OrdenConConvocatoriasResultMap" parameterType="java.math.BigDecimal">
+	<![CDATA[
+		select ORD.ID_ORDENES,
+		       ORD.ID_PROCEDIMIENTOS as ORDEN_ID_PROCEDIMIENTOS,
+               ORD.CD_TIPOEXPTREWA as ORDEN_CD_TIPOEXPTREWA,
+               ORD.DS_TITULO as ORDEN_DS_TITULO,
+               ORD.FH_FECHA, ORD.TX_CONVOCANTE,
+               ORD.TX_BENEFICIARIO, ORD.TX_REFERENCIABOJA,
+               ORD.LG_VISIBLE as ORDEN_LG_VISIBLE,
+               CON.ID_CONVOCATORIAS,
+               CON.ID_ORDENES as CONVOCATORIA_ID_ORDENES,
+               CON.FH_FECHACOMIENZO,
+               CON.FH_FECHAFIN,
+               CON.DS_DESCRIPCION as CONVOCATORIA_DS_DESCRIPCION,
+               CON.CD_PROCTREWA,
+               CON.CD_TIPOEXPTREWA as CONVOCATORIA_CD_TIPOEXPTREWA,
+               CON.DS_TITULO as CONVOCATORIA_DS_TITULO,
+               CON.LG_VISIBLE as CONVOCATORIA_LG_VISIBLE,
+               FPC.FH_INICIO, FPC.FH_FIN,
+               PER.ID_PERFILES,
+               PER.ID_CONVOCATORIAS as PERFIL_ID_CONVOCATORIAS,
+               PER.DS_DESCRIPCION as PERFIL_DS_DESCRIPCION,
+               PER.CD_NOMBRETREWA,
+               PER.LG_DEFAULT,
+               PER.LG_PUBLICO,
+               null as CD_USUARIOS_PUBLICO,
+               TI.ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA,
+               TI.DS_NOMBRE AS TIP_DS_NOMBRE,
+			   TI.DS_DESCRIPCION AS TIP_DS_DESCRIPCION
+
+        from moadd_ordenes ORD
+             left join moadd_convocatorias CON
+             	on (ORD.ID_ORDENES = CON.ID_ORDENES)
+             left join MOADD_FECHASPRESCONV FPC
+			 	on (FPC.ID_CONVOCATORIAS = CON.ID_CONVOCATORIAS)
+             left join moadd_perfiles PER
+             	on (CON.ID_CONVOCATORIAS = PER.ID_CONVOCATORIAS)
+             left join MOADR_TIDENTIFIC_PERF RTI
+				on (PER.ID_PERFILES = RTI.ID_PERFILES)
+			 left join MOADD_TIPOSIDENTIFICA TI
+				on (TI.ID_TIPOSIDENTIFICA = RTI.ID_TIPOSIDENTIFICA)
+
+        where ORD.ID_PROCEDIMIENTOS = #{value,jdbcType=DECIMAL}
+
+        order by ORD.ID_ORDENES,
+                 CON.ID_CONVOCATORIAS,
+                 PER.ID_PERFILES
+                 ]]>
+	</select>
+
+ 
+  
+  <select id="obtenerProcedimientosPorNombre" resultMap="ProcedimientoResultMap" parameterType="java.lang.String">
+  	<![CDATA[
+    SELECT ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION, TX_URL, LG_PRESENTABLE, ID_TIPOSPROCEDIMIE,
+	    CD_SISTEMATREWA, LG_ADMINISTRABLE, LG_VISIBLE, TX_AYUDA,
+	    TX_MENSAJE, ID_APLICACIONES, LB_FICHERO, TX_NOMBREFICHERO, TX_CLAVE_CIFRADO
+    FROM MOADD_PROCEDIMIENTOS
+	WHERE DS_NOMBRE = #{value,jdbcType=VARCHAR}
+    ORDER BY DS_NOMBRE
+	 ]]>
+  </select>
+
+  <select id="obtenerProcedimientoPorSistemaTrewa" resultMap="ProcedimientoResultMap" parameterType="Procedimiento">
+  	<![CDATA[
+    SELECT ID_PROCEDIMIENTOS, DS_NOMBRE, DS_DESCRIPCION, TX_URL, LG_PRESENTABLE, ID_TIPOSPROCEDIMIE,
+	    CD_SISTEMATREWA, LG_ADMINISTRABLE, LG_VISIBLE, TX_AYUDA,
+	    TX_MENSAJE, ID_APLICACIONES, LB_FICHERO, TX_NOMBREFICHERO, TX_CLAVE_CIFRADO
+    FROM MOADD_PROCEDIMIENTOS
+	WHERE CD_SISTEMATREWA = #{cdSistemaTrewa,jdbcType=VARCHAR} AND
+		  ID_PROCEDIMIENTOS <> #{id,jdbcType=DECIMAL}
+    ORDER BY DS_NOMBRE
+	 ]]>
+  </select>
+  
+  <!-- Mapeo de las columnas de la tabla MOADD_TIPOS_PROCEDIMIE -->
+  <resultMap id="TiposProcedimientosResultMap" type="TipoProcedimiento" >
+	    <result column="ID_TIPOSPROCEDIMIE" property="id" jdbcType="DECIMAL" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="obtenerTiposProcedimiento" resultMap="TiposProcedimientosResultMap">
+  	<![CDATA[
+    SELECT ID_TIPOSPROCEDIMIE, DS_DESCRIPCION
+    FROM MOADD_TIPOSPROCEDIMIE
+    ORDER BY DS_DESCRIPCION
+	 ]]>
+  </select>
+
+  <select id="obtenerTipoProcedimientoById" resultMap="TiposProcedimientosResultMap" parameterType="java.math.BigDecimal">
+  	<![CDATA[
+    SELECT ID_TIPOSPROCEDIMIE, DS_DESCRIPCION
+    FROM MOADD_TIPOSPROCEDIMIE
+    WHERE ID_TIPOSPROCEDIMIE = #{value,jdbcType=DECIMAL}
+	 ]]>
+  </select>
+
+<!-- Selección de la clave de cifrado de la tabla MOADD_INSTHERRAMIENTA por Id de herramienta -->
+  <select id="selectClaveCifradoByIdProcedimiento" resultMap="ProcedimientoClaveCifradoMap" parameterType="java.math.BigDecimal" >
+  	<![CDATA[
+	    select pr.DS_NOMBRE, pr.TX_CLAVE_CIFRADO
+	    from MOADD_PROCEDIMIENTOS pr
+		where pr.ID_PROCEDIMIENTOS = #{value,jdbcType=DECIMAL}
+	]]>
+  </select>
+</mapper>

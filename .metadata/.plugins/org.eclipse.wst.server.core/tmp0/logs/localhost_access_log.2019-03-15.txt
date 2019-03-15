@@ -1,0 +1,9 @@
+127.0.0.1 - - [15/Mar/2019:09:08:13 +0100] "GET / HTTP/1.1" 404 956
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:09:15 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:09:15 +0100] "GET /favicon.ico HTTP/1.1" 404 967
+127.0.0.1 - - [15/Mar/2019:09:12:44 +0100] "GET / HTTP/1.1" 404 956
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:12:50 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:12:51 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:13:08 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:13:08 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981
+0:0:0:0:0:0:0:1 - - [15/Mar/2019:09:13:09 +0100] "GET /moad-console-web/login.do HTTP/1.1" 404 981

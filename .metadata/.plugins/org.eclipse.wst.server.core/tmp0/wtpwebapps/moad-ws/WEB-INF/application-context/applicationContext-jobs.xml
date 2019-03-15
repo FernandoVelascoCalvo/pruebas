@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+default-lazy-init="false">
+
+    <!-- Factory para el planificador -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Planificador de las tareas. -->
+    <bean id="cronTrigger"
+        class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="purgeJob" />
+        <!-- se lanza cada día a las 12:00 pm -->
+        <property name="cronExpression" value="${moad.purgatickets}" />
+    </bean>
+    <!--
+        Definición de la tarea programada para la eliminación de los
+        tickets
+    -->
+    <bean name="purgeJob"
+        class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass"
+            value="es.ja.cice.pct.moad.manager.jobs.TicketPurgeJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="timeout" value="5" />
+                <entry key="ticketsFacade" value-ref="ITicketsFacade" />
+            </map>
+        </property>
+    </bean>
+</beans>

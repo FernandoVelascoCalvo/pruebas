@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="MOAD_ESQ_MOADD_TIPOSIDENTIFICA" >
+
+	<!--  Relacion entre las columnas de la tabla con los datos miembro de las clases   -->
+	<resultMap id="TipoIdentificacionResultMap" type="TipoIdentificacion" >
+		<result column="TIP_ID_TIPOSIDENTIFICA" property="id" jdbcType="DECIMAL" />    
+		<result column="TIP_DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="TIP_DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+  
+	<!-- obtiene todos los tipos de identificación para un perfil -->
+  	<select id="obtenerTiposIdentificacion" resultMap="TipoIdentificacionResultMap">
+    	select ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA, 
+    		   DS_NOMBRE AS TIP_DS_NOMBRE, 
+    		   DS_DESCRIPCION AS TIP_DS_DESCRIPCION
+    	from MOADD_TIPOSIDENTIFICA ORDER BY DS_NOMBRE
+	</select>
+
+	<!-- Consulta un registro por su identificador  -->
+  	<select id="obtenerTipoIdentificacionPorClave" resultMap="TipoIdentificacionResultMap" parameterType="java.math.BigDecimal">
+    	select ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA, 
+    		   DS_NOMBRE AS TIP_DS_NOMBRE, 
+    		   DS_DESCRIPCION AS TIP_DS_DESCRIPCION
+    	from MOADD_TIPOSIDENTIFICA 
+    	where (ID_TIPOSIDENTIFICA = #{value})
+    	ORDER BY DS_NOMBRE
+	</select>
+
+</mapper>

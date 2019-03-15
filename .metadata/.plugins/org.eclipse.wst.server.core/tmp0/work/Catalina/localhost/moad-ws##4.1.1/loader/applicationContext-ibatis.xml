@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+<!--  Logger Aspect -->
+<!--  	<aop:config>
+		<aop:aspect id="beforeMethodAspect" ref="loggingAspect">
+			<aop:before pointcut="execution(* es.ja.cice.pct.moad.dao..*.*(..))" method="loggingCall"/>
+		</aop:aspect>
+		<aop:aspect id="afterMethodAspect" ref="loggingAspect">
+			<aop:after-returning pointcut="execution(* es.ja.cice.pct.moad.dao..*.*(..))" method="loggingResult" returning="resultado"/>
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="loggingAspect" class="es.ja.cice.pct.moad.aspects.LoggingInfo"/>
+-->
+
+	<!-- SqlMap setup for iBATIS Database Layer -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:sql-map-config.xml"/>
+	</bean>
+
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+		
+	<!-- Gestión de transacciones a nivel de Clase-->
+	<bean id="transactionAttributes"
+		class="org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource">
+		<property name="properties">
+			<props>
+				<prop key="*Tx">
+					PROPAGATION_REQUIRED,-MoadException
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="matchTxInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="transactionAttributes" />
+		</property>
+	</bean>
+
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>matchTxInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>IUsuariosManager</value>
+				<value>IPerfilesManager</value>
+				<value>IUnidadesOrganicasManager</value>
+				<value>IConfiguracionTrewaManager</value>
+				<value>IMenuCabeceraManager</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Interceptor usuario aplicación a contexto de BD para auditoria. (AOP) -->
+	<!-- Intercepta la obtención de conexiones del datasource -->
+	<bean id="contextoBDAdvice"
+		class="es.ja.cice.pct.moad.advisors.DBUserDatasourceAdvisor">
+		<property name="remoteDetails">
+			<ref bean="securityContextWrapper" />
+		</property>
+	</bean>
+	<bean id="contextoBDAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="contextoBDAdvice" />
+		</property>
+		<property name="mappedName">
+			<value>getConnection</value>
+		</property>
+	</bean>
+	<bean id="dataSourceProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>contextoBDAdvisor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>dataSource</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Para evitar confusiones con el bean definido a nivel de aplicación Web -->
+	<!-- En este caso no registrará el usuario -->
+<!-- 	<bean id="securityContextWrapper" class="es.ja.cice.pct.moad.advisors.FooRemoteUserContextWrapper">
+		<property name="genericUsername" value="MOAD_USER"/>
+	</bean> -->
+
+	<!-- Add new Daos here -->
+	<!-- A partir de este punto ponemos la definición de las interfaces mappers-->
+
+	<!-- MoaddAccionesDAO: iBATIS implementation -->
+	<bean id="IMoaddAccionesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddAccionesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddAgrupacionesPaisDAO: iBATIS implementation -->
+	<bean id="IMoaddAgrupacionesPaisDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddAgrupacionPaisDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- MoaddAnexosDAO: iBATIS implementation -->
+	<bean id="IMoaddAnexosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddAnexosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- MoaddAplicacionesDAO: iBATIS implementation -->
+	<bean id="IMoaddAplicacionesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddAplicacionesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoaddAuditoriaDAO: iBATIS implementation -->
+	<bean id="IMoaddAuditoriaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddAuditoriaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddCamposListadoDAO: iBATIS implementation -->
+	<bean id="IMoaddCamposListadoDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddCamposListadoDAOImpl" lazy-init="false">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddConfiguracionesDAO: iBATIS implementation -->
+	<bean id="IMoaddConfiguracionesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddConfiguracionesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddContrasenasDAO: iBATIS implementation -->
+	<bean id="IMoaddContrasenasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddContrasenasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddConvocatoriasDAO: iBATIS implementation -->
+	<bean id="IMoaddConvocatoriasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddConvocatoriasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddEmpleadosDAO: iBATIS implementation -->
+	<bean id="IMoaddEmpleadosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddEmpleadosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="usuariosDAO" ref="IMoaddUsuariosDAO" />
+	</bean>
+
+	<!-- IMoaddFechasPresConvDAO: iBATIS implementation -->
+	<bean id="IMoaddFechasPresConvDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddFechasPresConvDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddFuncionalidadesDAO: iBATIS implementation -->
+	<bean id="IMoaddFuncionalidadesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddFuncionalidadesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddHerramientasDAO: iBATIS implementation -->
+	<bean id="IMoaddHerramientasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddHerramientasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddInstHerramientaDAO: iBATIS implementation -->
+	<bean id="IMoaddInstHerramientaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddInstHerramientaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddInstParamDAO: iBATIS implementation -->
+	<bean id="IMoaddInstParamDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddInstParamDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddListadosDAO: iBATIS implementation -->
+	<bean id="IMoaddListadosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddListadosDAOImpl" lazy-init="false">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddMunicipiosDAO: iBATIS implementation -->
+	<bean id="IMoaddMunicipiosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddMunicipiosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddOficinasRegistrDAO: iBATIS implementation -->
+	<bean id="IMoaddOficinasRegistrDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddOficinasRegistrDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPaisesDAO: iBATIS implementation -->
+	<bean id="IMoaddPaisesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPaisesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddParametrosDAO: iBATIS implementation -->
+	<bean id="IMoaddParametrosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddParametrosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPerfilesDAO: iBATIS implementation -->
+	<bean id="IMoaddPerfilesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPerfilesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+		<!-- IMoaddPerfilesUsuDAO: iBATIS implementation -->
+	<bean id="IMoaddPerfilesUsuDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPerfilesUsuDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPlantillasDAO: iBATIS implementation -->
+	<bean id="IMoaddPlantillasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPlantillasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+		<!-- IMoaddPrivilegiosDAO: iBATIS implementation -->
+	<bean id="IMoaddPrivilegiosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPrivilegiosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddProcedimientosDAO: iBATIS implementation -->
+	<bean id="IMoaddProcedimientosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddProcedimientosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddProvinciasDAO: iBATIS implementation -->
+	<bean id="IMoaddProvinciasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddProvinciasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPuestosTrabajoDAO: iBATIS implementation -->
+	<bean id="IMoaddPuestosTrabajoDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPuestosTrabajoDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddRegAccesosDAO: iBATIS implementation -->
+	<bean id="IMoaddRegAccesosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddRegAccesosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddRolesDAO: iBATIS implementation -->
+	<bean id="IMoaddRolesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddRolesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTicketsDAO -->
+	<bean id="IMoaddTicketsDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTicketsDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposCertificadoDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposCertificadoDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposCertificadoDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposHerramientasDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposHerramientasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposHerramientasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposIdentificaDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposIdentificaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposIdentificaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposOrganismoDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposOrganismoDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposOrganismoDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposOrganizaDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposOrganizaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposOrganizaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddTiposViaDAO: iBATIS implementation -->
+	<bean id="IMoaddTiposViaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTiposViaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddUnidadesOrganicDAO: iBATIS implementation -->
+	<bean id="IMoaddUnidadesOrganicDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddUnidadesOrganicDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddUsuariosDAO: iBATIS implementation -->
+	<bean id="IMoaddUsuariosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddUsuariosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddVersionesPresentaDAO: iBATIS implementation -->
+	<bean id="IMoaddVersionesPresentaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddVersionesPresentaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddOrdenesDAO: iBATIS implementation -->
+	<bean id="IMoaddOrdenesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddOrdenesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoaddTramitesDAO: iBATIS implementation -->
+	<bean id="IMoaddTramitesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddTramitesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddrAccionesRolesDAO: iBATIS implementation -->
+	<bean id="IMoadrAccionesRolesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrAccionesRolesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddrFuncsAccionesDAO: iBATIS implementation -->
+	<bean id="IMoadrFuncsAccionesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrFuncsAccionesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddrFuncsRolesDAO: iBATIS implementation -->
+	<bean id="IMoadrFuncsRolesDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrFuncsRolesDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddrListaProcediDAO: iBATIS implementation -->
+	<bean id="IMoadrListadProcediDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrListadProcediDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoadrPerfusuUsuDAO: iBATIS implementation -->
+	<bean id="IMoadrPerfusuUsuDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrPerfusuUsuDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="usuariosDAO" ref="IMoaddUsuariosDAO" />
+	</bean>	
+	
+	<!-- IMoaddrRolUsuaProcDAO: iBATIS implementation -->
+	<bean id="IMoadrRolUsuaProcDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrRolUsuaProcDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="usuariosDAO" ref="IMoaddUsuariosDAO" />
+	</bean>
+
+	<!-- MoadrTCertProcPerfDAO -->
+	<bean id="IMoadrTCertProcPerfDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrTCertProcPerfDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- MoadrTipoIdentificaPerfilDAO -->
+	<bean id="IMoadrTipoIdentificaPerfilDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrTipoIdentificaPerfilDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- MoadrPuesTrabUniOrgDAO -->
+	<bean id="IMoadrPuesTrabUniOrgDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrPuesTrabUniOrgImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoadrTipoCertProcedDAO: iBATIS implementation -->
+	<bean id="IMoadrTipoCertProcedDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrTipoCertProcedDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoadrUsuarioPerfilDAO: iBATIS implementation -->
+	<bean id="IMoadrUsuarioPerfilDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrUsuarioPerfilDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="usuariosDAO" ref="IMoaddUsuariosDAO" />
+	</bean>
+
+	<!-- IMoadrVersionPresentaConvocatoriaDAO: iBATIS implementation -->
+	<bean id="IMoadrVersionPresentaConvocatoriaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrVersionPresentaConvocatoriaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPreferenciasDAO: iBATIS implementation -->
+	<bean id="IMoaddPreferenciasDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddPreferenciasDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddPreferenciasDAO: iBATIS implementation -->
+	<bean id="IMoaddDocsAsociadosDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddDocsAsociadosDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- IMoaddMenuDAO: iBATIS implementation -->
+	<bean id="IMoaddMenuDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddMenuDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoaddSubMenuDAO: iBATIS implementation -->
+	<bean id="IMoaddSubMenuDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddSubMenuDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoaddConfiguracionTrewaDAO: iBATIS implementation -->
+	<bean id="IMoaddConfiguracionTrewaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoaddConfiguracionTrewaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoadrUsuarioConfTrewaDAO: iBATIS implementation -->
+	<bean id="IMoadrUsuarioConfTrewaDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrUsuarioConfTrewaDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- IMoadrDocumentosENIDAO: iBATIS implementation -->
+	<bean id="IMoadrDocumentosENIDAO" class="es.ja.cice.pct.moad.dao.ibatis.MoadrDocumentosENIDAOImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+</beans>

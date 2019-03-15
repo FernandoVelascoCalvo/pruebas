@@ -1,0 +1,90 @@
+<configuration debug="false" scan="true" scanPeriod="3600 seconds">
+	<!-- Log a Consola -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{[yyyy-MM-dd HH:mm:ss.SSS]} {%thread}[%-5level][%logger]: %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Log a Archivo -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/moad-console.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.base}/logs/moad-console.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{[yyyy-MM-dd HH:mm:ss.SSS]} {%thread}[%-5level][%logger]: %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE_AFIRMA_CORE_AUTENTICACION_ESTADISTICAS"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/afirmaPct-chap_Afirma_Core_Autenticacion_Estadistica.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.base}/logs/afirmaPct-chap_Afirma_Core_Autenticacion_Estadistica.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{[yyyy-MM-dd HH:mm:ss.SSS]} {%thread}[%-5level][%logger]: %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_AFIRMA_MOD_CHAP_AUTENTICACION_ESTADISTICAS"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/afirmaPct-chap_Afirma_Mod_Chap_Autenticacion_Estadistica.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.base}/logs/afirmaPct-chap_Afirma_Mod_Chap_Autenticacion_Estadistica.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{[yyyy-MM-dd HH:mm:ss.SSS]} {%thread}[%-5level][%logger]: %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Log monitorizacion -->
+	<appender name="MONITORIZACION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/pctmoad-console-monitor-${nodo}.log
+		</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.base}/logs/pctmoad-console-monitor-${nodo}.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{[yyyy-MM-dd HH:mm:ss.SSS]} {%thread}[%-5level][%logger]: %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="ERROR"/>
+	<logger name="org.apache" level="ERROR"/>
+	<logger name="org.apache.struts" level="ERROR"/>
+	<logger name="org.displaytag" level="ERROR"/>
+	<logger name="org.mybatis.spring" level="INFO"/>
+	<logger name="org.apache.ibatis" level="INFO"/>
+	<logger name="org.apache.cxf" level="INFO"/>
+	<logger name="java.sql" level="DEBUG"/>
+	<logger name="trewa" level="INFO"/>
+	<logger name="es.ja.cice.pct.moad" level="DEBUG"/>
+	<logger name="es.ja.cice.pct.moad.webapp.filter" level="ERROR"/>
+	<logger name="es.ja.cice.pct.moad.advisors" level="ERROR"/>
+	
+	<logger name="AFIRMA_MOD_CHAP_AUTENTICACION_ESTADISTICAS" level="INFO" additivity="false">
+		<appender-ref ref="FILE_AFIRMA_MOD_CHAP_AUTENTICACION_ESTADISTICAS" />
+	</logger>
+	
+	<logger name="AFIRMA_CORE_AUTENTICACION_ESTADISTICAS" level="INFO" additivity="false">
+		<appender-ref ref="FILE_AFIRMA_CORE_AUTENTICACION_ESTADISTICAS" />
+	</logger>
+	
+	<logger name="es.juntadeandalucia.ceice.cmi.pct.componentes.monitores" level="ERROR" additivity="false">
+		<appender-ref ref="MONITORIZACION" />
+	</logger>
+	
+	<logger name="es.ja.cice.pct.moad.negocio.serviciosimpl.monitor" level="ERROR" additivity="false">
+		<appender-ref ref="MONITORIZACION" />
+	</logger>
+
+	<!-- Strictly speaking, the level attribute is not necessary since -->
+  	<!-- the level of the root level is set to DEBUG by default.       -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	    <appender-ref ref="FILE" />
+	</root>
+</configuration>

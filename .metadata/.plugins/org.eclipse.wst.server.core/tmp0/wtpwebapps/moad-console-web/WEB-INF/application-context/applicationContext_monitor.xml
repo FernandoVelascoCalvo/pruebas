@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean name="monitorAfirma" class="es.ja.cice.pct.moad.negocio.serviciosimpl.monitor.MonitorAfirma" init-method="init">
+		<property name="timeout" value="${monitor.timeout}" />
+		<property name="modoAutorizacion" value="${moad.auth.model}" />
+		<property name="urlServicioAfirma" value="${afirma.host}" />
+		<property name="pathAlmacenCertificados" value="${afirma.truststore}" />
+		<property name="passwordAlmacenCertificados" value="${afirma.truststorePassword}" />
+	</bean>
+	
+	<bean name="monitorConexiones" class="es.ja.cice.pct.moad.negocio.serviciosimpl.monitor.MonitorConexiones" init-method="init">
+		<property name="dataSourceProcedimiento" ref="dataSource" />
+		<property name="poolTrewas" value="${evaluacion.pool.trewa.procedimientos}" />
+	</bean>
+</beans>

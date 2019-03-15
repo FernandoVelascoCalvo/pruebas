@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_CAMPOSLISTADO">
+	<!-- Mapeo de las columnas de la tabla MOADD_CAMPOSLISTADO y los datos miembro de la clase MoaddCamposListado -->
+	<resultMap id="CampoListadoResultMap" type="CampoListado">
+		<result column="ID_CAMPOSLISTADO" property="id" jdbcType="DECIMAL" />
+		<result column="ID_LISTADOS" property="idListado" jdbcType="DECIMAL" />
+		<result column="DS_CAMPO" property="campo" jdbcType="VARCHAR" />
+		<result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="LG_LISTADO" property="visible" javaType="boolean" jdbcType="CHAR" />
+		<result column="LG_BUSQUEDA" property="busqueda" javaType="boolean" jdbcType="CHAR" />
+	</resultMap>
+
+
+	<!-- Selección de registro de la tabla MOADD_CAMPOSLISTADO por su clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="CampoListadoResultMap" parameterType="CampoListado">
+		select ID_CAMPOSLISTADO, ID_LISTADOS, DS_CAMPO, DS_TITULO, DS_DESCRIPCION, LG_LISTADO, LG_BUSQUEDA 
+		from MOADD_CAMPOSLISTADO where ID_CAMPOSLISTADO = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Selección de registro de la tabla MOADD_CAMPOSLISTADO por clave primaria del listado -->
+	<select id="selectByPrimaryKeyListado" resultMap="CampoListadoResultMap" parameterType="java.math.BigDecimal">
+		select ID_CAMPOSLISTADO,ID_LISTADOS, DS_CAMPO, DS_TITULO, DS_DESCRIPCION, LG_LISTADO, LG_BUSQUEDA 
+		from MOADD_CAMPOSLISTADO where ID_LISTADOS = #{value} ORDER BY DS_CAMPO
+	</select>
+
+	<!-- Selección de registro de la tabla MOADD_CAMPOSLISTADO por clave primaria del listado -->
+	<select id="obtenerCamposListado" resultMap="CampoListadoResultMap" parameterType="java.math.BigDecimal">
+		select ID_CAMPOSLISTADO, ID_LISTADOS, DS_CAMPO, DS_TITULO,
+			DS_DESCRIPCION, LG_LISTADO, LG_BUSQUEDA 
+		from
+			MOADD_CAMPOSLISTADO 
+		where ID_LISTADOS = #{value} and LG_LISTADO='S' ORDER BY DS_CAMPO
+	</select>
+	
+	<!-- Selección de registro de la tabla MOADD_CAMPOSLISTADO por clave primaria del listado -->
+	<select id="obtenerCamposFiltrado" resultMap="CampoListadoResultMap" parameterType="java.math.BigDecimal">
+		select ID_CAMPOSLISTADO,ID_LISTADOS, DS_CAMPO, DS_TITULO, DS_DESCRIPCION, LG_LISTADO, LG_BUSQUEDA 
+		from MOADD_CAMPOSLISTADO 
+		where ID_LISTADOS = #{value} and LG_BUSQUEDA='S' ORDER BY DS_CAMPO
+	</select>
+
+	<!-- Borrado de registro de la tabla MOADD_CAMPOSLISTADO por su clave primaria -->
+	<delete id="deleteByPrimaryKey" parameterType="CampoListado">
+		delete from MOADD_CAMPOSLISTADO 
+		where ID_CAMPOSLISTADO = #{id,jdbcType=DECIMAL}
+	</delete>
+	
+	<!-- Inserción de registro en la tabla MOADD_CAMPOSLISTADO -->
+	<insert id="insert" parameterType="CampoListado" >
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+		       SELECT MOAD_SQ_CALI.NEXTVAL FROM DUAL	
+		</selectKey>
+	
+		insert into MOADD_CAMPOSLISTADO (ID_CAMPOSLISTADO, ID_LISTADOS, DS_CAMPO, 
+			DS_TITULO, DS_DESCRIPCION, LG_LISTADO, LG_BUSQUEDA)
+		values (#{id,jdbcType=DECIMAL}, #{idListado,jdbcType=DECIMAL}, #{campo,jdbcType=VARCHAR}, #{titulo,jdbcType=VARCHAR}, 
+			#{descripcion,jdbcType=VARCHAR}
+			<if test="visible != null">
+				,#{visible,typeHandler=SiNOHandler}
+			</if>
+			<if test="busqueda != null">
+				,#{busqueda,typeHandler=SiNOHandler}
+			</if>)
+	</insert>
+	
+	<!-- Actualiza un registro de la tabla MOADD_CAMPOSLISTADO -->
+	<update id="updateByPrimaryKey" parameterType="CampoListado">
+		update MOADD_CAMPOSLISTADO set 
+			ID_LISTADOS = #{idListado,jdbcType=DECIMAL}, DS_CAMPO = #{campo,jdbcType=VARCHAR}, DS_TITULO = #{titulo,jdbcType=VARCHAR},
+			DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+			<if test="visible != null">
+				,LG_LISTADO = #{visible,typeHandler=SiNOHandler}
+			</if>
+			 <if test="busqueda != null">
+				,LG_BUSQUEDA = #{busqueda,typeHandler=SiNOHandler}
+			</if>
+		where ID_CAMPOSLISTADO = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- Actualiza los campos no nulos de un registro de la tabla MOADD_CAMPOSLISTADO -->
+	<update id="updateByPrimaryKeySelective" parameterType="CampoListado">
+		update MOADD_CAMPOSLISTADO
+		
+		<!-- con Mybatis, si no pasa por ningun if no pinta el SET de la consulta (<set>) -->
+		<set>
+			<if test="idListado != null">
+				ID_LISTADOS = #{idListado,jdbcType=DECIMAL}
+			</if>
+			<if test="campo != null">
+				DS_CAMPO = #{campo,jdbcType=VARCHAR},
+			</if>
+			<if test="titulo != null">
+				DS_TITULO = #{titulo,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="visible != null">
+				LG_LISTADO = #{visible,typeHandler=SiNOHandler},
+			</if>
+			<if test="busqueda != null">
+				LG_BUSQUEDA = #{busqueda,typeHandler=SiNOHandler}
+			</if>		
+		</set>
+		where ID_CAMPOSLISTADO = #{id}
+	</update>
+	
+	<!-- Borrado de registro de la tabla MOADD_CAMPOSLISTADO por el identificador del listado -->
+	<delete id="borrarCamposPorListado" parameterType="CampoListado">
+		delete from MOADD_CAMPOSLISTADO 
+		where ID_LISTADOS = #{idListado,jdbcType=DECIMAL}
+	</delete>
+</mapper>

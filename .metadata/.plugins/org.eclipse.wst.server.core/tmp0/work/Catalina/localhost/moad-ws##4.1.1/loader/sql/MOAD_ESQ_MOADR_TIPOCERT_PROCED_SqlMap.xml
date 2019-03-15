@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_TIPOCERT_PROCED" >
+  <!-- 
+    	Mapeo de las columnas de la tabla MOADR_TIPOCERT_PROCED y los datos miembro de la clase MoadrTipoCertProced
+    -->
+  <resultMap id="TipoCertProcedimientoResultMap" type="TipoCertProcedimiento" >
+    <result column="ID_TIPOCERT_PROCED" property="id" jdbcType="DECIMAL" />
+    <result column="ID_TIPOSCERTIFICADO" property="idTipoCertificado" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="TipoCertProcedimientoResultMap" parameterType="TipoCertProcedimiento" >
+    <!--
+      Selección de registro de la tabla MOADR_TIPOCERT_PROCED por su clave primaria
+    -->
+    select ID_TIPOCERT_PROCED, ID_TIPOSCERTIFICADO, ID_PROCEDIMIENTOS
+    from MOADR_TIPOCERT_PROCED
+    where ID_TIPOCERT_PROCED = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="TipoCertProcedimiento" >
+    <!--
+      Borrado de registro de la tabla MOADR_TIPOCERT_PROCED por su clave primaria
+    -->
+    delete from MOADR_TIPOCERT_PROCED
+    where ID_TIPOCERT_PROCED = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="TipoCertProcedimiento" >
+    <!--
+      Inserción de registro en la tabla MOADR_TIPOCERT_PROCED
+    -->
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TCPR.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADR_TIPOCERT_PROCED (ID_TIPOCERT_PROCED, ID_TIPOSCERTIFICADO, ID_PROCEDIMIENTOS)
+    values (#{id,jdbcType=DECIMAL}, #{idTipoCertificado,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="TipoCertProcedimiento" >
+    <!--
+      Actualiza un registro de la tabla MOADR_TIPOCERT_PROCED
+    -->
+    update MOADR_TIPOCERT_PROCED
+    set ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL},
+      ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+    where ID_TIPOCERT_PROCED = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="TipoCertProcedimiento" >
+    <!--
+      Actualiza los campos no nulos de un registro de la tabla MOADR_TIPOCERT_PROCED
+    -->
+    update MOADR_TIPOCERT_PROCED
+    <set>
+      <if test="idTipoCertificado != null" >
+        ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL}
+      </if>
+      <if test="idProcedimiento != null" >
+        ,ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where ID_TIPOCERT_PROCED = #{id}
+  </update>
+  
+  <!--
+      Borrado de registro de la tabla MOADR_TIPOCERT_PROCED por el identificador del tipo de certificado y el identificador de la versión
+  -->
+  <delete id="revocarTipoCertificado" parameterType="TipoCertProcedimiento" >    
+    delete from MOADR_TIPOCERT_PROCED
+    where ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL}
+    and ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+  </delete>
+  
+  <!--
+      Selección de registro de la tabla MOADR_TIPOCERT_PROCED por el identificador del procedimiento
+    -->
+  <select id="obtenerTipoCertProc" resultMap="TipoCertProcedimientoResultMap" parameterType="java.math.BigDecimal" >
+    
+    select ID_TIPOCERT_PROCED, ID_TIPOSCERTIFICADO, ID_PROCEDIMIENTOS
+    from MOADR_TIPOCERT_PROCED
+    where ID_PROCEDIMIENTOS = #{id,jdbcType=DECIMAL}
+  </select>
+  
+</mapper>

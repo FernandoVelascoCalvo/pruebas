@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_INSTPARAM">
+
+	<!-- ResultMap para las instancias de los parámetros -->
+	<resultMap id="InstParametroResultMap"
+		type="InstParametro">
+		<result column="ID_INSTPARAM" property="id" jdbcType="DECIMAL" />		
+		<result column="ID_INSTHERRAMIENTA" property="idInstHerramienta" jdbcType="DECIMAL" />
+		<result column="ID_PARAMETROS" property="idParametro" jdbcType="DECIMAL" />
+		<result column="TX_VALOR" property="valor" jdbcType="VARCHAR" />		
+	</resultMap>
+	
+	<resultMap id="InstParametroResultMapEXT"
+		type="InstParametro">
+		<result column="ID_INSTPARAM" property="id" jdbcType="DECIMAL" />		
+		<result column="ID_INSTHERRAMIENTA" property="idInstHerramienta" jdbcType="DECIMAL" />
+		<result column="ID_PARAMETROS" property="idParametro" jdbcType="DECIMAL" />
+		<result column="TX_VALOR" property="valor" jdbcType="VARCHAR" />
+		
+		<result column="PARAM_ID_PARAMETROS" property="parametro.id"/>
+		<result column="PARAM_ID_HERRAMIENTAS" property="parametro.idHerramienta"/>
+		<result column="PARAM_DS_DESCRIPCION" property="parametro.descripcion"/>
+		<result column="PARAM_DS_DESCRIPCIONCORT" property="parametro.descripcionCorta"/>
+		<result column="PARAM_DS_NOMBRE" property="parametro.nombre"/>
+		<result column="PARAM_TX_TIPO" property="parametro.tipo"/>
+		<result column="PARAM_LG_OBLIGATORIO" property="parametro.obligatorio" javaType="boolean" jdbcType="CHAR"/>
+		<result column="PARAM_LG_TIPO_CIFRADO" property="parametro.tipoCifrado"/>
+	</resultMap>
+
+	<!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="InstParametroResultMap"
+		parameterType="InstParametro">
+		select ID_INSTPARAM, ID_INSTHERRAMIENTA, ID_PARAMETROS, TX_VALOR from
+			MOADD_INSTPARAM where ID_INSTPARAM = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Selecciona una Lista registro a partir de una clave primaria -->
+	<select id="obtenerInstParametrosEXT" resultMap="InstParametroResultMapEXT"
+		parameterType="java.math.BigDecimal">
+			select ID_INSTPARAM, 
+					ID_INSTHERRAMIENTA, 
+					MIP.ID_PARAMETROS, 
+					TX_VALOR, 
+				   	MP.ID_PARAMETROS as PARAM_ID_PARAMETROS, 
+				   	MP.ID_HERRAMIENTAS as PARAM_ID_HERRAMIENTAS,
+				   	MP.DS_NOMBRE as PARAM_DS_NOMBRE,
+				   	MP.DS_DESCRIPCION as PARAM_DS_DESCRIPCION,
+				   	MP.DS_DESCRIPCIONCORT as PARAM_DS_DESCRIPCIONCORT,
+				   	MP.TX_TIPO as PARAM_TX_TIPO, 
+				   	MP.LG_OBLIGATORIO as PARAM_LG_OBLIGATORIO,
+				   	MP.LG_TIPO_CIFRADO as PARAM_LG_TIPO_CIFRADO
+			from MOADD_INSTPARAM MIP 
+				 join MOADD_PARAMETROS MP on MIP.ID_PARAMETROS = MP.ID_PARAMETROS   
+			where ID_INSTHERRAMIENTA = #{value} ORDER BY MP.NU_ORDEN, MP.ID_PARAMETROS
+	</select>
+	
+	<!-- Selecciona una Lista registro a partir del identificador del parámetro -->
+	<select id="obtenerInstParamPorParametro" resultMap="InstParametroResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_INSTPARAM, ID_INSTHERRAMIENTA, ID_PARAMETROS, TX_VALOR 
+		from MOADD_INSTPARAM where ID_PARAMETROS = #{value} ORDER BY TX_VALOR
+	</select>
+	
+	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="deleteByPrimaryKey"
+		parameterType="InstParametro">
+		delete from MOADD_INSTPARAM where ID_INSTPARAM =
+		#{id,jdbcType=DECIMAL}
+	</delete>
+	
+	<!-- Elimina un registro a partir del identificador de instancias de herramientas -->
+	<delete id="eliminarInstParamPorInstHerr"
+		parameterType="InstParametro">
+		delete from MOADD_INSTPARAM where ID_INSTHERRAMIENTA =
+		#{idInstHerramienta,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_INSTPARAM -->
+	<insert id="insert"
+		parameterType="InstParametro">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_IPAR.NEXTVAL FROM DUAL	
+	    </selectKey>
+		
+		insert into MOADD_INSTPARAM (ID_INSTPARAM, 
+		                             ID_INSTHERRAMIENTA,
+									 ID_PARAMETROS, 
+									 TX_VALOR) 
+		SELECT #{id,jdbcType=DECIMAL}, 
+			   #{idInstHerramienta,jdbcType=DECIMAL}, 
+			   #{idParametro,jdbcType=DECIMAL},
+		       TX_VALORDEFECTO 
+		FROM MOADD_PARAMETROS
+		WHERE ID_PARAMETROS = #{idParametro,jdbcType=DECIMAL}
+	</insert>
+
+	<!-- inserta un registro en la tabla MOADD_INSTPARAM con un valor en la instancia de parametro -->
+	<insert id="insertInstParamConValor"
+		parameterType="InstParametro">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_IPAR.NEXTVAL FROM DUAL	
+	    </selectKey>
+		
+		insert into MOADD_INSTPARAM (ID_INSTPARAM, 
+		                             ID_INSTHERRAMIENTA,
+									 ID_PARAMETROS, 
+									 TX_VALOR) 
+		values(#{id,jdbcType=DECIMAL}, 
+			   #{idInstHerramienta,jdbcType=DECIMAL}, 
+			   #{idParametro,jdbcType=DECIMAL},
+		       #{valor,jdbcType=VARCHAR}) 
+	</insert>
+
+
+	<!-- modifica un registro en la tabla MOADD_INSTPARAM -->
+	<update id="updateByPrimaryKey"
+		parameterType="InstParametro">
+		update MOADD_INSTPARAM set ID_INSTHERRAMIENTA =
+		#{idInstHerramienta,jdbcType=DECIMAL}, ID_PARAMETROS =
+		#{idParametro,jdbcType=DECIMAL}, TX_VALOR = #{valor,jdbcType=VARCHAR} where
+		ID_INSTPARAM = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_INSTPARAM -->
+	<update id="updateByPrimaryKeySelective"
+		parameterType="InstParametro">
+		update MOADD_INSTPARAM
+		<set>			
+			<if test="idInstHerramienta != null">
+				ID_INSTHERRAMIENTA = #{idInstHerramienta,jdbcType=DECIMAL},
+			</if>
+			<if test="idParametro != null">
+				ID_PARAMETROS = #{idParametro,jdbcType=DECIMAL},
+			</if>
+			<if test="valor != null">
+				TX_VALOR = #{valor,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where ID_INSTPARAM = #{id}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_INSTPARAM -->
+	<update id="actualizar" parameterType="InstParametro">
+		update MOADD_INSTPARAM 
+		set TX_VALOR = #{valor,jdbcType=VARCHAR} 
+		where ID_INSTPARAM = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- Selecciona un registro a partir de el id de instHerramientas y el id de parametros-->
+	<select id="obtenerInstParametrosPorIdInstHerrIdParam" resultMap="InstParametroResultMap"
+		parameterType="InstParametro">
+		select ID_INSTPARAM, ID_INSTHERRAMIENTA, ID_PARAMETROS, TX_VALOR from
+			MOADD_INSTPARAM where 
+			ID_INSTHERRAMIENTA = #{idInstHerramienta,jdbcType=DECIMAL}
+			and ID_PARAMETROS= #{idParametro,jdbcType=DECIMAL}
+	</select>
+	<select id="obtenerInstParametrosCifradosPorIdProcedimiento" resultMap="InstParametroResultMap"
+		parameterType="java.math.BigDecimal">
+		select ip.ID_INSTPARAM, ip.ID_INSTHERRAMIENTA, ip.ID_PARAMETROS, ip.TX_VALOR 
+		from moadd_procedimientos pro
+			 left join moadd_configuraciones co
+                on pro.ID_PROCEDIMIENTOS = co.ID_PROCEDIMIENTOS
+            left join moadd_instherramienta ih
+                on ih.ID_CONFIGURACIONES = co.ID_CONFIGURACIONES
+            left join moadd_instparam ip
+                on ip.ID_INSTHERRAMIENTA = ih.ID_INSTHERRAMIENTA
+            left join moadd_parametros pa
+                on pa.ID_PARAMETROS = ip.ID_PARAMETROS
+		where pa.LG_TIPO_CIFRADO = 'S'
+		and pro.ID_PROCEDIMIENTOS = #{value}
+	</select>
+	
+</mapper>

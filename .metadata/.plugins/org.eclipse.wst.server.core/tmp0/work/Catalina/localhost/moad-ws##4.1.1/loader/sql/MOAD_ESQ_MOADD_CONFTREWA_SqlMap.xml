@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_CONFTREWA" >
+
+	<!-- 
+    Mapeo de las columnas de la tabla MOADD_CONFIGURACION_TREWA y los datos miembro de la clase MoaddConfiguracionTrewa
+    -->
+	<resultMap id="ConfiguracionTrewaResultMap" type="ConfiguracionTrewa" >
+		<result column="ID_CONFIGURACION_TREWA" property="idConfTrewa" jdbcType="DECIMAL" />
+		<result column="TX_NOMBRE" property="nombre" jdbcType="VARCHAR" />    
+		<result column="TX_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="TX_USERNAME" property="usuario" jdbcType="VARCHAR" />
+		<result column="TX_PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="TX_CADENA_CONEXION" property="conexion" jdbcType="VARCHAR" />
+	</resultMap>
+    
+	<!-- 
+	Seleccion de registro de la tabla MOADD_CONFIGURACION_TREWA por su clave primaria
+	-->
+	<select id="selectByPrimaryKey" 
+				resultMap="ConfiguracionTrewaResultMap" 
+				parameterType="ConfiguracionTrewa" >
+		SELECT ID_CONFIGURACION_TREWA, 
+	  		TX_NOMBRE, 
+	  		TX_DESCRIPCION, 
+	  		TX_USERNAME, 
+	  		TX_PASSWORD, 
+	  		TX_CADENA_CONEXION
+	  	FROM MOADD_CONFIGURACION_TREWA
+	  	WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="obtenerConfTrewaUsuario" resultMap="ConfiguracionTrewaResultMap" parameterType="java.math.BigDecimal" >
+	    SELECT ct.ID_CONFIGURACION_TREWA, 
+			    ct.TX_NOMBRE, 
+			    ct.TX_DESCRIPCION,
+			    ct.TX_USERNAME, 
+			    ct.TX_PASSWORD, 
+			    ct.TX_CADENA_CONEXION, 
+			    uc.ID_USUARIO_CONFTREWA
+	  	FROM MOADR_USUARIO_CONFTREWA uc, 
+	  		MOADD_CONFIGURACION_TREWA ct
+	 	WHERE ((ct.ID_CONFIGURACION_TREWA = uc.ID_CONFIGURACION_TREWA)
+	  	AND uc.id_usuarios=#{value}) 
+	    ORDER BY ct.TX_DESCRIPCION
+ 	</select>
+ 	
+ 	<select id="obtenerConfTrewaPorCdUsuario" resultMap="ConfiguracionTrewaResultMap" parameterType="java.lang.String" >
+	    SELECT ct.ID_CONFIGURACION_TREWA, 
+			    ct.TX_NOMBRE, 
+			    ct.TX_DESCRIPCION,
+			    ct.TX_USERNAME, 
+			    ct.TX_PASSWORD, 
+			    ct.TX_CADENA_CONEXION, 
+			    uc.ID_USUARIO_CONFTREWA
+	  	FROM MOADR_USUARIO_CONFTREWA uc, 
+	  		MOADD_CONFIGURACION_TREWA ct,
+	  		MOADD_USUARIOS u
+	 	WHERE ct.ID_CONFIGURACION_TREWA = uc.ID_CONFIGURACION_TREWA
+	  	AND uc.ID_USUARIOS = u.ID_USUARIOS
+	  	AND u.CD_USUARIOS = #{value}
+	    ORDER BY ct.TX_NOMBRE
+ 	</select>
+  
+	<!-- 
+	Borrado de registro de la tabla MOADD_CONFIGURACION_TREWA por su clave primaria
+	-->
+	<delete id="deleteByPrimaryKey" 
+				parameterType="ConfiguracionTrewa" >
+	  	DELETE FROM MOADD_CONFIGURACION_TREWA
+	  	WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+	</delete>
+	
+	<!-- 
+	Inserción de registro en la tabla MOADD_CONFIGURACION_TREWA 
+	-->
+	<insert id="insert" 
+	 			parameterType="ConfiguracionTrewa" >
+	   	<selectKey keyProperty="idConfTrewa" 
+	   			resultType="java.math.BigDecimal" order="BEFORE">	
+	    	SELECT MOADD_SQ_CONFIGURACION_TREWA.NEXTVAL FROM DUAL	
+		</selectKey>
+	   
+	   	INSERT INTO MOADD_CONFIGURACION_TREWA 
+	   		(ID_CONFIGURACION_TREWA, 
+	   		TX_NOMBRE, 
+	   		TX_DESCRIPCION, 
+	   		TX_USERNAME, 
+	   		TX_PASSWORD, 
+	   		TX_CADENA_CONEXION)
+	   	VALUES (#{idConfTrewa,jdbcType=DECIMAL},
+	   			#{nombre,jdbcType=VARCHAR}, 
+	   			#{descripcion,jdbcType=VARCHAR}, 
+	   			#{usuario,jdbcType=VARCHAR},
+	   			#{password,jdbcType=VARCHAR}, 
+	   			#{conexion,jdbcType=VARCHAR})
+	</insert>
+	 
+	<!-- 
+	Actualiza un registro de la tabla MOADD_CONFIGURACION_TREWA 
+	-->
+	<update id="updateByPrimaryKey" 
+				parameterType="ConfiguracionTrewa" >
+		UPDATE MOADD_CONFIGURACION_TREWA
+	  	SET TX_NOMBRE = #{nombre,jdbcType=VARCHAR}, 
+	  		TX_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+	  		TX_USERNAME = #{usuario,jdbcType=VARCHAR},
+	    	TX_PASSWORD = #{password,jdbcType=VARCHAR}, 
+	    	TX_CADENA_CONEXION = #{conexion,jdbcType=VARCHAR}
+	  	WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- 
+	Actualiza los campos no nulos de un registro de la tabla MOADD_CONFIGURACION_TREWA
+	-->
+	<update id="updateByPrimaryKeySelective" 
+				parameterType="ConfiguracionTrewa" >
+	  	UPDATE MOADD_CONFIGURACION_TREWA 	
+	  	<set>
+	  		<if test="nombre != null">
+	  			TX_NOMBRE = #{nombre,jdbcType=VARCHAR},
+	  		</if>
+	  		<if test="descripcion != null">
+	      		TX_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+	    	</if>
+	    	<if test="usuario != null">
+	      		TX_USERNAME = #{usuario,jdbcType=VARCHAR},
+	    	</if>
+	    	<if test="password != null"> 
+	      		TX_PASSWORD = #{password,jdbcType=VARCHAR},
+	    	</if>
+	    	<if test="conexion != null"> 
+	      		TX_CADENA_CONEXION = #{conexion,jdbcType=VARCHAR}
+	    	</if>
+	  	</set>
+	  	WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- 
+	Seleccion de registros de la tabla MOADD_CONFIGURACION_TREWA 
+	-->
+	<select id="obtenerConfiguracionTrewa" 
+			resultMap="ConfiguracionTrewaResultMap">    
+	   	SELECT ID_CONFIGURACION_TREWA, 
+	   			TX_NOMBRE, 
+	   			TX_DESCRIPCION, 
+	   			TX_USERNAME, 
+	   			TX_PASSWORD,
+	   			TX_CADENA_CONEXION
+	   	FROM MOADD_CONFIGURACION_TREWA 
+	   	ORDER BY TX_NOMBRE, TX_DESCRIPCION
+	</select>
+	
+	<!-- 
+	Seleccion de registros de la tabla MOADD_CONFIGURACION_TREWA que no han sido aun asignados a un usuario
+	-->
+	<select id="obtenerConfTrewaAsignables" 
+			resultMap="ConfiguracionTrewaResultMap" 
+				parameterType="java.math.BigDecimal">    
+	   	SELECT ct.ID_CONFIGURACION_TREWA, 
+	   			ct.TX_NOMBRE, 
+	   			ct.TX_DESCRIPCION, 
+	   			ct.TX_USERNAME, 
+	   			ct.TX_PASSWORD,
+	   			ct.TX_CADENA_CONEXION
+	   	FROM MOADD_CONFIGURACION_TREWA ct
+        MINUS
+        SELECT ct.ID_CONFIGURACION_TREWA, 
+	   			ct.TX_NOMBRE, 
+	   			ct.TX_DESCRIPCION, 
+	   			ct.TX_USERNAME, 
+	   			ct.TX_PASSWORD,
+	   			ct.TX_CADENA_CONEXION
+	   	FROM MOADD_CONFIGURACION_TREWA ct,
+	   	MOADR_USUARIO_CONFTREWA uc
+	   	WHERE ct.ID_CONFIGURACION_TREWA = uc.ID_CONFIGURACION_TREWA
+	   	AND uc.ID_USUARIOS = #{value}
+	   	ORDER BY TX_NOMBRE, TX_DESCRIPCION
+	</select>
+	
+	<!-- 
+	Seleccion de registro de la tabla MOADD_CONFIGURACION_TREWA por Configuracion Trewa
+	-->
+	<select id="selectByConfiguracionTrewa" 
+				resultMap="ConfiguracionTrewaResultMap" 
+				parameterType="string" >
+	   	SELECT ID_CONFIGURACION_TREWA, 
+	   			TX_NOMBRE, 
+	   			TX_DESCRIPCION, 
+	   			TX_USERNAME, 
+	   			TX_PASSWORD,
+	   			TX_CADENA_CONEXION
+	    FROM MOADD_CONFIGURACION_TREWA
+	    WHERE TX_NOMBRE = #{value} 
+	    ORDER BY TX_NOMBRE, TX_DESCRIPCION
+	</select>
+	
+	<!-- 
+	Seleccion de registro de la tabla MOADD_CONFIGURACION_TREWA por Usuario
+	 -->
+	<select id="obtenerConfTrewaPaginada"
+    		resultMap="ConfiguracionTrewaResultMap"
+		    parameterType="map" >
+      	SELECT  ct.ID_CONFIGURACION_TREWA, 
+	   			ct.TX_NOMBRE, 
+	   			ct.TX_DESCRIPCION, 
+	   			ct.TX_USERNAME, 
+	   			ct.TX_PASSWORD,
+	   			ct.TX_CADENA_CONEXION
+	   		
+		FROM MOADD_CONFIGURACION_TREWA ct
+		
+		JOIN MOADR_USUARIO_CONFTREWA uc ON (ct.ID_CONFIGURACION_TREWA = uc.ID_CONFIGURACION_TREWA)
+		INNER JOIN MOADD_USUARIOS u	ON uc.ID_USUARIOS = u.ID_USUARIOS
+			
+		WHERE (uc.ID_USUARIOS = #{idUsuarios})
+		ORDER BY ct.ID_CONFIGURACION_TREWA
+    </select>
+	
+	<!-- 
+	-->
+	<select id="obtenerConfTrewaCount"
+			resultType="java.math.BigDecimal"
+			parameterType="map">
+		SELECT count(ct.ID_CONFIGURACION_TREWA)
+		FROM MOADD_CONFIGURACION_TREWA ct 
+		JOIN MOADR_USUARIO_CONFTREWA uc	ON (ct.ID_CONFIGURACION_TREWA = uc.ID_CONFIGURACION_TREWA)
+		WHERE (uc.ID_USUARIOS = #{idUsuarios})
+		ORDER BY ct.ID_CONFIGURACION_TREWA
+	</select>
+	
+</mapper>

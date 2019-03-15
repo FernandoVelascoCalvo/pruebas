@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_INSTHERRAMIENTA">
+
+	<!-- ResultMap para las instancias de las herramientas -->
+	<resultMap id="InstHerramientaResultMap"
+		type="InstHerramienta">
+		<result column="ID_INSTHERRAMIENTA" property="id"
+			jdbcType="DECIMAL" />		
+		<result column="ID_HERRAMIENTAS" property="idHerramienta"
+			jdbcType="DECIMAL" />
+		<result column="ID_CONFIGURACIONES" property="idConfiguracion"
+			jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre"
+			jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion"
+			jdbcType="VARCHAR" />
+		<result column="ID_TIPOSHERRAMIENT" property="idTipoHerramienta"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- ResultMap de Instancia de Herramienta -->
+    <resultMap id="InstHerramientaResultMapEXT" type="InstHerramienta" >
+	    <!-- InstHerramienta -->
+	    <result column="ID_INSTHERRAMIENTA" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_HERRAMIENTAS" property="idHerramienta" jdbcType="DECIMAL" />
+		<result column="ID_CONFIGURACIONES" property="idConfiguracion" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="ID_TIPOSHERRAMIENT" property="idTipoHerramienta" jdbcType="DECIMAL" />
+
+		<!-- Herramientas -->		
+	    <result column="HERRAMIENTA_ID_HERRAMIENTAS" property="herramienta.id" jdbcType="DECIMAL" />
+		<result column="HERRAMIENTA_DS_NOMBRE" property="herramienta.nombre" jdbcType="VARCHAR" />
+		<result column="HERRAMIENTA_DS_DESCRIPCION" property="herramienta.descripcion" jdbcType="VARCHAR" />
+		<result column="HERRAMIENTA_ID_TIPOSHERRAMIENT" property="herramienta.idTipoHerramienta" jdbcType="DECIMAL" />
+    </resultMap>    		   
+
+	<resultMap id="InstHerramientaClaveCifradoMap" type="ClaveCifrado" >
+		<result column="DS_NOMBRE" property="nombreProcedimiento" jdbcType="VARCHAR" />
+		<result column="TX_CLAVE_CIFRADO" property="claveCifrado" jdbcType="VARCHAR" />
+		<result column="DS_CONF" property="nombreConfiguracion" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="InstHerramientaResultMap"
+		parameterType="InstHerramienta">
+		select ID_INSTHERRAMIENTA, ID_HERRAMIENTAS, ID_CONFIGURACIONES,
+		DS_NOMBRE, DS_DESCRIPCION, ID_TIPOSHERRAMIENT
+		from MOADD_INSTHERRAMIENTA where
+		ID_INSTHERRAMIENTA = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Selecciona una Lista de InsHerramientas a partir de una clave primaria
+		 de Configuraciones. -->
+	<select id="obtenerInstHerramientas" resultMap="InstHerramientaResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_INSTHERRAMIENTA, ID_HERRAMIENTAS, ID_CONFIGURACIONES,
+		DS_NOMBRE, DS_DESCRIPCION, ID_TIPOSHERRAMIENT
+		from MOADD_INSTHERRAMIENTA where
+		ID_CONFIGURACIONES = #{value} ORDER BY DS_NOMBRE
+	</select>
+	
+	<!-- Selecciona una Lista de InsHerramientas a partir del identificador de
+		 una herramienta -->
+	<select id="obtenerInstHerramientaPorHerr" resultMap="InstHerramientaResultMap"
+		parameterType="InstHerramienta">
+		select ID_INSTHERRAMIENTA, ID_HERRAMIENTAS, ID_CONFIGURACIONES,
+		DS_NOMBRE, DS_DESCRIPCION, ID_TIPOSHERRAMIENT
+		from MOADD_INSTHERRAMIENTA where
+		ID_HERRAMIENTAS = #{idHerramienta,jdbcType=DECIMAL} ORDER BY DS_NOMBRE
+	</select>
+	
+	<!-- obtiene las Herramientas mediante un id de configuracion y el tipo de Herramienta -->
+	<select id="obtenerInstHerramienta" resultMap="InstHerramientaResultMap" parameterType="map" >
+		select ID_INSTHERRAMIENTA,
+		       ID_HERRAMIENTAS,
+			   ID_CONFIGURACIONES,
+			   DS_NOMBRE,
+			   DS_DESCRIPCION,
+			   ID_TIPOSHERRAMIENT
+		from MOADD_INSTHERRAMIENTA
+		where ID_CONFIGURACIONES = #{idConfiguracion,jdbcType=DECIMAL}
+		  and ID_TIPOSHERRAMIENT = #{idTipoHerramienta,jdbcType=DECIMAL} ORDER BY DS_NOMBRE
+	</select>
+	
+	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="deleteByPrimaryKey"
+		parameterType="InstHerramienta">
+		delete from MOADD_INSTHERRAMIENTA where
+		ID_INSTHERRAMIENTA = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_INSTHERRAMIENTA -->
+	<insert id="insert"
+		parameterType="InstHerramienta">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_IHER.NEXTVAL FROM DUAL	
+	    </selectKey>
+	
+		
+		insert into MOADD_INSTHERRAMIENTA (ID_INSTHERRAMIENTA,
+		ID_HERRAMIENTAS, ID_CONFIGURACIONES, DS_NOMBRE, DS_DESCRIPCION,
+		ID_TIPOSHERRAMIENT)
+		values (#{id,jdbcType=DECIMAL}, #{idHerramienta,jdbcType=DECIMAL},
+		#{idConfiguracion,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR},
+		#{descripcion,jdbcType=VARCHAR}, #{idTipoHerramienta,jdbcType=DECIMAL})
+	</insert>
+
+	<!-- modifica un registro en la tabla MOADD_INSTHERRAMIENTA -->
+	<update id="updateByPrimaryKey"
+		parameterType="InstHerramienta">
+		update MOADD_INSTHERRAMIENTA set ID_HERRAMIENTAS =
+		#{idHerramienta,jdbcType=DECIMAL}, ID_CONFIGURACIONES =
+		#{idConfiguracion,jdbcType=DECIMAL}, DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+		ID_TIPOSHERRAMIENT = #{idTipoHerramienta,jdbcType=DECIMAL}
+		where
+		ID_INSTHERRAMIENTA = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_INSTHERRAMIENTA -->
+	<update id="updateByPrimaryKeySelective"
+		parameterType="InstHerramienta">
+		update MOADD_INSTHERRAMIENTA
+		<set>			
+			<if test="idHerramienta != null">
+				ID_HERRAMIENTAS = #{idHerramienta,jdbcType=DECIMAL}
+			</if>
+			<if test="idConfiguracion != null">
+				ID_CONFIGURACIONES = #{idConfiguracion,jdbcType=DECIMAL}
+			</if>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+			</if>
+			<if test="idTipoHerramienta != null">
+				ID_TIPOSHERRAMIENT = #{idTipoHerramienta,jdbcType=DECIMAL}
+			</if>
+		</set>
+		where ID_INSTHERRAMIENTA = #{id}
+	</update>
+
+	<!-- Elimina los parámetros de la instancia de herramienta -->
+	<delete id="borrarParametros" parameterType="java.math.BigDecimal">
+		delete from MOADD_INSTPARAM 
+		where ID_INSTHERRAMIENTA = #{value}
+	</delete>
+
+	  <!-- Devuelve informacion de la instancia de herramienta y de la herramienta a la que hace referencia -->
+	  <select id="obtenerInstHerramientasEXT" resultMap="InstHerramientaResultMapEXT" 
+	  		  parameterType="java.math.BigDecimal">
+                select  i.ID_INSTHERRAMIENTA, i.ID_HERRAMIENTAS, i.ID_CONFIGURACIONES, 
+                        i.DS_NOMBRE, i.DS_DESCRIPCION, i.ID_TIPOSHERRAMIENT,
+                        h.ID_HERRAMIENTAS AS HERRAMIENTA_ID_HERRAMIENTAS, 
+                        h.DS_NOMBRE AS HERRAMIENTA_DS_NOMBRE,
+                        h.DS_DESCRIPCION AS HERRAMIENTA_DS_DESCRIPCION,
+                        h.ID_TIPOSHERRAMIENT AS HERRAMIENTA_ID_TIPOSHERRAMIENT
+
+                        from moadd_instherramienta i
+
+                        left outer join MOADD_HERRAMIENTAS h
+                        on i.ID_HERRAMIENTAS = H.ID_HERRAMIENTAS
+
+                        where i.ID_INSTHERRAMIENTA = #{value} ORDER BY h.DS_NOMBRE
+	  </select>
+
+	<!-- modifica un registro en la tabla MOADD_INSTHERRAMIENTA -->
+	<update id="actualizar" parameterType="InstHerramienta">
+		update MOADD_INSTHERRAMIENTA 
+		set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+		    DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+		where ID_INSTHERRAMIENTA = #{id,jdbcType=DECIMAL}
+	</update>
+	
+<!-- Selecciona un registro a partir de el id de configuracion y el nombre de la instanacia de Herramienta -->
+	<select id="obtenerInstHerramientaPorIdConfiguracionYNombre" resultMap="InstHerramientaResultMap"
+		parameterType="InstHerramienta">
+		select ID_INSTHERRAMIENTA, ID_HERRAMIENTAS, ID_CONFIGURACIONES,
+		DS_NOMBRE, DS_DESCRIPCION, ID_TIPOSHERRAMIENT
+		from MOADD_INSTHERRAMIENTA where
+		ID_CONFIGURACIONES = #{idConfiguracion,jdbcType=DECIMAL}
+		and DS_NOMBRE= #{nombre,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- Selección de la clave de cifrado de la tabla MOADD_INSTHERRAMIENTA por Id de herramienta -->
+  <select id="selectClaveCifradoByIdHerramienta" resultMap="InstHerramientaClaveCifradoMap" parameterType="java.math.BigDecimal" >
+    select pr.DS_NOMBRE, pr.TX_CLAVE_CIFRADO, conf.DS_NOMBRE as DS_CONF from MOADD_PROCEDIMIENTOS pr
+	JOIN MOADD_CONFIGURACIONES conf ON pr.ID_PROCEDIMIENTOS = conf.ID_PROCEDIMIENTOS
+	JOIN MOADD_INSTHERRAMIENTA he ON conf.ID_CONFIGURACIONES = he.ID_CONFIGURACIONES
+	where he.ID_INSTHERRAMIENTA = #{value}
+  </select>
+</mapper>

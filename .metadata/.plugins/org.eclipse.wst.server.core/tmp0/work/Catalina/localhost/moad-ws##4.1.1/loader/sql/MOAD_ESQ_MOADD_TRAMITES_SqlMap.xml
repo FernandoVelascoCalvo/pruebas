@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_TRAMITES" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases-->
+  <resultMap id="TramitesResultMap" type="Tramite" >
+    <result column="ID_TRAMITES" property="id" jdbcType="DECIMAL" />
+    <result column="CD_TRAMITES" property="codigo" jdbcType="VARCHAR" />
+    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR"/>
+    <result column="TX_URL" property="urlTramite" jdbcType="VARCHAR"/>
+    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR"/>
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL"/>
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="TramitesResultMap" parameterType="Tramite" > 
+    SELECT ID_TRAMITES, CD_TRAMITES, DS_NOMBRE, DS_DESCRIPCION, TX_URL, LG_VISIBLE, ID_PROCEDIMIENTOS
+    FROM MOADD_TRAMITES
+    WHERE ID_TRAMITES = #{id,jdbcType=DECIMAL}
+  </select>
+
+   <!-- Consulta un registro por su identificador -->
+  <select id="selectByCodigo" resultMap="TramitesResultMap" parameterType="Tramite" > 
+    SELECT ID_TRAMITES, CD_TRAMITES, DS_NOMBRE, DS_DESCRIPCION, TX_URL, LG_VISIBLE, ID_PROCEDIMIENTOS
+    FROM MOADD_TRAMITES
+    WHERE CD_TRAMITES = #{codigo,jdbcType=VARCHAR}
+  </select>
+
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="Tramite" >
+    DELETE FROM MOADD_TRAMITES
+    WHERE ID_TRAMITES = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  
+  <delete id="borrarTramiteProced" parameterType="Tramite" >
+    DELETE FROM MOADD_TRAMITES
+    WHERE ID_TRAMITES = #{id,jdbcType=DECIMAL} AND ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+  </delete>
+  
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="Tramite" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TRAM.NEXTVAL FROM DUAL	
+	</selectKey>
+    INSERT INTO MOADD_TRAMITES (ID_TRAMITES, CD_TRAMITES, DS_NOMBRE, DS_DESCRIPCION, TX_URL, ID_PROCEDIMIENTOS, LG_VISIBLE)
+    VALUES (#{id,jdbcType=DECIMAL}, #{codigo,jdbcType=VARCHAR}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR} , #{urlTramite,jdbcType=VARCHAR}, #{idProcedimiento,jdbcType=DECIMAL}
+     <if test="visible != null">
+        ,#{visible,typeHandler=SiNOHandler} 
+     </if>
+        )
+  </insert>
+  
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="Tramite" >
+    UPDATE MOADD_TRAMITES
+    SET CD_TRAMITES = #{codigo,jdbcType=VARCHAR},
+        DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+        DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+        TX_URL = #{urlTramite,jdbcType=VARCHAR},
+        ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL},
+        <if test="visible != null">
+         LG_VISIBLE = #{visible,typeHandler=SiNOHandler}
+        </if>
+        
+        
+    WHERE ID_TRAMITES = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="Tramite" > 
+    update MOADD_TRAMITES
+    <set>
+      <if test="codigo != null" >
+        CD_TRAMITES = #{codigo,jdbcType=VARCHAR}
+      </if>
+      <if test="nombre != null" >
+       ,DS_NOMBRE = #{nombre,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcion != null" >
+        ,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+      <if test="urlTramite != null" >
+        ,TX_URL = #{urlTramite,jdbcType=VARCHAR}
+      </if>
+      <if test="idProcedimiento != null" >
+        ,ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+      </if>
+      <if test="visible != null">
+        ,LG_VISIBLE = #{visible,typeHandler=SiNOHandler}
+      </if>      
+    </set>
+    where ID_TRAMITES = #{id}
+  </update>
+  
+   <select id="obtenerTramitesPorProcedimiento" resultMap="TramitesResultMap" parameterType="Tramite" >
+    SELECT ID_TRAMITES, CD_TRAMITES, DS_NOMBRE, DS_DESCRIPCION ,TX_URL, LG_VISIBLE, ID_PROCEDIMIENTOS
+      FROM MOADD_TRAMITES
+     WHERE ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+     
+        <if test="visible != null">
+        	<if test="visible == true">
+        		 AND LG_VISIBLE = 'S'
+        	</if>
+        </if>
+        
+  ORDER BY CD_TRAMITES 
+  </select>
+  
+    <select id="obtenerTramitesFiltrados" resultMap="TramitesResultMap" parameterType="java.util.Map" >
+        select ID_TRAMITES, CD_TRAMITES, DS_NOMBRE, DS_DESCRIPCION, TX_URL, LG_VISIBLE, ID_PROCEDIMIENTOS
+          from MOADD_TRAMITES
+         where ID_TRAMITES = #{id}
+         
+        <if test="visible != null">
+        	<if test="visible == true">AND LG_VISIBLE = 'S'</if>
+        	<if test="visible == false">AND LG_VISIBLE = 'N'</if>
+        </if>
+                 
+      order by CD_TRAMITES 
+    </select>
+</mapper>

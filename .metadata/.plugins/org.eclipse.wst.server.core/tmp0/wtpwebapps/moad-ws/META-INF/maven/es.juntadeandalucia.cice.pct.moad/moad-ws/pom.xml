@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>MOAD Web services application</name>
+    <artifactId>moad-ws</artifactId>
+    <packaging>war</packaging>
+    <parent>
+        <groupId>es.juntadeandalucia.cice.pct.moad</groupId>
+        <artifactId>moad</artifactId>
+        <version>4.1.1</version>
+    </parent>
+    <dependencies>
+        <!-- ........................................................... -->
+        <!-- module dependency                                           -->
+        <!-- ........................................................... -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>moad-api-ws</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>moad-control</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+            	<exclusion>
+          			<groupId>axis</groupId>
+          			<artifactId>axis</artifactId>
+        		</exclusion>
+        		<exclusion>
+          			<groupId>org.apache.santuario</groupId>
+    				<artifactId>xmlsec</artifactId>
+        		</exclusion>
+        		<exclusion>
+          			<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+        		</exclusion>
+        		<exclusion>
+          			<groupId>javax.servlet</groupId>
+      				<artifactId>jsp-api</artifactId>
+        		</exclusion>
+        		<exclusion>
+        			<groupId>axis</groupId>
+  					<artifactId>axis-wsdl4j</artifactId>
+  				</exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>moad-model</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+            	<exclusion>
+          			<groupId>org.springframework</groupId>
+          			<artifactId>spring-struts</artifactId>
+        		</exclusion>
+        	</exclusions>
+        </dependency>
+
+        <!-- ........................................................... -->
+        <!-- external dependencies  compile 							 -->
+        <!-- ........................................................... -->
+       <dependency>
+	    	<groupId>javax.servlet</groupId>
+	    	<artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ........................................................... -->
+        <!-- external dependencies  required                             -->
+        <!-- ........................................................... -->
+
+        <!-- ........................................................... -->
+        <!-- testing external dependencies                               -->
+        <!-- ........................................................... -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>es.juntadeandalucia.ceice.cmi.pct.componentes</groupId>
+		    	<artifactId>monitores-pct</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+    </dependencies>
+    <build>
+    	<finalName>${project.artifactId}</finalName>
+        <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Implementation-Title>${project.name}</Implementation-Title>
+							<Extension-Name>${project.groupId}.${project.artifactId}</Extension-Name>
+							<Built-By>Ayesa AT</Built-By>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>
+                        ${basedir}/../target/site/${project.artifactId}
+					</outputDirectory>
+                    <inputEncoding>UTF-8</inputEncoding>
+                </configuration>
+            </plugin>
+            <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-surefire-plugin</artifactId>
+		        <configuration>
+		        	<excludes>
+		        		<exclude>**/ConfigTest.java</exclude>
+		        	</excludes>
+		        </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencyManagement>
+    	<dependencies>
+    		<dependency>
+    			<groupId>org.apache.santuario</groupId>
+    			<artifactId>xmlsec</artifactId>
+    			<version>1.4.4</version>
+    		</dependency>
+    	</dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PERFILES" >
+
+  <!--  Relacion entre las columnas de la tabla con los datos miembro de las clases  -->
+  <resultMap id="PerfilResultMap" type="Perfil">
+    <id column="ID_PERFILES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="CD_NOMBRETREWA" property="cdNombreTrewa" jdbcType="VARCHAR" />
+    <result column="LG_DEFAULT" property="defecto" javaType="boolean" jdbcType="CHAR" />
+    <result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+
+    <!-- Tipos identificación -->
+    <collection property="tiposIdentificacion" resultMap="MOAD_ESQ_MOADD_TIPOSIDENTIFICA.TipoIdentificacionResultMap" />
+
+  </resultMap>
+
+  <!--  Relacion entre las columnas de la tabla con los datos miembro de las clases  -->
+  <resultMap id="PerfilResultMapEXT" type="Perfil">
+	  	<!-- Perfiles -->
+	    <id column="ID_PERFILES" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="CD_NOMBRETREWA" property="cdNombreTrewa" jdbcType="VARCHAR" />
+	    <result column="LG_DEFAULT" property="defecto" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+
+	    <!-- Convocatorias -->
+	    <result column="CONVOCATORIA_ID_CONVOCATORIAS"
+	    		property="convocatoria.id" jdbcType="DECIMAL" />
+	    <result column="CONVOCATORIA_ID_ORDENES"
+	    		property="convocatoria.idOrden" jdbcType="DECIMAL" />
+	    <result column="CONVOCATORIA_FH_FECHACOMIENZO"
+	    		property="convocatoria.fechaComienzo" jdbcType="TIMESTAMP" />
+	    <result column="CONVOCATORIA_FH_FECHAFIN"
+	    		property="convocatoria.fechaFin" jdbcType="TIMESTAMP" />
+	    <result column="CONVOCATORIA_DS_DESCRIPCION"
+	    		property="convocatoria.descripcion" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_CD_PROCTREWA"
+	    		property="convocatoria.cdProcTrewa" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_CD_TIPOEXPTREWA"
+	    		property="convocatoria.cdTipoExpTrewa" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_DS_TITULO"
+	    		property="convocatoria.titulo" jdbcType="VARCHAR" />
+
+    	<!-- Tipos identificación -->
+    	<collection property="tiposIdentificacion" resultMap="MOAD_ESQ_MOADD_TIPOSIDENTIFICA.TipoIdentificacionResultMap" />
+  </resultMap>
+
+  <!--  Relacion entre las columnas de la tabla con los datos miembro de las clases  -->
+  <resultMap id="PerfilResultMapEXTConUsuarioPublico" type="Perfil">
+	  	<!-- Perfiles -->
+	    <id column="ID_PERFILES" property="id" jdbcType="DECIMAL" />
+	    <result column="ID_CONVOCATORIAS" property="idConvocatoria" jdbcType="DECIMAL" />
+	    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	    <result column="CD_NOMBRETREWA" property="cdNombreTrewa" jdbcType="VARCHAR" />
+	    <result column="LG_DEFAULT" property="defecto" javaType="boolean" jdbcType="CHAR" />
+	    <result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+		<result column="CD_USUARIO_PUBLICO" property="cdUsuarioTrewa" jdbcType="VARCHAR"/>
+
+	    <!-- Convocatorias -->
+	    <result column="CONVOCATORIA_ID_CONVOCATORIAS"
+	    		property="convocatoria.id" jdbcType="DECIMAL" />
+	    <result column="CONVOCATORIA_ID_ORDENES"
+	    		property="convocatoria.idOrden" jdbcType="DECIMAL" />
+	    <result column="CONVOCATORIA_FH_FECHACOMIENZO"
+	    		property="convocatoria.fechaComienzo" jdbcType="TIMESTAMP" />
+	    <result column="CONVOCATORIA_FH_FECHAFIN"
+	    		property="convocatoria.fechaFin" jdbcType="TIMESTAMP" />
+	    <result column="CONVOCATORIA_DS_DESCRIPCION"
+	    		property="convocatoria.descripcion" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_CD_PROCTREWA"
+	    		property="convocatoria.cdProcTrewa" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_CD_TIPOEXPTREWA"
+	    		property="convocatoria.cdTipoExpTrewa" jdbcType="VARCHAR" />
+	    <result column="CONVOCATORIA_DS_TITULO"
+	    		property="convocatoria.titulo" jdbcType="VARCHAR" />
+
+    	<!-- Tipos identificación -->
+    	<collection property="tiposIdentificacion" resultMap="MOAD_ESQ_MOADD_TIPOSIDENTIFICA.TipoIdentificacionResultMap" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="PerfilResultMap" parameterType="Perfil" >
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    from MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+  
+    where per.ID_PERFILES = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <select id="obtenerPerfilesUsuario" resultMap="PerfilResultMap" parameterType="string" >
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA, usuper.id_usuario_perfil
+    		
+  	from moadr_usuario_perfil usuper, MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+ 	WHERE ((per.id_perfiles = usuper.id_perfiles)
+        and usuper.cd_usuarios=#{value}) ORDER BY per.DS_DESCRIPCION
+  </select>
+
+  <!-- Borra un registro de la Base de Datos  -->
+  <delete id="deleteByPrimaryKey" parameterType="Perfil" >
+    delete from MOADD_PERFILES
+    where ID_PERFILES = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos  -->
+  <insert id="insert" parameterType="Perfil" >
+ 	 <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_PERF.NEXTVAL FROM DUAL
+	</selectKey>
+
+    insert into MOADD_PERFILES (ID_PERFILES, ID_CONVOCATORIAS, DS_DESCRIPCION,
+      CD_NOMBRETREWA, LG_DEFAULT, LG_PUBLICO)
+    values (#{id,jdbcType=DECIMAL}, #{idConvocatoria,jdbcType=DECIMAL},
+      #{descripcion,jdbcType=VARCHAR},#{cdNombreTrewa,jdbcType=VARCHAR}
+      	<if test="defecto != null">
+    		,#{defecto,typeHandler=SiNOHandler}
+    	</if>
+    	<if test="publico != null">
+    		,#{publico,typeHandler=SiNOHandler}
+    	</if>
+    	)
+  </insert>
+
+  <!-- Actualiza todos los campos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKey" parameterType="Perfil" >
+    update MOADD_PERFILES
+    set ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL},
+    	DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}
+   	<if test="defecto != null">
+   		,LG_DEFAULT = #{defecto,typeHandler=SiNOHandler}
+   	</if>
+ 	<if test="publico != null">
+   		,LG_PUBLICO = #{publico,typeHandler=SiNOHandler}
+   	</if>
+    where ID_PERFILES = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKeySelective" parameterType="Perfil" >
+    update MOADD_PERFILES
+    <set>
+      <if test="idConvocatoria != null" >
+        ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL},
+      </if>
+      <if test="descripcion != null" >
+	    DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      </if>
+      <if test="cdNombreTrewa != null" >
+        CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR},
+      </if>
+      <if test="defecto != null" >
+	    LG_DEFAULT = #{defecto,typeHandler=SiNOHandler},
+      </if>
+      <if test="publico != null" >
+        LG_PUBLICO = #{publico,typeHandler=SiNOHandler}
+      </if>
+    </set>
+    where ID_PERFILES = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Devuelve una lista con los Perfiles de un usuario con un orden -->
+  <select id="obtenerPerfilesPorConvocatorias" resultMap="PerfilResultMap" parameterType="Perfil" >
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    from MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+  
+    where per.ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL} ORDER BY DS_DESCRIPCION
+  </select>
+
+  <!-- Devuelve una lista con el Perfil cuyo código Trew@ es el dado -->
+  <select id="obtenerPerfilPorCodigoTrewaProcedimiento" resultMap="PerfilResultMap" parameterType="map" >
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+	FROM MOADD_ORDENES ord,
+		 MOADD_CONVOCATORIAS conv,
+		 MOADD_PROCEDIMIENTOS proc,
+		 MOADD_PERFILES per
+
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+		 
+	where CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}  and
+		  proc.ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}  AND
+		  per.ID_CONVOCATORIAS = conv.ID_CONVOCATORIAS AND
+		  conv.ID_ORDENES = ord.ID_ORDENES AND
+		  ord.ID_PROCEDIMIENTOS = proc.ID_PROCEDIMIENTOS
+	order by DS_DESCRIPCION
+  </select>
+
+  <select id="obtenerPerfilesPorIdConvocatoria" resultMap="PerfilResultMap" parameterType="java.math.BigDecimal" >
+    (select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    from MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+    
+    	JOIN MOADD_CONVOCATORIAS conv 
+    	ON (per.ID_CONVOCATORIAS = conv.ID_CONVOCATORIAS)
+      
+    where conv.ID_CONVOCATORIAS = #{value})
+    UNION
+	(select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    from MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+     where LG_DEFAULT = 'S') ORDER BY DS_DESCRIPCION
+  </select>
+
+  <select id="selectPerfilesDefecto" resultMap="PerfilResultMap" >
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    from MOADD_PERFILES per
+        left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+     where LG_DEFAULT = 'S' ORDER BY DS_DESCRIPCION
+  </select>
+
+  <select id="selectPerfilesProcedimiento" resultMap="PerfilResultMap" parameterType="java.math.BigDecimal">
+    select per.ID_PERFILES, per.ID_CONVOCATORIAS, per.LG_DEFAULT,
+    		per.LG_PUBLICO, per.DS_DESCRIPCION, per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    FROM MOADD_ORDENES ord, MOADD_CONVOCATORIAS conv, MOADD_PROCEDIMIENTOS proc,
+    	 MOADD_PERFILES per
+    	 left join MOADR_TIDENTIFIC_PERF rti
+    	on (per.ID_PERFILES = rti.ID_PERFILES)
+        left join MOADD_TIPOSIDENTIFICA ti
+    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+	WHERE
+	    proc.ID_PROCEDIMIENTOS = #{value} AND
+	    per.ID_CONVOCATORIAS = conv.ID_CONVOCATORIAS AND
+	    conv.ID_ORDENES = ord.ID_ORDENES AND
+	    ord.ID_PROCEDIMIENTOS = proc.ID_PROCEDIMIENTOS 
+	ORDER BY per.DS_DESCRIPCION
+  </select>
+
+	<!-- Obtiene un perfil dado su ID -->
+	<select id="obtenerPerfilesPorClaveEXT" resultMap="PerfilResultMapEXT" parameterType="java.math.BigDecimal" >
+         select p.ID_PERFILES,
+         		p.ID_CONVOCATORIAS,
+         		p.DS_DESCRIPCION,
+        	    p.CD_NOMBRETREWA,
+        	    p.LG_DEFAULT,
+        	    p.LG_PUBLICO,
+				ti.DS_NOMBRE as TIP_DS_NOMBRE,
+     			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+    			c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+				c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+				c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+				c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+     			c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+     			c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+     			c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+     			c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+         from MOADD_PERFILES p
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (p.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+	         
+	         inner join MOADD_CONVOCATORIAS c
+	         on p.ID_CONVOCATORIAS = c.ID_CONVOCATORIAS
+	         
+         where p.ID_PERFILES = #{id,jdbcType=DECIMAL}
+         order by p.DS_DESCRIPCION
+    </select>
+
+	<!-- Obtiene los perfiles de una orden -->
+	<select id="obtenerPerfilesPorOrdenEXT" resultMap="PerfilResultMapEXT" parameterType="java.math.BigDecimal" >
+         select p.ID_PERFILES,
+         		p.ID_CONVOCATORIAS,
+         		p.DS_DESCRIPCION,
+        	    p.CD_NOMBRETREWA,
+        	    p.LG_DEFAULT,
+        	    p.LG_PUBLICO,
+				ti.DS_NOMBRE as TIP_DS_NOMBRE,
+     			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+				c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+				c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+				c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+				c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+     			c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+     			c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+     			c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+     			c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+         from MOADD_PERFILES p
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (p.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+	         
+	         inner join MOADD_CONVOCATORIAS c
+	         on p.ID_CONVOCATORIAS = c.ID_CONVOCATORIAS
+         where c.ID_ORDENES = #{id,jdbcType=DECIMAL}
+           and p.LG_DEFAULT = 'N'
+         order by p.DS_DESCRIPCION
+   </select>
+
+  	<!-- Obtiene todos los perfiles de una convocatoria para mostrar en el listado-->
+	<select id="obtenerPerfilesPorConvocatoriaEXT" resultMap="PerfilResultMapEXTConUsuarioPublico" parameterType="java.math.BigDecimal" >
+         select p.ID_PERFILES,
+         		p.ID_CONVOCATORIAS,
+         		p.DS_DESCRIPCION,
+        	    p.CD_NOMBRETREWA,
+        	    p.LG_DEFAULT,
+        	    p.LG_PUBLICO,
+				ti.DS_NOMBRE as TIP_DS_NOMBRE,
+     			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+				c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+				c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+				c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+				c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+     			c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+     			c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+     			c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+     			c.DS_TITULO AS CONVOCATORIA_DS_TITULO,
+     			u.CD_USUARIOS AS CD_USUARIO_PUBLICO
+
+         from MOADD_PERFILES p
+
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (p.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+	         
+	         inner join MOADD_CONVOCATORIAS c
+	         on p.ID_CONVOCATORIAS = c.ID_CONVOCATORIAS
+         left join MOADR_USUARIO_PERFIL up
+         	on p.ID_PERFILES = up.ID_PERFILES
+         	AND up.CD_USUARIOS LIKE 'PFL_%'
+         left join MOADD_USUARIOS u
+         	on up.CD_USUARIOS = u.CD_USUARIOS and
+         	u.LG_PUBLICO = 'S'
+         where p.ID_CONVOCATORIAS = #{id,jdbcType=DECIMAL}
+         order by p.DS_DESCRIPCION
+   </select>
+
+   <!-- Obtiene una lista de perfiles por el identificador del procedimiento
+   		y el identificador de un tipo de certificado -->
+   <select id="obtenerPerfilesPorTipoCertificadoProcedimiento" resultMap="PerfilResultMapEXT" parameterType="TipoCertProcedimiento" >
+         select p.ID_PERFILES,
+         		p.ID_CONVOCATORIAS,
+         		p.DS_DESCRIPCION,
+        	    p.CD_NOMBRETREWA,
+        	    p.LG_DEFAULT,
+        	    p.LG_PUBLICO,
+				ti.DS_NOMBRE as TIP_DS_NOMBRE,
+     			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+		        c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+                c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+                c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+                c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+                c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+                c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+                c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+                c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+
+        from moadr_tcert_proc_perf tpp,
+             MOADD_CONVOCATORIAS c, moadd_perfiles p
+
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (p.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+        where p.ID_PERFILES = tpp.ID_perfiles
+              and c.ID_CONVOCATORIAS = p.ID_CONVOCATORIAS
+              and tpp.ID_Procedimientos = #{idProcedimiento,jdbcType=DECIMAL}
+              and tpp.ID_TiposCertificado = #{idTipoCertificado,jdbcType=DECIMAL} 
+        ORDER BY p.DS_DESCRIPCION
+    </select>
+
+    <!-- Obtener todos los perfiles asociables a un procedimiento y un tipo de certificado -->
+	<select id="obtenerPerfilesAsociablesPorTipoCertificadoProcedimiento" resultMap="PerfilResultMapEXT" parameterType="TipoCertProcedimientoPerfil" >
+      select p.ID_PERFILES,
+      		p.ID_CONVOCATORIAS,
+      		p.DS_DESCRIPCION,
+     	    p.CD_NOMBRETREWA,
+     	    p.LG_DEFAULT,
+     	    p.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+       		c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+            c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+            c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+            c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+            c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+            c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+            c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+            c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+    from MOADD_ORDENES ord,
+         MOADD_CONVOCATORIAS c,
+         MOADD_PROCEDIMIENTOS pro,
+         MOADR_TIPOCERT_PROCED tcp,
+         MOADD_PERFILES p
+
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (p.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+    where tcp.ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL} AND
+          tcp.ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL} AND
+          tcp.ID_PROCEDIMIENTOS = pro.ID_PROCEDIMIENTOS AND
+          pro.ID_PROCEDIMIENTOS = ord.ID_PROCEDIMIENTOS AND
+          ord.ID_ORDENES = c.ID_ORDENES AND
+          c.ID_CONVOCATORIAS = p.ID_CONVOCATORIAS AND
+          p.ID_PERFILES NOT IN 		(select ID_PERFILES from MOADR_TCERT_PROC_PERF
+                                	 where ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL} and
+                                       	   ID_TIPOSCERTIFICADO = #{idTipoCertificado,jdbcType=DECIMAL}) AND
+		  ti.ID_TIPOSIDENTIFICA IN (1, 3)
+          ORDER BY p.DS_DESCRIPCION
+	</select>
+
+	<!-- Actualiza todos los perfiles de una convocatoria con el flag por defecto a "N" -->
+	<update id="desactivarFlagPorDefecto" parameterType="java.math.BigDecimal">
+		UPDATE MOADD_PERFILES
+		SET LG_DEFAULT = 'N'
+		WHERE ID_CONVOCATORIAS = #{value}
+	</update>
+
+	<!-- Selección del código de usuario público relacionado con el perfil -->
+	<select id="obtenerUsuarioPublicoRelacionado" resultType="java.lang.String" parameterType="java.math.BigDecimal" >
+		<![CDATA[
+         SELECT up.CD_USUARIOS
+         FROM MOADR_USUARIO_PERFIL up
+
+         left outer join MOADD_PERFILES p
+         on up.ID_PERFILES = p.ID_PERFILES
+
+         join MOADD_USUARIOS u
+         on up.CD_USUARIOS = u.CD_USUARIOS
+
+         WHERE u.LG_PUBLICO = 'S'
+           and U.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+			  						   FROM MOADD_ESTADOSUSUARIO
+			  						   WHERE LG_ANULAUSUARIO = 'N')
+			
+         AND p.ID_PERFILES = #{value}
+           ORDER BY up.CD_USUARIOS
+         ]]>
+    </select>
+
+<!-- 
+    <select id="obtenerPerfilesEXTPaginada"
+    		resultMap="PerfilResultMapEXT"
+		    parameterClass="map" >
+      select per.ID_PERFILES,
+      		per.ID_CONVOCATORIAS,
+      		per.DS_DESCRIPCION,
+     	    per.CD_NOMBRETREWA,
+     	    per.LG_DEFAULT,
+     	    per.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+			c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+		    c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+		    c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+		    c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+		    c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+		    c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+		    c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+		    c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+
+		FROM moadd_perfiles per
+		    join moadr_usuario_perfil usuPerf
+			on (per.ID_PERFILES = usuPerf.ID_PERFILES)
+		    join moadd_convocatorias c
+			on (per.id_convocatorias = c.id_convocatorias)
+	    	left join MOADR_TIDENTIFIC_PERF rti
+	    	on (per.ID_PERFILES = rti.ID_PERFILES)
+	        left join MOADD_TIPOSIDENTIFICA ti
+	    	on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+			
+		WHERE (usuPerf.CD_USUARIOS = #cdUsuario#)
+		ORDER BY per.id_perfiles
+    </select>
+ -->
+    <select id="obtenerPerfilesEXTPaginada"	resultMap="PerfilResultMapEXT" parameterType="map" >
+      select per.ID_PERFILES,
+      		per.ID_CONVOCATORIAS,
+      		per.DS_DESCRIPCION,
+     	    per.CD_NOMBRETREWA,
+     	    per.LG_DEFAULT,
+     	    per.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+			c.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+		    c.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+		    c.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+		    c.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+		    c.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+		    c.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+		    c.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+		    c.DS_TITULO AS CONVOCATORIA_DS_TITULO
+
+		FROM moadd_perfiles per
+		    join moadr_usuario_perfil usuPerf
+				on (per.ID_PERFILES = usuPerf.ID_PERFILES)
+		    join moadd_convocatorias c
+				on (per.id_convocatorias = c.id_convocatorias)
+	    	left join MOADR_TIDENTIFIC_PERF rti
+	    		on (per.ID_PERFILES = rti.ID_PERFILES)
+	        left join MOADD_TIPOSIDENTIFICA ti
+	    		on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+			
+		WHERE (usuPerf.ID_USUARIO_CONFTREWA = #{idUsuConfTrewa})
+		ORDER BY per.id_perfiles
+    </select>
+    
+   	<select id="obtenerPerfilesEXTCount"
+			resultType="java.math.BigDecimal"
+			parameterType="map">
+		SELECT count(perfiles.id_perfiles)
+		FROM moadd_perfiles perfiles 
+		JOIN moadr_usuario_perfil usuPerf ON (perfiles.id_perfiles = usuPerf.id_perfiles)
+		WHERE (usuPerf.ID_USUARIO_CONFTREWA = #{idUsuConfTrewa})
+		ORDER BY perfiles.id_perfiles
+	</select>
+	
+    <!-- 
+	<select id="obtenerPerfilesEXTCount"
+			resultClass="java.math.BigDecimal"
+			parameterClass="map">
+		SELECT count(perfiles.id_perfiles)
+		FROM moadd_perfiles perfiles join moadr_usuario_perfil usuPerf
+	 	     on (perfiles.id_perfiles = usuPerf.id_perfiles)
+		WHERE (usuPerf.CD_USUARIOS = #cdUsuario#)
+		ORDER BY perfiles.id_perfiles
+	</select>
+	-->
+
+	<!-- Obtiene todos los perfiles de un usuario -->
+	<select id="obtenerPerfilesUsuarioEXT" resultMap="PerfilResultMapEXT" parameterType="java.lang.String">
+	<![CDATA[
+      select per.ID_PERFILES,
+      		per.ID_CONVOCATORIAS,
+      		per.DS_DESCRIPCION,
+     	    per.CD_NOMBRETREWA,
+     	    per.LG_DEFAULT,
+     	    per.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+		    C.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+            C.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+            C.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+            C.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+            C.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+            C.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+            C.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+            C.DS_TITULO AS CONVOCATORIA_DS_TITULO
+		from MOADD_PERFILES per
+		
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (per.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+			inner join MOADD_CONVOCATORIAS C
+			on per.ID_CONVOCATORIAS = C.ID_CONVOCATORIAS
+			inner join MOADR_USUARIO_PERFIL UP
+			on per.ID_PERFILES = UP.ID_PERFILES
+			inner join MOADD_USUARIOS U
+			on UP.CD_USUARIOS = U.CD_USUARIOS
+			inner join MOADD_ESTADOSUSUARIO EU
+			on U.CD_ESTADOSUSUARIO = EU.CD_ESTADOSUSUARIO
+
+		where UP.CD_USUARIOS = #{value}
+		  and U.LG_PUBLICO = 'N'
+		  and U.CD_ESTADOSUSUARIO in (select CD_ESTADOSUSUARIO
+			  						  from MOADD_ESTADOSUSUARIO
+			  						  where LG_ANULAUSUARIO = 'N')
+	      and per.LG_DEFAULT = 'N'
+	    order by per.DS_DESCRIPCION
+	    ]]>
+	</select>
+	
+	<!-- Obtiene todos los perfiles de un usuario -->
+	<select id="obtenerPerfilesDeUsuConfTrewaEXT" resultMap="PerfilResultMapEXT" parameterType="java.math.BigDecimal">
+	<![CDATA[
+      SELECT per.ID_PERFILES,
+      		per.ID_CONVOCATORIAS,
+      		per.DS_DESCRIPCION,
+     	    per.CD_NOMBRETREWA,
+     	    per.LG_DEFAULT,
+     	    per.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA,
+		    C.ID_CONVOCATORIAS AS CONVOCATORIA_ID_CONVOCATORIAS,
+            C.ID_ORDENES AS CONVOCATORIA_ID_ORDENES,
+            C.FH_FECHACOMIENZO AS CONVOCATORIA_FH_FECHACOMIENZO,
+            C.FH_FECHAFIN AS CONVOCATORIA_FH_FECHAFIN,
+            C.DS_DESCRIPCION AS CONVOCATORIA_DS_DESCRIPCION,
+            C.CD_PROCTREWA AS CONVOCATORIA_CD_PROCTREWA,
+            C.CD_TIPOEXPTREWA AS CONVOCATORIA_CD_TIPOEXPTREWA,
+            C.DS_TITULO AS CONVOCATORIA_DS_TITULO
+            
+		FROM MOADD_PERFILES per
+		
+		LEFT JOIN MOADR_TIDENTIFIC_PERF rti 
+			ON (per.ID_PERFILES = rti.ID_PERFILES)
+		LEFT JOIN MOADD_TIPOSIDENTIFICA ti 
+			ON (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+		INNER JOIN MOADD_CONVOCATORIAS C 
+			ON per.ID_CONVOCATORIAS = C.ID_CONVOCATORIAS
+		INNER JOIN MOADR_USUARIO_PERFIL UP 
+			ON per.ID_PERFILES = UP.ID_PERFILES
+		INNER JOIN MOADR_USUARIO_CONFTREWA UCT 
+			ON UP.ID_USUARIO_CONFTREWA = UCT.ID_USUARIO_CONFTREWA
+		INNER JOIN MOADD_USUARIOS U	
+			ON UCT.ID_USUARIOS = U.ID_USUARIOS
+		INNER JOIN MOADD_ESTADOSUSUARIO EU 
+			ON U.CD_ESTADOSUSUARIO = EU.CD_ESTADOSUSUARIO
+
+		WHERE UCT.ID_USUARIO_CONFTREWA = #{value}
+		AND U.LG_PUBLICO = 'N'
+		AND U.CD_ESTADOSUSUARIO in (SELECT CD_ESTADOSUSUARIO
+			  						FROM MOADD_ESTADOSUSUARIO
+			  						WHERE LG_ANULAUSUARIO = 'N')
+	    AND per.LG_DEFAULT = 'N'
+	    
+	    ORDER BY per.DS_DESCRIPCION
+	    ]]>
+	</select>
+
+	<select id="obtenerPerfilesPorConvocatoriaYNombreTrewa" resultMap="PerfilResultMap" parameterType="Perfil" >
+      select per.ID_PERFILES,
+      		per.ID_CONVOCATORIAS,
+      		per.DS_DESCRIPCION,
+     	    per.CD_NOMBRETREWA,
+     	    per.LG_DEFAULT,
+     	    per.LG_PUBLICO,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE,
+  			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+ 			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    	from MOADD_PERFILES per
+
+	    	 left join MOADR_TIDENTIFIC_PERF rti
+	    	 on (per.ID_PERFILES = rti.ID_PERFILES)
+	         left join MOADD_TIPOSIDENTIFICA ti
+	    	 on (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+    	where ID_CONVOCATORIAS = #{idConvocatoria,jdbcType=DECIMAL}
+    	and CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}
+  	</select>
+  
+  <select id="obtenerPerfilesPorNombreTrewa" resultMap="PerfilResultMap" parameterType="string" >
+    SELECT per.ID_PERFILES, 
+    		per.ID_CONVOCATORIAS, 
+    		per.LG_DEFAULT,
+    		per.LG_PUBLICO, 
+    		per.DS_DESCRIPCION, 
+    		per.CD_NOMBRETREWA,
+    		ti.DS_NOMBRE as TIP_DS_NOMBRE, 
+    		ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+    		ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+    		
+  	FROM MOADD_PERFILES per
+  	
+    LEFT JOIN MOADR_TIDENTIFIC_PERF rti	
+    	ON (per.ID_PERFILES = rti.ID_PERFILES)
+    LEFT JOIN MOADD_TIPOSIDENTIFICA ti 	
+    	ON (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+
+ 	WHERE per.CD_NOMBRETREWA = #{value}
+ 	AND per.ID_CONVOCATORIAS IS NOT NULL
+ 	
+    ORDER BY per.DS_DESCRIPCION
+  </select>  
+  
+  <select id="obtenerPerfilesPorNombreTrewaSistema"	resultMap="PerfilResultMap" parameterType="map" >
+     select per.ID_PERFILES, 
+		    per.ID_CONVOCATORIAS, 
+		    per.LG_DEFAULT,
+			per.LG_PUBLICO, 
+			per.DS_DESCRIPCION, 
+			per.CD_NOMBRETREWA,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE, 
+			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+
+		FROM MOADD_ORDENES ord,
+		 	MOADD_CONVOCATORIAS conv,
+		 	MOADD_PROCEDIMIENTOS proc,
+		 	MOADD_PERFILES per
+        LEFT JOIN MOADR_TIDENTIFIC_PERF rti 
+        	ON (per.ID_PERFILES = rti.ID_PERFILES)
+        LEFT JOIN MOADD_TIPOSIDENTIFICA ti	
+        	ON (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+		 
+		WHERE per.CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}  
+		AND proc.CD_SISTEMATREWA = #{cdSistema,jdbcType=VARCHAR}  
+		AND per.ID_CONVOCATORIAS = conv.ID_CONVOCATORIAS
+		AND conv.ID_ORDENES = ord.ID_ORDENES 
+		AND ord.ID_PROCEDIMIENTOS = proc.ID_PROCEDIMIENTOS
+		
+		ORDER BY per.id_perfiles
+    </select>
+    
+    <select id="obtenerPerfPorNombreTrewaSistemaUsu" resultMap="PerfilResultMap" parameterType="map" >
+     select per.ID_PERFILES, 
+		    per.ID_CONVOCATORIAS, 
+		    per.LG_DEFAULT,
+			per.LG_PUBLICO, 
+			per.DS_DESCRIPCION, 
+			per.CD_NOMBRETREWA,
+			ti.DS_NOMBRE as TIP_DS_NOMBRE, 
+			ti.DS_DESCRIPCION as TIP_DS_DESCRIPCION,
+			ti.ID_TIPOSIDENTIFICA as TIP_ID_TIPOSIDENTIFICA
+
+		FROM MOADD_ORDENES ord,
+		 	MOADD_CONVOCATORIAS conv,
+		 	MOADD_PROCEDIMIENTOS proc,
+		 	MOADR_USUARIO_PERFIL uper,
+		 	MOADD_PERFILES per
+        LEFT JOIN MOADR_TIDENTIFIC_PERF rti 
+        	ON (per.ID_PERFILES = rti.ID_PERFILES)
+        LEFT JOIN MOADD_TIPOSIDENTIFICA ti	
+        	ON (ti.ID_TIPOSIDENTIFICA = rti.ID_TIPOSIDENTIFICA)
+		 
+		WHERE per.CD_NOMBRETREWA = #{cdNombreTrewa,jdbcType=VARCHAR}  
+		AND proc.CD_SISTEMATREWA = #{cdSistema,jdbcType=VARCHAR}
+		AND uper.ID_USUARIO_CONFTREWA = #{idUsuConfTrewa,jdbcType=DECIMAL}
+		AND uper.ID_PERFILES = per.ID_PERFILES
+		AND per.ID_CONVOCATORIAS = conv.ID_CONVOCATORIAS
+		AND conv.ID_ORDENES = ord.ID_ORDENES 
+		AND ord.ID_PROCEDIMIENTOS = proc.ID_PROCEDIMIENTOS
+		
+		ORDER BY per.id_perfiles
+    </select>
+    
+</mapper>

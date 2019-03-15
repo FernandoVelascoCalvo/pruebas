@@ -1,0 +1,172 @@
+[2019-03-14 13:43:57.680] {localhost-startStop-1}[DEBUG][org.apache.ibatis.logging.LogFactory]: Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+[2019-03-14 13:44:01.251] {localhost-startStop-1}[DEBUG][org.mybatis.spring.SqlSessionFactoryBean]: Parsed configuration file: 'class path resource [sql-map-config.xml]'
+[2019-03-14 13:44:01.254] {localhost-startStop-1}[DEBUG][org.mybatis.spring.SqlSessionFactoryBean]: Property 'mapperLocations' was not specified or no matching resources found
+[2019-03-14 13:44:01.733] {localhost-startStop-1}[INFO ][org.quartz.core.SchedulerSignalerImpl]: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+[2019-03-14 13:44:01.735] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Quartz Scheduler v.1.6.1 created.
+[2019-03-14 13:44:01.738] {localhost-startStop-1}[INFO ][org.quartz.simpl.RAMJobStore]: RAMJobStore initialized.
+[2019-03-14 13:44:01.738] {localhost-startStop-1}[INFO ][org.quartz.impl.StdSchedulerFactory]: Quartz scheduler 'org.springframework.scheduling.quartz.SchedulerFactoryBean#0' initialized from an externally provided properties instance.
+[2019-03-14 13:44:01.738] {localhost-startStop-1}[INFO ][org.quartz.impl.StdSchedulerFactory]: Quartz scheduler version: 1.6.1
+[2019-03-14 13:44:01.742] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@700b2601
+[2019-03-14 13:44:01.755] {localhost-startStop-1}[DEBUG][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Validando las claves de cifrado.
+[2019-03-14 13:44:01.760] {localhost-startStop-1}[DEBUG][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Validando clave para cifrado de aplicaciones.
+[2019-03-14 13:44:02.330] {localhost-startStop-1}[ERROR][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Error al validar las claves de cifrado: 
+java.security.InvalidKeyException: Illegal key size or default parameters
+	at javax.crypto.Cipher.checkCryptoPerm(Cipher.java:1011)
+	at javax.crypto.Cipher.init(Cipher.java:1209)
+	at javax.crypto.Cipher.init(Cipher.java:1153)
+	at es.ja.cice.pct.moad.security.AESCryptoHelper.encrypt(AESCryptoHelper.java:69)
+	at es.ja.cice.pct.moad.manager.ServicioCriptografico.init(ServicioCriptografico.java:182)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1640)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1511)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:290)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:191)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:636)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:938)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:410)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:306)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:112)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5181)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5704)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1707)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1697)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+[2019-03-14 13:44:02.371] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED shutting down.
+[2019-03-14 13:44:02.371] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED paused.
+[2019-03-14 13:44:02.392] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED shutdown complete.
+[2019-03-14 13:44:02.394] {localhost-startStop-1}[ERROR][org.springframework.web.context.ContextLoader]: Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'servicioCriptografico' defined in ServletContext resource [/WEB-INF/application-context/applicationContext-webservice.xml]: Invocation of init method failed; nested exception is es.ja.cice.pct.moad.exception.MoadException: Se produjo un error validando las claves de cifrado.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1514)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:290)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:191)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:636)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:938)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:410)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:306)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:112)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5181)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5704)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1707)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1697)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: es.ja.cice.pct.moad.exception.MoadException: Se produjo un error validando las claves de cifrado.
+	at es.ja.cice.pct.moad.exception.ExceptionUtil.crearMoadException(ExceptionUtil.java:119)
+	at es.ja.cice.pct.moad.manager.ServicioCriptografico.init(ServicioCriptografico.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1640)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1511)
+	... 22 common frames omitted
+[2019-03-14 14:06:04.674] {localhost-startStop-1}[DEBUG][org.apache.ibatis.logging.LogFactory]: Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+[2019-03-14 14:06:07.855] {localhost-startStop-1}[DEBUG][org.mybatis.spring.SqlSessionFactoryBean]: Parsed configuration file: 'class path resource [sql-map-config.xml]'
+[2019-03-14 14:06:07.857] {localhost-startStop-1}[DEBUG][org.mybatis.spring.SqlSessionFactoryBean]: Property 'mapperLocations' was not specified or no matching resources found
+[2019-03-14 14:06:08.221] {localhost-startStop-1}[INFO ][org.quartz.core.SchedulerSignalerImpl]: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+[2019-03-14 14:06:08.222] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Quartz Scheduler v.1.6.1 created.
+[2019-03-14 14:06:08.224] {localhost-startStop-1}[INFO ][org.quartz.simpl.RAMJobStore]: RAMJobStore initialized.
+[2019-03-14 14:06:08.224] {localhost-startStop-1}[INFO ][org.quartz.impl.StdSchedulerFactory]: Quartz scheduler 'org.springframework.scheduling.quartz.SchedulerFactoryBean#0' initialized from an externally provided properties instance.
+[2019-03-14 14:06:08.224] {localhost-startStop-1}[INFO ][org.quartz.impl.StdSchedulerFactory]: Quartz scheduler version: 1.6.1
+[2019-03-14 14:06:08.226] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@37df8f67
+[2019-03-14 14:06:08.236] {localhost-startStop-1}[DEBUG][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Validando las claves de cifrado.
+[2019-03-14 14:06:08.240] {localhost-startStop-1}[DEBUG][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Validando clave para cifrado de aplicaciones.
+[2019-03-14 14:06:08.671] {localhost-startStop-1}[ERROR][es.ja.cice.pct.moad.manager.ServicioCriptografico]: Error al validar las claves de cifrado: 
+java.security.InvalidKeyException: Illegal key size or default parameters
+	at javax.crypto.Cipher.checkCryptoPerm(Cipher.java:1011)
+	at javax.crypto.Cipher.init(Cipher.java:1209)
+	at javax.crypto.Cipher.init(Cipher.java:1153)
+	at es.ja.cice.pct.moad.security.AESCryptoHelper.encrypt(AESCryptoHelper.java:69)
+	at es.ja.cice.pct.moad.manager.ServicioCriptografico.init(ServicioCriptografico.java:182)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1640)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1511)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:290)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:191)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:636)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:938)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:410)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:306)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:112)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5181)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5704)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1707)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1697)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+[2019-03-14 14:06:08.707] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED shutting down.
+[2019-03-14 14:06:08.707] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED paused.
+[2019-03-14 14:06:08.707] {localhost-startStop-1}[INFO ][org.quartz.core.QuartzScheduler]: Scheduler org.springframework.scheduling.quartz.SchedulerFactoryBean#0_$_NON_CLUSTERED shutdown complete.
+[2019-03-14 14:06:08.709] {localhost-startStop-1}[ERROR][org.springframework.web.context.ContextLoader]: Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'servicioCriptografico' defined in ServletContext resource [/WEB-INF/application-context/applicationContext-webservice.xml]: Invocation of init method failed; nested exception is es.ja.cice.pct.moad.exception.MoadException: Se produjo un error validando las claves de cifrado.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1514)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:290)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:191)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:636)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:938)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:410)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:306)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:112)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5181)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5704)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1707)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1697)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: es.ja.cice.pct.moad.exception.MoadException: Se produjo un error validando las claves de cifrado.
+	at es.ja.cice.pct.moad.exception.ExceptionUtil.crearMoadException(ExceptionUtil.java:119)
+	at es.ja.cice.pct.moad.manager.ServicioCriptografico.init(ServicioCriptografico.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1640)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1511)
+	... 22 common frames omitted

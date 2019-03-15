@@ -1,0 +1,105 @@
+Manifest-Version: 1.0
+Export-Package: org.apache.cxf.transport.http;version="2.7.18",org.apa
+ che.cxf.transport.http.auth;version="2.7.18",org.apache.cxf.transport
+ .http.blueprint;version="2.7.18",org.apache.cxf.transport.http.osgi;v
+ ersion="2.7.18",org.apache.cxf.transport.http.policy;version="2.7.18"
+ ,org.apache.cxf.transport.http.policy.impl;version="2.7.18",org.apach
+ e.cxf.transport.http.spring;version="2.7.18",org.apache.cxf.transport
+ .https;version="2.7.18",org.apache.cxf.transport.https.httpclient;ver
+ sion="2.7.18",org.apache.cxf.transport.servlet;version="2.7.18",org.a
+ pache.cxf.transport.servlet.blueprint;version="2.7.18",org.apache.cxf
+ .transport.servlet.servicelist;version="2.7.18",org.apache.cxf.transp
+ orts.http.configuration;version="2.7.18",META-INF.cxf.osgi;version="2
+ .7.18"
+Bundle-ActivationPolicy: lazy
+Implementation-Title: Apache CXF Runtime HTTP Transport
+Built-By: dkulp
+Tool: Bnd-2.1.0.20130426-122213
+Export-Service: javax.servlet.Servlet;init-prefix="${org.apache.cxf.se
+ rvlet.init-prefix}";alias="${org.apache.cxf.servlet.context}";servlet
+ -name="${org.apache.cxf.servlet.name}";hide-service-list-page="${org.
+ apache.cxf.servlet.hide-service-list-page}";disable-address-updates="
+ ${org.apache.cxf.servlet.disable-address-updates}";base-address="${or
+ g.apache.cxf.servlet.base-address}";service-list-path="${org.apache.c
+ xf.servlet.service-list-path}";static-resources-list="${org.apache.cx
+ f.servlet.static-resources-list}";redirects-list="${org.apache.cxf.se
+ rvlet.redirects-list}";redirect-servlet-name="${org.apache.cxf.servle
+ t.redirect-servlet-name}";redirect-servlet-path="${org.apache.cxf.ser
+ vlet.redirect-servlet-path}";service-list-all-contexts="${org.apache.
+ cxf.servlet.service-list-all-contexts}";service-list-page-authenticat
+ e="${org.apache.cxf.servlet.service-list-page-authenticate}";service-
+ list-page-authenticate-realm="${org.apache.cxf.servlet.service-list-p
+ age-authenticate-realm}",org.apache.aries.blueprint.NamespaceHandler;
+ osgi.service.blueprint.namespace="http://cxf.apache.org/transports/ht
+ tp/configuration",org.apache.cxf.transport.http.DestinationRegistry
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Specification-Title: Apache CXF Runtime HTTP Transport
+Bundle-Activator: org.apache.cxf.transport.http.osgi.HTTPTransportActi
+ vator
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-SymbolicName: org.apache.cxf.cxf-rt-transports-http
+Implementation-Version: 2.7.18
+Specification-Vendor: The Apache Software Foundation
+Bundle-Name: Apache CXF Runtime HTTP Transport
+Created-By: Apache Maven Bundle Plugin
+Bundle-Vendor: The Apache Software Foundation
+Bundle-Blueprint: OSGI-INF/blueprint/cxf-http.xml,OSGI-INF/blueprint/o
+ sgiservlet.xml
+Build-Jdk: 1.7.0_71
+Bundle-Version: 2.7.18
+Bnd-LastModified: 1446226036185
+Bundle-ManifestVersion: 2
+Bundle-Description: Apache CXF Runtime HTTP Transport
+Import-Package: javax.servlet;version="[0.0,4)";resolution:=optional,j
+ avax.servlet.http;version="[0.0,4)";resolution:=optional,org.apache.a
+ ries.blueprint;version="[0.3,2)";resolution:=optional,org.apache.arie
+ s.blueprint.mutable;version="[0.3,2)";resolution:=optional,org.spring
+ framework.beans.factory.support;resolution:=optional;version="[2.5,4)
+ ",org.springframework.beans.factory.xml;resolution:=optional;version=
+ "[2.5,4)",org.springframework.context;resolution:=optional;version="[
+ 2.5,4)",org.springframework.context.event;resolution:=optional;versio
+ n="[2.5,4)",org.springframework.context.support;resolution:=optional;
+ version="[2.5,4)",org.springframework.core.io;resolution:=optional;ve
+ rsion="[2.5,4)",org.springframework.web.context;resolution:=optional;
+ version="[2.5,4)",org.springframework.web.context.support;resolution:
+ =optional;version="[2.5,4)",javax.activation,javax.annotation,javax.n
+ aming,javax.naming.directory,javax.naming.ldap,javax.net.ssl,javax.se
+ curity.auth,javax.security.auth.callback,javax.security.auth.login,ja
+ vax.security.auth.x500,javax.wsdl,javax.wsdl.extensions,javax.wsdl.ex
+ tensions.http,javax.wsdl.extensions.soap,javax.xml.bind,javax.xml.bin
+ d.annotation,javax.xml.namespace,org.apache.cxf;version="[2.7,3)",org
+ .apache.cxf.attachment;version="[2.7,3)",org.apache.cxf.common.classl
+ oader;version="[2.7,3)",org.apache.cxf.common.i18n;version="[2.7,3)",
+ org.apache.cxf.common.injection;version="[2.7,3)",org.apache.cxf.comm
+ on.logging;version="[2.7,3)",org.apache.cxf.common.util;version="[2.7
+ ,3)",org.apache.cxf.configuration;version="[2.7,3)",org.apache.cxf.co
+ nfiguration.blueprint;version="[2.7,3)",org.apache.cxf.configuration.
+ jsse;version="[2.7,3)",org.apache.cxf.configuration.security;version=
+ "[2.7,3)",org.apache.cxf.configuration.spring;version="[2.7,3)",org.a
+ pache.cxf.continuations;version="[2.7,3)",org.apache.cxf.endpoint;ver
+ sion="[2.7,3)",org.apache.cxf.feature;version="[2.7,3)",org.apache.cx
+ f.helpers;version="[2.7,3)",org.apache.cxf.interceptor;version="[2.7,
+ 3)",org.apache.cxf.interceptor.security;version="[2.7,3)",org.apache.
+ cxf.io;version="[2.7,3)",org.apache.cxf.message;version="[2.7,3)",org
+ .apache.cxf.phase;version="[2.7,3)",org.apache.cxf.policy;version="[2
+ .7,3)",org.apache.cxf.resource;version="[2.7,3)",org.apache.cxf.secur
+ ity;version="[2.7,3)",org.apache.cxf.security.transport;version="[2.7
+ ,3)",org.apache.cxf.service;version="[2.7,3)",org.apache.cxf.service.
+ model;version="[2.7,3)",org.apache.cxf.transport;version="[2.7,3)",or
+ g.apache.cxf.transports.http;version="[2.7,3)",org.apache.cxf.version
+ ;version="[2.7,3)",org.apache.cxf.workqueue;version="[2.7,3)",org.apa
+ che.cxf.ws.addressing;version="[2.7,3)",org.apache.cxf.ws.policy;vers
+ ion="[2.7,3)";resolution:=optional,org.apache.cxf.ws.policy.builder.j
+ axb;version="[2.7,3)";resolution:=optional,org.apache.cxf.wsdl;versio
+ n="[2.7,3)",org.apache.cxf.wsdl.http;version="[2.7,3)",org.apache.cxf
+ .wsdl11;version="[2.7,3)",org.apache.neethi;version="[3.0,4)";resolut
+ ion:=optional,org.ietf.jgss,org.osgi.framework;version="[1.5,2)",org.
+ osgi.service.blueprint;version="[1.0.0,2.0.0)";resolution:=optional,o
+ rg.osgi.service.blueprint.container;version="[1.0,2)",org.osgi.servic
+ e.blueprint.reflect;version="[1.0,2)",org.osgi.service.cm;version="[1
+ .3,2)",org.osgi.util.tracker;version="[1.4,2)",org.w3c.dom
+Bundle-DocURL: http://cxf.apache.org
+Specification-Version: 2.7.18
+Archiver-Version: Plexus Archiver
+

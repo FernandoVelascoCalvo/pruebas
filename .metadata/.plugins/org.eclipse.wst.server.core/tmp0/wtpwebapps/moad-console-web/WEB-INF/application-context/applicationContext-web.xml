@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<bean id="propertyConfigurer2"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+                <value>classpath:authentication.properties</value>
+                <value>classpath:moad-config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+    <!-- *********** -->
+    <!--   ERRORES   -->
+    <!-- *********** -->
+
+    <bean name="/errorGeneral"
+        class="es.ja.cice.pct.moad.webapp.action.ErrorGeneralAction">
+    </bean>
+
+    <!-- ********************** -->
+    <!--   CHEQUEO INTEGRIDAD   -->
+    <!-- ********************** -->
+    <bean name="/chequearIntegridad"
+        class="es.ja.cice.pct.moad.webapp.action.integridad.ChequearIntegridadAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerTrewaIntegridad" ref="ITrewaIntegridadManager" />
+    </bean>
+
+    <!-- ************* -->
+    <!--   SEGURIDAD   -->
+    <!-- ************* -->
+
+    <bean name="/login"
+        class="es.ja.cice.pct.moad.webapp.action.security.LoginAction"
+        lazy-init="false">
+        <property name="authModel" value="${moad.auth.model}" />
+        <property name="urlMiniAppletHCV" value="${afirma.miniapplet.hcv}" />
+        <property name="afirmaPCTManager" ref="afirmaPCTManager" />
+    </bean>
+
+    <!-- ************ -->
+    <!--   LISTADOS   -->
+    <!-- ************ -->
+
+    <bean name="/listadoListados"
+        class="es.ja.cice.pct.moad.webapp.action.listados.ListadoListadosAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/editarListado"
+        class="es.ja.cice.pct.moad.webapp.action.listados.EditarListadoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/crearListado"
+        class="es.ja.cice.pct.moad.webapp.action.listados.CrearListadoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/borrarListado"
+        class="es.ja.cice.pct.moad.webapp.action.listados.BorrarListadoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/editarCampo"
+        class="es.ja.cice.pct.moad.webapp.action.listados.EditarCampoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/crearCampo"
+        class="es.ja.cice.pct.moad.webapp.action.listados.CrearCampoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/borrarCampo"
+        class="es.ja.cice.pct.moad.webapp.action.listados.BorrarCampoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <!-- **************** -->
+    <!--   HERRAMIENTAS   -->
+    <!-- **************** -->
+
+    <bean name="/listadoHerramientas"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.ListadoHerramientasAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/editarHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.EditarHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/crearHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.CrearHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/borrarHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.BorrarHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/editarParametro"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.EditarParametroAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/crearParametro"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.CrearParametroAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/borrarParametro"
+        class="es.ja.cice.pct.moad.webapp.action.herramientas.BorrarParametroAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+
+    <!-- ******************* -->
+    <!--   CONFIGURACIONES   -->
+    <!-- ******************* -->
+
+    <bean name="/editarInstHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.EditarInstHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <bean name="/borrarInstHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.BorrarInstHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/crearInstHerramienta"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.CrearInstHerramientaAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/listadoConfiguracionHerramientas"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.ListadoConfiguracionHerramientasAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerConfiguraciones" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/listadoConfiguraciones"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.ListadoConfiguracionesAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/editarConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.EditarConfiguracionAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+        <property name="poolManager" ref="IPoolManager" />
+    </bean>
+
+    <bean name="/crearConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.CrearConfiguracionAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/borrarConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.BorrarConfiguracionAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/importarConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.ImportarConfiguracionAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/exportarConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.ExportarConfiguracionAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/importarProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ImportarProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/exportarProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ExportarProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+
+    <bean name="/chequearConfiguracion"
+        class="es.ja.cice.pct.moad.webapp.action.configuraciones.ChequearConfiguracionAction">
+        <property name="configuracionesManager" ref="IConfiguracionesManager" />
+        <property name="herramientasFactory" ref="HerramientasFactory" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+	<bean name="/cambiarClaveInstParametro"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CambiarClaveInstParametroAction">
+        <property name="manager" ref="IConfiguracionesManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+	
+    <!-- ********* -->
+    <!--   ROLES   -->
+    <!-- ********* -->
+
+    <bean name="/listadoRoles"
+        class="es.ja.cice.pct.moad.webapp.action.roles.ListadoRolesAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/editarRol"
+        class="es.ja.cice.pct.moad.webapp.action.roles.EditarRolAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/borrarRol"
+        class="es.ja.cice.pct.moad.webapp.action.roles.BorrarRolAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/crearRol"
+        class="es.ja.cice.pct.moad.webapp.action.roles.CrearRolAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/asignarFuncionalidad"
+        class="es.ja.cice.pct.moad.webapp.action.roles.AsignarFuncionalidadAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/revocarFuncionalidad"
+        class="es.ja.cice.pct.moad.webapp.action.roles.RevocarFuncionalidadAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+
+    <!-- ************ -->
+    <!--   USUARIOS   -->
+    <!-- ************ -->
+
+    <bean name="/listadoUsuarioRoles"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuarioRolesAction">
+        <property name="rolesManager" ref="IRolesManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/asignarRol"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.AsignarRolAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerRoles" ref="IRolesManager" />
+    </bean>
+
+    <bean name="/asignarPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.AsignarPerfilAction">
+        <property name="managerPerfiles" ref="IPerfilesManager" />
+        <property name="managerTrewa" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/revocarPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.RevocarPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+    </bean>
+    
+    <bean name="/revocarPerfilMoad"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.RevocarPerfilMoadAction">
+        <property name="perfilUsuManager" ref="IPerfilesUsuManager" />
+    </bean>
+    
+    
+
+    <bean name="/revocarRol"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.RevocarRolAction">
+        <property name="manager" ref="IRolesManager" />
+    </bean>
+	
+	<bean name="/asignarConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.AsignarConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+    </bean>
+    
+	<bean name="/revocarConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.RevocarConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+    </bean>
+	
+	<bean name="/sincronizarConfTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.SincronizarConfTrewaAction">
+        <property name="managerTrewa" ref="IGeneralTrewaManager" />
+    </bean>
+    
+    <bean name="/asignarPerfilMoad"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.AsignarPerfilMoadAction">
+		<property name="perfilUsuManager" ref="IPerfilesUsuManager" />
+    </bean>
+    
+    <bean name="/listadoUsuarios"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuariosAction">
+        <property name="manager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/mostrarUsuario"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.MostrarUsuarioAction">
+        <property name="usuariosManager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/editarUsuario"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.EditarUsuarioAction">
+        <property name="manager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/crearUsuario"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.CrearUsuarioAction">
+        <property name="manager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/comprobarUsuario"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ComprobarUsuarioAction">
+        <property name="manager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/borrarUsuario"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.BorrarUsuarioAction">
+        <property name="manager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/listadoUsuarioEmpleos"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuarioEmpleosAction">
+        <property name="unidadesOrganicasManager" ref="IUnidadesOrganicasManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+        <property name="configuracionTrewaManager" ref="IConfiguracionTrewaManager" />
+    </bean>
+
+    <bean name="/listadoUsuarioPerfiles"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuarioPerfilesAction">
+        <property name="perfilesManager" ref="IPerfilesManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+        <property name="configuracionTrewaManager" ref="IConfiguracionTrewaManager" />
+    </bean>
+    
+    <bean name="/listadoUsuarioConfTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuarioConfTrewaAction">
+        <property name="configuracionTrewaManager" ref="IConfiguracionTrewaManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+    </bean>
+    
+     <bean name="/listadoUsuarioPerfilesMoad"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.ListadoUsuarioPerfilesMoadAction">
+        <property name="perfilUsuManager" ref="IPerfilesUsuManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+    </bean>
+
+    <bean name="/borrarEmpleo"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.BorrarEmpleoAction">
+        <property name="manager" ref="IUnidadesOrganicasManager" />
+    </bean>
+
+    <bean name="/crearEmpleo"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.CrearEmpleoAction">
+        <property name="manager" ref="IUnidadesOrganicasManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/editarEmpleo"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.EditarEmpleoAction">
+        <property name="manager" ref="IUnidadesOrganicasManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/sincronizarEmpleo"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.SincronizarEmpleoAction">
+        <property name="managerTrewa" ref="IGeneralTrewaManager" />
+    </bean>
+    
+    <bean name="/cambiarContrasena"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.CambiarContrasenaAction">
+        <property name="manager" ref="IUsuariosManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+    </bean>
+
+
+    <!-- ****************** -->
+    <!--   PROCEDIMIENTOS   -->
+    <!-- ****************** -->
+
+    <bean name="/listadoProcedimientos"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientosAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+        <property name="configuracionesManager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/editarProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+        <property name="configuracionesManager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/borrarProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+    
+    <bean name="/cambiarClaveCifrado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CambiarClaveCifradoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+        <property name="configuracionesManager" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/listadoProcedimientoConfiguraciones"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoConfiguracionesAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerConfiguraciones" ref="IConfiguracionesManager" />
+    </bean>
+
+    <bean name="/listadoProcedimientoListados"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoListadosAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerListados" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/asignarListado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.AsignarListadoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/revocarListado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.RevocarListadoAction">
+        <property name="manager" ref="IListadosManager" />
+    </bean>
+
+    <bean name="/listadoProcedimientoTiposCertificado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoTiposCertificadoAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/asignarTipoCertificado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.AsignarTipoCertificadoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/revocarTipoCertificado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.RevocarTipoCertificadoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/listadoTipoCertificadoPerfiles"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoTipoCertificadoPerfilesAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPerfiles" ref="IPerfilesManager" />
+    </bean>
+
+    <bean name="/asignarPerfilTipoCertificado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.AsignarPerfilTipoCertificadoAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPerfiles" ref="IPerfilesManager" />
+    </bean>
+
+    <bean name="/revocarPerfilTipoCertificado"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.RevocarPerfilTipoCertificadoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/listadoProcedimientoOrdenes"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoOrdenesAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearOrden"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearOrdenAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/editarOrden"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarOrdenAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+
+    </bean>
+
+    <bean name="/borrarOrden"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarOrdenAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/listadoOrdenConvocatorias"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoOrdenConvocatoriasAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearConvocatoria"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearConvocatoriaAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/editarConvocatoria"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarConvocatoriaAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/descargarAdjuntoConvocatoria"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.DescargarAdjuntoConvocatoriaAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/descargarAdjuntoProcedimiento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.DescargarAdjuntoProcedimientoAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarConvocatoria"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarConvocatoriaAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/listadoConvocatoriaPerfiles"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoConvocatoriaPerfilesAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPerfiles" ref="IPerfilesManager" />
+    </bean>
+
+    <bean name="/crearPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.perfiles.CrearPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/editarPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.perfiles.EditarPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+        <property name="trewaManager" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/borrarPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.perfiles.BorrarPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+    </bean>
+    
+    <bean name="/sincronizarPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.usuarios.SincronizarPerfilAction">
+        <property name="managerTrewa" ref="IGeneralTrewaManager" />
+    </bean>
+
+    <bean name="/asignarTipoIdentificacionPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.AsignarTipoIdentificacionPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+    </bean>
+
+    <bean name="/revocarTipoIdentificacionPerfil"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.RevocarTipoIdentificacionPerfilAction">
+        <property name="manager" ref="IPerfilesManager" />
+    </bean>
+
+
+    <!-- ****************************************** -->
+    <!--   PROCEDIMIENTOS Y VERSIONES DE PRESENTA   -->
+    <!-- ****************************************** -->
+
+    <bean name="/listadoVersionPresentaConvocatorias"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoVersionPresentaConvocatoriasAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPresenta" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/asignarConvocatoriaVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.AsignarConvocatoriaVersionPresentaAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPresenta" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/revocarConvocatoriaVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.RevocarConvocatoriaVersionPresentaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/listadoVersionPresentaPlantillas"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoVersionPresentaPlantillasAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPresenta" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/crearPlantilla"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearPlantillaAction">
+        <property name="manager" ref="IPresentaManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+    </bean>
+
+    <bean name="/editarPlantilla"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarPlantillaAction">
+        <property name="manager" ref="IPresentaManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+    </bean>
+
+    <bean name="/borrarPlantilla"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarPlantillaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/descargarPlantilla"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.DescargarPlantillaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/descargarVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.DescargarVersionPresentaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/listadoVersionPresentaAnexos"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoVersionPresentaAnexosAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+        <property name="managerPresenta" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/crearAnexo"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearAnexoAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/editarAnexo"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarAnexoAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/borrarAnexo"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarAnexoAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+
+    <bean name="/listadoProcedimientoVersionesPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoVersionesPresentaAction">
+        <property name="managerPresenta" ref="IPresentaManager" />
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearVersionPresentaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/editarVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarVersionPresentaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <bean name="/borrarVersionPresenta"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarVersionPresentaAction">
+        <property name="manager" ref="IPresentaManager" />
+    </bean>
+
+    <!-- ******************************* -->
+    <!--   PROCEDIMIENTOS Y DOCUMENTOS   -->
+    <!-- ******************************* -->
+
+    <bean name="/listadoProcedimientoDocumentos"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoDocumentosAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarDocumento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarDocumentoAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearDocumento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearDocumentoAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarDocumento"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarDocumentoAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <!-- ************ -->
+    <!-- APLICACIONES -->
+    <!-- ************ -->
+
+    <bean name="/listadoAplicaciones"
+        class="es.ja.cice.pct.moad.webapp.action.aplicaciones.ListadoAplicacionesAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarAplicacion"
+        class="es.ja.cice.pct.moad.webapp.action.aplicaciones.EditarAplicacionAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+    </bean>
+
+    <bean name="/crearAplicacion"
+        class="es.ja.cice.pct.moad.webapp.action.aplicaciones.CrearAplicacionAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+    </bean>
+
+    <bean name="/borrarAplicacion"
+        class="es.ja.cice.pct.moad.webapp.action.aplicaciones.BorrarAplicacionAction">
+        <property name="manager" ref="IProcedimientosManager" />
+        <property name="usuariosManager" ref="IUsuariosManager" />
+    </bean>
+
+    <!-- ******************** -->
+    <!-- OFICINAS DE REGISTRO -->
+    <!-- ******************** -->
+
+    <bean name="/listadoOficinas"
+        class="es.ja.cice.pct.moad.webapp.action.oficinas.ListadoOficinasAction">
+        <property name="unidadesOrganicasManager" ref="IUnidadesOrganicasManager" />
+    </bean>
+
+    <bean name="/editarOficina"
+        class="es.ja.cice.pct.moad.webapp.action.oficinas.EditarOficinaAction">
+        <property name="managerUO" ref="IUnidadesOrganicasManager" />
+        <property name="managerUsuarios" ref="IUsuariosManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <bean name="/crearOficina"
+        class="es.ja.cice.pct.moad.webapp.action.oficinas.CrearOficinaAction">
+        <property name="managerUO" ref="IUnidadesOrganicasManager" />
+        <property name="managerUsuarios" ref="IUsuariosManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <bean name="/borrarOficina"
+        class="es.ja.cice.pct.moad.webapp.action.oficinas.BorrarOficinaAction">
+        <property name="manager" ref="IUnidadesOrganicasManager" />
+    </bean>
+
+    <bean name="/cambiarContrasenaOficina"
+        class="es.ja.cice.pct.moad.webapp.action.oficinas.CambiarContrasenaOficinaAction">
+        <property name="managerUO" ref="IUnidadesOrganicasManager" />
+        <property name="managerUsuarios" ref="IUsuariosManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <!-- ******************** -->
+    <!--  TRAMITES            -->
+    <!-- ******************** -->
+    <bean name="/listadoProcedimientoTramites"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.ListadoProcedimientoTramitesAction">
+        <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarTramite"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.BorrarTramiteAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarTramite"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.EditarTramiteAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/crearTramite"
+        class="es.ja.cice.pct.moad.webapp.action.procedimientos.CrearTramiteAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <!-- ******************** -->
+    <!-- TIPOS DE CERTIFICADOS -->
+    <!-- ******************** -->
+
+    <bean name="/listadoTiposCertificados"
+        class="es.ja.cice.pct.moad.webapp.action.tiposCertificados.ListadoTiposCertificadosAction">
+       <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+    
+    <bean name="/crearTiposCertificados"
+        class="es.ja.cice.pct.moad.webapp.action.tiposCertificados.CrearTiposCertificadosAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarTiposCertificados"
+        class="es.ja.cice.pct.moad.webapp.action.tiposCertificados.EditarTiposCertificadosAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarTiposCertificados"
+        class="es.ja.cice.pct.moad.webapp.action.tiposCertificados.BorrarTiposCertificadosAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+    
+    <!-- ******************** -->
+    <!-- 		MENUS 		  -->
+    <!-- ******************** -->
+
+    <bean name="/listadoMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.ListadoMenusAction">
+       <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+    
+    <bean name="/crearMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.CrearMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.EditarMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.BorrarMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+    
+    <!-- ******************** -->
+    <!-- 		SUBMENUS 	  -->
+    <!-- ******************** -->
+
+    <bean name="/listadoSubMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.ListadoSubMenusAction">
+       <property name="managerProcedimientos" ref="IProcedimientosManager" />
+    </bean>
+    
+    <bean name="/crearSubMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.CrearSubMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/editarSubMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.EditarSubMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <bean name="/borrarSubMenus"
+        class="es.ja.cice.pct.moad.webapp.action.menus.BorrarSubMenusAction">
+        <property name="manager" ref="IProcedimientosManager" />
+    </bean>
+
+    <!-- ******************** -->
+    <!-- CONFIGURACION TREWA  -->
+    <!-- ******************** -->
+
+    <bean name="/listadoConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.ListadoConfiguracionTrewaAction">
+       <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+    </bean>
+    
+    <bean name="/crearConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.CrearConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <bean name="/editarConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.EditarConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+
+    <bean name="/borrarConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.BorrarConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+    </bean>
+    
+    <bean name="/validarConfiguracionTrewa"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.ValidarConfiguracionTrewaAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+    
+    <bean name="/cambiarPassword"
+        class="es.ja.cice.pct.moad.webapp.action.configuracionTrewa.CambiarPasswordAction">
+        <property name="managerConfiguracionTrewa" ref="IConfiguracionTrewaManager" />
+        <property name="preferencias" ref="manejadorPreferencias" />
+        <property name="servicioCriptografico" ref="servicioCriptografico" />
+    </bean>
+	
+    <!-- ******************** -->
+    <!--   PAGINA PRINCIPAL   -->
+    <!-- ******************** -->
+
+    <bean name="/paginaPrincipal"
+        class="es.ja.cice.pct.moad.webapp.action.PaginaPrincipalAction">
+        <property name="managerUsuario" ref="IUsuariosManager" />
+    </bean>
+	
+</beans>

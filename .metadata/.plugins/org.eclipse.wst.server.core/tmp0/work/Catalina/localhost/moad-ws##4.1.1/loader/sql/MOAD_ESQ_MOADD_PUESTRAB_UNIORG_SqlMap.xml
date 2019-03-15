@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_PUESTRAB_UNIORG" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="PuestoTrabajoUOResultMap" type="PuestoTrabajoUO" >
+    <result column="ID_PUESTRAB_UNIORG" property="id" jdbcType="DECIMAL" />
+    <result column="CD_PUESTOSTRABAJO" property="cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="ID_UNIDADESORGANIC" property="idUO" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="obtenerPorClave" resultMap="PuestoTrabajoUOResultMap" parameterType="PuestoTrabajoUO" >
+    select ID_PUESTRAB_UNIORG, CD_PUESTOSTRABAJO, ID_UNIDADESORGANIC
+    from MOADR_PUESTRAB_UNIORG
+    where ID_PUESTRAB_UNIORG = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="eliminarPorClave" parameterType="PuestoTrabajoUO" >
+    delete from MOADR_PUESTRAB_UNIORG
+    where ID_PUESTRAB_UNIORG = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insertar" parameterType="PuestoTrabajoUO" > 
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_PTUO.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADR_PUESTRAB_UNIORG (ID_PUESTRAB_UNIORG, CD_PUESTOSTRABAJO, ID_UNIDADESORGANIC)
+    values (#{id,jdbcType=DECIMAL}, #{cdPuestoTrabajo,jdbcType=VARCHAR}, #{idUO,jdbcType=DECIMAL})
+  </insert>
+
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="modificarPorClave" parameterType="PuestoTrabajoUO" >
+    update MOADR_PUESTRAB_UNIORG
+    set CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR},
+      ID_UNIDADESORGANIC = #{idUO,jdbcType=DECIMAL}
+    where ID_PUESTRAB_UNIORG = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="modificarPorClaveSelectivo" parameterType="PuestoTrabajoUO" >  
+    update MOADR_PUESTRAB_UNIORG
+    <set>
+      <if test="cdPuestoTrabajo != null" >
+        CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR}
+      </if>
+      <if test="idUO != null" >
+        ,ID_UNIDADESORGANIC = #{idUO,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where ID_PUESTRAB_UNIORG = #{id,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

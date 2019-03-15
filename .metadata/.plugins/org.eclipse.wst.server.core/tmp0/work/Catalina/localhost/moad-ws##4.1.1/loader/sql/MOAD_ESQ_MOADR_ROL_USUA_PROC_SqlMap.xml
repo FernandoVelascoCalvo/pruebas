@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_ROL_USUA_PROC" >
+
+	<!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+	<resultMap id="RolUsuarioProcedimientoResultMap" type="RolUsuarioProcedimiento" >
+		<result column="ID_ROL_USUA_PROC" property="id" jdbcType="DECIMAL" />	    
+		<result column="ID_ROLES" property="idRol" jdbcType="DECIMAL" />
+		<result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+		<result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+		<result column="FH_CADUCIDAD" property="fechaCaducidad" jdbcType="TIMESTAMP" />
+	</resultMap>	  
+
+	<!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+	<resultMap id="RolProcedimientoResultMap" type="RolProcedimiento" >
+		<result column="ID_ROL_USUA_PROC" property="idRolUsuarioProcedimiento" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE_ROL" property="nombreRol" jdbcType="VARCHAR" />
+		<result column="DS_NOMBRE_PROCEDIMIENTO" property="nombreProcedimiento" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- Consulta un registro por su identificador -->
+	<select id="selectByPrimaryKey" resultMap="RolUsuarioProcedimientoResultMap" parameterType="RolUsuarioProcedimiento" >
+		select ID_ROL_USUA_PROC, 
+			   ID_ROLES,
+			   CD_USUARIOS,
+			   ID_PROCEDIMIENTOS,
+			   FH_CADUCIDAD
+		from MOADR_ROL_USUA_PROC
+		where ID_ROL_USUA_PROC = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Borra un registro de la Base de Datos -->
+	<delete id="deleteByPrimaryKey" parameterType="RolUsuarioProcedimiento" >
+		delete from MOADR_ROL_USUA_PROC
+		where ID_ROL_USUA_PROC = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- Inserta un registro en la Base de Datos -->
+ 	<insert id="insert" parameterType="RolUsuarioProcedimiento" > 
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+			SELECT MOAD_SQ_ROUP.NEXTVAL FROM DUAL	
+		</selectKey>
+		insert into MOADR_ROL_USUA_PROC (ID_ROL_USUA_PROC, 
+										 ID_ROLES, 
+										 CD_USUARIOS, 
+										 ID_PROCEDIMIENTOS, 
+										 FH_CADUCIDAD)
+		values (#{id,jdbcType=DECIMAL}, 
+				#{idRol,jdbcType=DECIMAL}, 
+				#{cdUsuario,jdbcType=VARCHAR},
+				#{idProcedimiento,jdbcType=DECIMAL},
+				#{fechaCaducidad,jdbcType=TIMESTAMP})
+	 </insert>
+
+	<!-- Actualiza todos los campos de un registro en la Base de Datos -->
+	<update id="updateByPrimaryKey" parameterType="RolUsuarioProcedimiento" >
+		update MOADR_ROL_USUA_PROC
+		set ID_ROLES = #{idRol,jdbcType=DECIMAL},
+			CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR},
+			ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL},
+			FH_CADUCIDAD = #{fechaCaducidad,jdbcType=TIMESTAMP}
+	    where ID_ROL_USUA_PROC = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- Borra un registro de la Base de Datos por idUsuario, idRol y por idFuncioalidades -->
+	<delete id="revocarRoles" parameterType="RolUsuarioProcedimiento" >
+	<![CDATA[  
+		delete from MOADR_ROL_USUA_PROC
+		where ID_ROLES = #{idRol}
+		  and ID_PROCEDIMIENTOS = #{idProcedimiento}
+		  and CD_USUARIOS in (select U.CD_USUARIOS 
+							  from MOADD_USUARIOS U
+							  inner join MOADD_ESTADOSUSUARIO E
+							  on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+							  where U.CD_USUARIOS = #{cdUsuario}
+							  )
+		
+		]]>							  
+	</delete>
+
+	<!-- Consulta un registro por su identificador -->
+	<select id="obtenerRolProcedimientoPorUsuario" resultMap="RolProcedimientoResultMap" parameterType="string" >
+		<![CDATA[	
+		select RUP.ID_ROL_USUA_PROC,
+		       R.DS_NOMBRE AS DS_NOMBRE_ROL,
+		       P.DS_NOMBRE AS DS_NOMBRE_PROCEDIMIENTO
+		from MOADR_ROL_USUA_PROC RUP
+		inner join MOADD_ROLES R
+		on RUP.ID_ROLES = R.ID_ROLES
+		inner join MOADD_PROCEDIMIENTOS P
+		on RUP.ID_PROCEDIMIENTOS = P.ID_PROCEDIMIENTOS
+		inner join MOADD_USUARIOS U
+		on RUP.CD_USUARIOS = U.CD_USUARIOS
+		where U.CD_USUARIOS = #{value,jdbcType=VARCHAR}
+		  and U.LG_PUBLICO = 'N'
+		  and U.CD_ESTADOSUSUARIO IN (select CD_ESTADOSUSUARIO
+		   							  from MOADD_ESTADOSUSUARIO
+		   							  where LG_ANULAUSUARIO = 'N')		   							  
+		order by R.DS_NOMBRE
+		]]>
+	</select>
+</mapper>

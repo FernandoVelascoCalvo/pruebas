@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PARAMETROS">
+
+	<!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+	<resultMap id="ParametroResultMap" type="Parametro">
+		<result column="ID_PARAMETROS" property="id" jdbcType="DECIMAL" />
+		<result column="ID_HERRAMIENTAS" property="idHerramienta" jdbcType="DECIMAL" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="TX_TIPO" property="tipo" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCIONCORT" property="descripcionCorta" jdbcType="VARCHAR" />
+		<result column="LG_OBLIGATORIO" property="obligatorio" javaType="java.lang.Boolean" jdbcType="CHAR"/> <!-- javaType="Boolean" jdbcType="CHAR" -->
+		<result column="LG_TIPO_CIFRADO" property="tipoCifrado" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- Selecciona un registro a partir de su clave primaria -->
+	<select id="selectByPrimaryKey" resultMap="ParametroResultMap"
+		parameterType="Parametro">
+		select ID_PARAMETROS, ID_HERRAMIENTAS, DS_NOMBRE, TX_TIPO,
+		DS_DESCRIPCION, DS_DESCRIPCIONCORT, LG_OBLIGATORIO, LG_TIPO_CIFRADO from MOADD_PARAMETROS
+		where ID_PARAMETROS = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<!-- Selecciona una lista de MoaddParametros filtrada por el id de herramientas -->
+	<select id="obtenerParametros" resultMap="ParametroResultMap"
+		parameterType="java.math.BigDecimal">
+		select ID_PARAMETROS,ID_HERRAMIENTAS, DS_NOMBRE, TX_TIPO,
+			   DS_DESCRIPCION, DS_DESCRIPCIONCORT, LG_OBLIGATORIO,
+			   LG_TIPO_CIFRADO
+		from MOADD_PARAMETROS
+		where ID_HERRAMIENTAS = #{value} ORDER BY ID_PARAMETROS
+	</select>
+
+	<!-- Elimina un registro a partir de una clave primaria -->
+	<delete id="deleteByPrimaryKey"
+		parameterType="Parametro">
+		delete from MOADD_PARAMETROS where ID_PARAMETROS =
+		#{id,jdbcType=DECIMAL} 
+	</delete>
+
+	<!-- Elimina un registro a partir del identificador de herramientas -->
+	<delete id="eliminarParametroPorHerram"
+		parameterType="Parametro">
+		delete from MOADD_PARAMETROS where ID_HERRAMIENTAS =
+		#{idHerramienta,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- inserta un registro en la tabla MOADD_PARAMETROS -->
+	<insert id="insert"
+		parameterType="Parametro">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_PARA.NEXTVAL FROM DUAL	
+	    </selectKey>
+		insert into MOADD_PARAMETROS (ID_PARAMETROS, ID_HERRAMIENTAS,
+		DS_NOMBRE, TX_TIPO, DS_DESCRIPCION, DS_DESCRIPCIONCORT, LG_OBLIGATORIO, LG_TIPO_CIFRADO) values
+		(#{id,jdbcType=DECIMAL} , #{idHerramienta,jdbcType=DECIMAL},
+		#{nombre,jdbcType=VARCHAR}, #{tipo,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR},
+		#{descripcionCorta,jdbcType=VARCHAR}, #{obligatorio,typeHandler=SiNOHandler},
+		#{tipoCifrado,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- modifica un registro en la tabla MOADD_PARAMETROS -->
+	<update id="updateByPrimaryKey"
+		parameterType="Parametro">
+		update MOADD_PARAMETROS set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+		TX_TIPO = #{tipo,jdbcType=VARCHAR},
+		DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+		DS_DESCRIPCIONCORT = #{descripcionCorta,jdbcType=VARCHAR}
+		<if test="obligatorio != null">
+	    	,LG_OBLIGATORIO = #{obligatorio,typeHandler=SiNOHandler}
+        </if>
+        <if test="tipoCifrado != null">
+	    	,LG_TIPO_CIFRADO = #{tipoCifrado,jdbcType=VARCHAR}
+        </if>
+        where ID_PARAMETROS = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- modifica un registro en la tabla MOADD_PARAMETROS -->
+	<update id="updateByPrimaryKeySelective"
+		parameterType="Parametro">
+		update MOADD_PARAMETROS
+		<set>
+			<if test="nombre != null">
+				DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			</if>
+			<if test="tipo != null">
+				TX_TIPO = #{tipo,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcion != null">
+				DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+			</if>
+			<if test="descripcionCorta != null">
+				DS_DESCRIPCIONCORT = #{descripcionCorta,jdbcType=VARCHAR},
+			</if>
+			<if test="obligatorio != null">
+				LG_OBLIGATORIO = #{obligatorio,typeHandler=SiNOHandler},
+			</if>
+			<if test="tipoCifrado != null">
+				LG_TIPO_CIFRADO = #{tipoCifrado,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where ID_PARAMETROS = #{id}
+	</update>
+	
+	
+	<!-- Selecciona un registro a partir de la id de Herramienta y el nombre del parametro -->
+	<select id="obtenerParametroPorIdHerramientaYNombreParam" resultMap="ParametroResultMap"
+		parameterType="Parametro">
+		select ID_PARAMETROS, ID_HERRAMIENTAS, DS_NOMBRE, TX_TIPO,
+		DS_DESCRIPCION, DS_DESCRIPCIONCORT, LG_OBLIGATORIO, LG_TIPO_CIFRADO from MOADD_PARAMETROS
+		where ID_HERRAMIENTAS = #{idHerramienta,jdbcType=DECIMAL}
+		and DS_NOMBRE= #{nombre,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- For mail settings and future properties files -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:database.properties</value>
+                <value>classpath:authentication.properties</value>
+                <value>classpath:moad-config.properties</value>
+                <value>classpath:afirmaChapConfiguracion.properties</value>
+			</list>
+		</property>
+	</bean>
+    
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${database.url}"/>
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="maxActive" value="${database.maxActive}"/>
+		<property name="minIdle" value="${database.minIdle}"/>
+		<property name="maxWait" value="${database.maxWait}"/>
+	</bean>
+    
+    <!--  Clase para recuperar el contexto de Spring -->
+    <bean id="contextoSpring" class=" es.ja.cice.pct.moad.webapp.util.ContextoSpring" autowire="default" lazy-init="false"/>
+    
+    <!-- ************************** -->
+    <!--   SERVICIO CRIPTOGRAFICO   -->
+    <!-- ************************** -->
+    
+    <bean name="servicioCriptografico" class="es.ja.cice.pct.moad.manager.ServicioCriptografico" lazy-init="false" init-method="init">
+    	<property name="claveCifradoAplicaciones" value="${moad.ens.key.app}" />
+    	<property name="claveCifradoOficinas" value="${moad.ens.key.oficinas}" />
+    	<property name="claveCifradoConfTrewa" value="${moad.ens.key.conTrewa}" />
+    	<property name="longitudClave" value="${moad.ens.key.long}" />
+    </bean>
+</beans>

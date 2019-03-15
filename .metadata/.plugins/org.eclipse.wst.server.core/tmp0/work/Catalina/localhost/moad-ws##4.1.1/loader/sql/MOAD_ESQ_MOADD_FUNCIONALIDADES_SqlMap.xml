@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_FUNCIONALIDADES">
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="FuncionalidadResultMap" type="Funcionalidad" >
+    <result column="ID_FUNCIONALIDADES" property="id" jdbcType="DECIMAL" />
+    <result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="LG_PUBLICA" property="publica" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="FuncionalidadResultMap" parameterType="Funcionalidad" >
+    select ID_FUNCIONALIDADES, DS_NOMBRE,
+      DS_DESCRIPCION, LG_PUBLICA
+    from MOADD_FUNCIONALIDADES
+    where ID_FUNCIONALIDADES = #{id,jdbcType=DECIMAL}
+    	and LG_ASIGNABLE = 'S'
+  </select>
+
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="Funcionalidad" >
+    delete from MOADD_FUNCIONALIDADES
+    where ID_FUNCIONALIDADES = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="Funcionalidad" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_FUNC.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into MOADD_FUNCIONALIDADES (ID_FUNCIONALIDADES,
+      DS_NOMBRE, DS_DESCRIPCION, LG_PUBLICA)
+      values (#{id,jdbcType=DECIMAL}, #{nombre,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}
+      <if test="publica != null">
+      	,#{publica,typeHandler=SiNOHandler}
+      </if>)
+  </insert>
+
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="Funcionalidad" >
+    update MOADD_FUNCIONALIDADES
+    set DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      <if test="publica != null">
+      	,LG_PUBLICA = #{publica,typeHandler=SiNOHandler}
+      </if>
+    where ID_FUNCIONALIDADES = #{id,jdbcType=DECIMAL}
+    	and LG_ASIGNABLE = 'S'
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="Funcionalidad" >
+    update MOADD_FUNCIONALIDADES
+    <set>
+      <if test="nombre != null">
+        DS_NOMBRE = #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="descripcion != null">
+        DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      </if>
+       <if test="publica != null">
+        LG_PUBLICA = #{publica,typeHandler=SiNOHandler}
+      </if>
+    </set>
+    where ID_FUNCIONALIDADES = #{id}
+    	and LG_ASIGNABLE = 'S'
+  </update>
+
+  <!-- Sql a incluir en otras acciones -->
+  <sql id="whereFiltro">
+	where LG_ASIGNABLE = 'S'
+	<if test="nombre != null or descripcion != null">
+		AND (
+		<trim prefixOverrides="OR">
+			<if test="nombre != null ">
+	         	DS_NOMBRE = #{nombre}
+	     	</if>
+	     	<if test="descripcion != null ">
+	         	OR  DS_DESCRIPCION = #{descripcion}
+	     	</if>
+	    </trim>   
+		)
+	</if>  
+  </sql>
+
+  <!-- Consulta una lista de registros definidos por por su identificador -->
+  <select id="selectByFilter" resultMap="FuncionalidadResultMap" parameterType="Funcionalidad">
+	select ID_FUNCIONALIDADES, DS_NOMBRE, DS_DESCRIPCION , LG_PUBLICA
+	from MOADD_FUNCIONALIDADES
+	<include refid="whereFiltro"/>
+	 ORDER BY DS_NOMBRE
+  </select>
+
+  <!-- Consulta una lista de registros definidos por por su identificador -->
+  <select id="selectByFilterString" resultMap="FuncionalidadResultMap" parameterType="string">
+	select ID_FUNCIONALIDADES, DS_NOMBRE, DS_DESCRIPCION , LG_PUBLICA
+	from MOADD_FUNCIONALIDADES
+    WHERE (UPPER(DS_NOMBRE) LIKE UPPER('%${value}%')
+
+    OR UPPER(DS_DESCRIPCION) LIKE UPPER('%${value}%'))
+    	and LG_ASIGNABLE = 'S'
+    ORDER BY DS_NOMBRE
+
+  </select>
+
+  <!-- Consulta los registros recogiendo un una lista de registros definidos por por su identificador -->
+  <select id="selectByIdRol" resultMap="FuncionalidadResultMap" parameterType="java.math.BigDecimal">
+	  select f.ID_FUNCIONALIDADES, f.DS_NOMBRE, f.DS_DESCRIPCION , f.LG_PUBLICA
+	  from MOADD_FUNCIONALIDADES f
+	  inner join MOADR_FUNCS_ROLES fr
+	  on f.ID_FUNCIONALIDADES = fr.ID_FUNCIONALIDADES
+	  where fr.ID_Roles = #{value}
+	  		and f.LG_ASIGNABLE = 'S'
+	  ORDER BY DS_NOMBRE
+
+  </select>
+
+  <!-- Funcionalidades asignables -->
+  <select id="obtenerFuncionalidadesAsignables" resultMap="FuncionalidadResultMap" parameterType="java.math.BigDecimal">
+	  select ID_FUNCIONALIDADES,
+	  		 DS_NOMBRE,
+	  		 DS_DESCRIPCION,
+	  		 LG_PUBLICA
+	  from MOADD_FUNCIONALIDADES
+	  where ID_FUNCIONALIDADES NOT IN
+	  	(SELECT ID_FUNCIONALIDADES
+	  	 FROM MOADR_FUNCS_ROLES
+	  	 WHERE ID_ROLES = #{value})
+	  	 and LG_ASIGNABLE = 'S'
+	  order by DS_NOMBRE
+  </select>
+
+</mapper>

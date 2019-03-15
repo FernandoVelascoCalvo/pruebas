@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_USUARIO_CONFTREWA" >
+  
+  <!-- Tabla MOADR_USUARIO_CONFTREWA -->
+  <resultMap id="UsuarioConfTrewaResultMap" type="UsuarioConfTrewa" >
+  	<result column="ID_USUARIO_CONFTREWA" property="id" jdbcType="DECIMAL" />
+    <result column="ID_CONFIGURACION_TREWA" property="idConfTrewa" jdbcType="DECIMAL" />
+    <result column="ID_USUARIOS" property="idUsuarios" jdbcType="DECIMAL" />
+    <result column="C_USUARIO_TREWA" property="cdUsuarioTrewa" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <!-- Relacion entre las tablas MOADR_USUARIO_CONFTREWA / MOADD_CONFIGURACION_TREWA / MOADD_USUARIOS -->
+  <resultMap id="UsuarioConfTrewaResultMapEXT" type="UsuarioConfTrewa" >
+    <result column="ID_USUARIO_CONFTREWA" property="id" jdbcType="DECIMAL" />
+    <result column="ID_CONFIGURACION_TREWA" property="idConfTrewa" jdbcType="DECIMAL" />
+    <result column="ID_USUARIOS" property="idUsuarios" jdbcType="DECIMAL" /> 
+    <result column="C_USUARIO_TREWA" property="cdUsuarioTrewa" jdbcType="VARCHAR" />
+    
+    <!-- Usuario -->
+    <result column="USUARIO_ID_USUARIOS" property="usuario.id" jdbcType="DECIMAL" />
+	<result column="USUARIO_CD_USUARIOS" property="usuario.codigo" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_USUARIO" property="usuario.usuario" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_CONTRASENA" property="usuario.contrasena" jdbcType="VARCHAR" />
+	<result column="USUARIO_FH_CADUCA_CONTRASE" property="usuario.fechaCaducidadContrasena" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_TX_APELLIDO1" property="usuario.apellido1" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_APELLIDO2" property="usuario.apellido2" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_NOMBRE" property="usuario.nombre" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_SEXO" property="usuario.sexo" jdbcType="CHAR" />
+	<result column="USUARIO_TX_EMAIL" property="usuario.email" jdbcType="VARCHAR" />
+	<result column="USUARIO_FH_ALTA" property="usuario.fechaAlta" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_FH_BAJA" property="usuario.fechaBaja" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_NU_FALLOSLOGIN" property="usuario.fallosLogin" jdbcType="DECIMAL" />
+	<result column="USUARIO_CD_ESTADOSUSUARIO" property="usuario.cdEstadoUsuario" jdbcType="VARCHAR" />
+	<result column="USUARIO_LG_PUBLICO" property="usuario.publico" javaType="boolean" jdbcType="CHAR" />
+	<result column="USUARIO_TX_DNI" property="usuario.dni" jdbcType="VARCHAR" />
+ 
+	<!-- Configuracion Trewa -->
+	<result column="CONFTREWA_ID_CONF_TREWA" property="confTrewa.idConfTrewa" jdbcType="DECIMAL" />
+	<result column="CONFTREWA_TX_NOMBRE" property="confTrewa.nombre" jdbcType="VARCHAR" />    
+	<result column="CONFTREWA_TX_DESCRIPCION" property="confTrewa.descripcion" jdbcType="VARCHAR" />
+	<result column="CONFTREWA_TX_USUARIO" property="confTrewa.usuario" jdbcType="VARCHAR" />
+	<result column="CONFTREWA_TX_PASSWORD" property="confTrewa.password" jdbcType="VARCHAR" />
+	<result column="CONFTREWA_TX_CADENA_CONEXION" property="confTrewa.conexion" jdbcType="VARCHAR" />
+  </resultMap> 
+  
+
+  <!--  Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="UsuarioConfTrewaResultMap" parameterType="UsuarioConfTrewa" >
+   	SELECT ID_USUARIO_CONFTREWA,
+   			ID_CONFIGURACION_TREWA, 
+   			ID_USUARIOS,
+   			C_USUARIO_TREWA
+    FROM MOADR_USUARIO_CONFTREWA
+    WHERE ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+  </select>
+  
+   <!--  Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKeyEXT" resultMap="UsuarioConfTrewaResultMapEXT" parameterType="UsuarioConfTrewa" >
+  	<![CDATA[
+	          SELECT  uc.ID_USUARIO_CONFTREWA AS ID_USUARIO_CONFTREWA, 
+	          			uc.ID_CONFIGURACION_TREWA AS ID_CONFIGURACION_TREWA, 
+	          			uc.ID_USUARIOS AS ID_USUARIOS,
+	          			uc.C_USUARIO_TREWA as C_USUARIO_TREWA,
+	          			
+	                  	u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+	
+						ct.ID_CONFIGURACION_TREWA AS CONFTREWA_ID_CONF_TREWA,
+						ct.TX_NOMBRE AS CONFTREWA_TX_NOMBRE,
+						ct.TX_DESCRIPCION AS CONFTREWA_TX_DESCRIPCION,
+						ct.TX_USERNAME AS CONFTREWA_TX_USUARIO,
+						ct.TX_PASSWORD AS CONFTREWA_TX_PASSWORD,
+						ct.TX_CADENA_CONEXION AS CONFTREWA_TX_CADENA_CONEXION
+	
+	          FROM MOADR_USUARIO_CONFTREWA uc
+	
+	          INNER JOIN MOADD_USUARIOS u
+	          	ON uc.ID_USUARIOS = u.ID_USUARIOS
+	
+	          INNER JOIN MOADD_CONFIGURACION_TREWA ct
+	          	ON uc.ID_CONFIGURACION_TREWA = ct.ID_CONFIGURACION_TREWA
+	
+	          WHERE uc.ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+	          AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+	          							  FROM MOADD_ESTADOSUSUARIO
+										  WHERE LG_ANULAUSUARIO = 'N')
+	          ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+	]]>
+  </select>
+  
+  <!--  Consulta los registros por su identificador -->
+  <select id="obtenerUsuarioConfTrewaPorUsuarioMoad" resultMap="UsuarioConfTrewaResultMap" parameterType="java.math.BigDecimal" >
+   	SELECT ID_USUARIO_CONFTREWA,
+   			ID_CONFIGURACION_TREWA, 
+   			ID_USUARIOS,
+   			C_USUARIO_TREWA
+   			
+    FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_USUARIOS = #{value}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="UsuarioConfTrewa" >
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+   <!-- Borrado de registro de la tabla MOADD_USUARIO_CONFTREWA por el Identificador de Configuracion Trewa -->
+  <delete id="deleteByConfTrewa" parameterType="UsuarioConfTrewa" >
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="revocarConfTrewaUsuario" parameterType="UsuarioConfTrewa" >
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL} 
+    
+    AND ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="revocarConfTrewaByUsuario" parameterType="UsuarioConfTrewa" >
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+  </delete>
+  
+   <!-- Borra un registro de la Base de Datos -->
+  <delete id="revocarUsuConfTrewa" parameterType="UsuarioConfTrewa" >
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Inserta un registro en la Base de Datos  -->
+  <insert id="insert" parameterType="UsuarioConfTrewa" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+		SELECT MOADR_SQ_USUARIO_CONFTREWA.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    INSERT INTO MOADR_USUARIO_CONFTREWA (ID_USUARIO_CONFTREWA, ID_CONFIGURACION_TREWA, ID_USUARIOS)
+    
+    VALUES (#{id,jdbcType=DECIMAL}, #{idConfTrewa,jdbcType=DECIMAL}, #{idUsuarios,jdbcType=DECIMAL})
+  </insert>
+
+  <!-- Actualiza un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKey" parameterType="UsuarioConfTrewa" >
+    UPDATE MOADR_USUARIO_CONFTREWA
+    
+    SET ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL},
+      	ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL},
+      	C_USUARIO_TREWA = #{cdUsuarioTrewa,jdbcType=VARCHAR}
+      	
+    WHERE ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKeySelective" parameterType="UsuarioConfTrewa" >
+    UPDATE MOADR_USUARIO_CONFTREWA
+    <set>
+      <if test="idConfTrewa != null" >
+        ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+      </if>
+      <if test="cdUsuario != null" >
+        ,ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+      </if>
+    </set>
+    WHERE ID_USUARIO_CONFTREWA = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- Revoca la Configuracion Trewa de un usuario dados sus identificadores -->
+  <delete id="revocarConfTrewa" parameterType="UsuarioConfTrewa" >  
+    DELETE FROM MOADR_USUARIO_CONFTREWA
+    
+    WHERE ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+    
+    AND ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL}
+  </delete>
+
+  <!--  Devuelve una lista con todos los usuarios con una misma Configuracion Trewa -->
+  <select id="usuariosMismoConfTrewa" resultMap="UsuarioConfTrewaResultMap" parameterType="UsuarioConfTrewa" >
+   SELECT ID_USUARIO_CONFTREWA, 
+   			ID_CONFIGURACION_TREWA,
+   			ID_USUARIOS,
+   			C_USUARIO_TREWA
+   			
+   FROM MOADR_USUARIO_CONFTREWA
+   
+   WHERE ID_CONFIGURACION_TREWA = #{idConfTrewa,jdbcType=DECIMAL} 
+   
+   ORDER BY ID_USUARIOS
+  </select>
+  
+  <!-- Devuelve informacion de la instancia de herramienta y de la herramienta a la que hace referencia -->
+  <select id="obtenerUsuarioConfTrewaPorClaveEXT" resultMap="UsuarioConfTrewaResultMapEXT" 
+	  		  parameterType="java.math.BigDecimal">
+	<![CDATA[
+	          SELECT  uc.ID_USUARIO_CONFTREWA AS ID_USUARIO_CONFTREWA, 
+	          			uc.ID_CONFIGURACION_TREWA AS ID_CONFIGURACION_TREWA, 
+	          			uc.ID_USUARIOS AS ID_USUARIOS,
+	          			uc.C_USUARIO_TREWA as C_USUARIO_TREWA,
+	          			
+	                  	u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+	
+						ct.ID_CONFIGURACION_TREWA AS CONFTREWA_ID_CONF_TREWA,
+						ct.TX_NOMBRE AS CONFTREWA_TX_NOMBRE,
+						ct.TX_DESCRIPCION AS CONFTREWA_TX_DESCRIPCION,
+						ct.TX_USERNAME AS CONFTREWA_TX_USUARIO,
+						ct.TX_PASSWORD AS CONFTREWA_TX_PASSWORD,
+						ct.TX_CADENA_CONEXION AS CONFTREWA_TX_CADENA_CONEXION
+	
+	          FROM MOADR_USUARIO_CONFTREWA uc
+	
+	          INNER JOIN MOADD_USUARIOS u
+	          	ON uc.ID_USUARIOS = u.ID_USUARIOS
+	
+	          INNER JOIN MOADD_CONFIGURACION_TREWA ct
+	          	ON uc.ID_CONFIGURACION_TREWA = ct.ID_CONFIGURACION_TREWA
+	
+	          WHERE uc.ID_CONFIGURACION_TREWA = #{value}
+	          AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+	          							  FROM MOADD_ESTADOSUSUARIO
+										  WHERE LG_ANULAUSUARIO = 'N')
+			  
+	          ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+	]]>
+  </select>
+  
+   <!-- Devuelve una lista con las relaciones Usuario - Configuraciones Trew@ para el codigo de usuario facilitado -->
+  <select id="obtenerUsuarioConfTrewaByUsuario" resultMap="UsuarioConfTrewaResultMapEXT" 
+	  		  parameterType="java.lang.String">
+	<![CDATA[
+	          SELECT  uc.ID_USUARIO_CONFTREWA AS ID_USUARIO_CONFTREWA, 
+	          			uc.ID_CONFIGURACION_TREWA AS ID_CONFIGURACION_TREWA, 
+	          			uc.ID_USUARIOS AS ID_USUARIOS,
+	          			uc.C_USUARIO_TREWA as C_USUARIO_TREWA,
+	          			
+	                  	u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+	
+						ct.ID_CONFIGURACION_TREWA AS CONFTREWA_ID_CONF_TREWA,
+						ct.TX_NOMBRE AS CONFTREWA_TX_NOMBRE,
+						ct.TX_DESCRIPCION AS CONFTREWA_TX_DESCRIPCION,
+						ct.TX_USERNAME AS CONFTREWA_TX_USUARIO,
+						ct.TX_PASSWORD AS CONFTREWA_TX_PASSWORD,
+						ct.TX_CADENA_CONEXION AS CONFTREWA_TX_CADENA_CONEXION
+	
+	          FROM MOADR_USUARIO_CONFTREWA uc
+	
+	          INNER JOIN MOADD_USUARIOS u
+	          	ON uc.ID_USUARIOS = u.ID_USUARIOS
+	
+	          INNER JOIN MOADD_CONFIGURACION_TREWA ct
+	          	ON uc.ID_CONFIGURACION_TREWA = ct.ID_CONFIGURACION_TREWA
+	
+	          WHERE u.CD_USUARIOS = #{value}
+	          AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+	          							  FROM MOADD_ESTADOSUSUARIO
+										  WHERE LG_ANULAUSUARIO = 'N')
+			  
+	          ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+	]]>
+  </select>
+  
+  <!-- Devuelve una lista con las relaciones Usuario - Configuraciones Trew@ para el identificador de usuario facilitado -->
+  <select id="obtenerUsuarioConfTrewaByIdUsuario" resultMap="UsuarioConfTrewaResultMapEXT" 
+	  		  parameterType="java.math.BigDecimal">
+	<![CDATA[
+	          SELECT  uc.ID_USUARIO_CONFTREWA AS ID_USUARIO_CONFTREWA, 
+	          			uc.ID_CONFIGURACION_TREWA AS ID_CONFIGURACION_TREWA, 
+	          			uc.ID_USUARIOS AS ID_USUARIOS,
+	          			uc.C_USUARIO_TREWA as C_USUARIO_TREWA,
+	          			
+	                  	u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+	
+						ct.ID_CONFIGURACION_TREWA AS CONFTREWA_ID_CONF_TREWA,
+						ct.TX_NOMBRE AS CONFTREWA_TX_NOMBRE,
+						ct.TX_DESCRIPCION AS CONFTREWA_TX_DESCRIPCION,
+						ct.TX_USERNAME AS CONFTREWA_TX_USUARIO,
+						ct.TX_PASSWORD AS CONFTREWA_TX_PASSWORD,
+						ct.TX_CADENA_CONEXION AS CONFTREWA_TX_CADENA_CONEXION
+	
+	          FROM MOADR_USUARIO_CONFTREWA uc
+	
+	          INNER JOIN MOADD_USUARIOS u
+	          	ON uc.ID_USUARIOS = u.ID_USUARIOS
+	
+	          INNER JOIN MOADD_CONFIGURACION_TREWA ct
+	          	ON uc.ID_CONFIGURACION_TREWA = ct.ID_CONFIGURACION_TREWA
+	
+	          WHERE u.ID_USUARIOS = #{value}
+	          AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+	          							  FROM MOADD_ESTADOSUSUARIO
+										  WHERE LG_ANULAUSUARIO = 'N')
+			  
+	          ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+	]]>
+  </select>
+  
+  <!--  Consulta los registros por su identificador -->
+  <select id="obtenerUsuarioConfTrewaPaginada" resultMap="UsuarioConfTrewaResultMapEXT" parameterType="map" >
+  <![CDATA[
+	          SELECT  uc.ID_USUARIO_CONFTREWA AS ID_USUARIO_CONFTREWA, 
+	          			uc.ID_CONFIGURACION_TREWA AS ID_CONFIGURACION_TREWA, 
+	          			uc.ID_USUARIOS AS ID_USUARIOS,
+	          			uc.C_USUARIO_TREWA as C_USUARIO_TREWA,   
+	          			
+	                  	u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+	
+						ct.ID_CONFIGURACION_TREWA AS CONFTREWA_ID_CONF_TREWA,
+						ct.TX_NOMBRE AS CONFTREWA_TX_NOMBRE,
+						ct.TX_DESCRIPCION AS CONFTREWA_TX_DESCRIPCION,
+						ct.TX_USERNAME AS CONFTREWA_TX_USUARIO,
+						ct.TX_PASSWORD AS CONFTREWA_TX_PASSWORD,
+						ct.TX_CADENA_CONEXION AS CONFTREWA_TX_CADENA_CONEXION
+	
+	          FROM MOADR_USUARIO_CONFTREWA uc
+	
+	          INNER JOIN MOADD_USUARIOS u
+	          	ON uc.ID_USUARIOS = u.ID_USUARIOS
+	
+	          INNER JOIN MOADD_CONFIGURACION_TREWA ct
+	          	ON uc.ID_CONFIGURACION_TREWA = ct.ID_CONFIGURACION_TREWA
+	
+	          WHERE u.ID_USUARIOS = #{idUsuarios}
+	          AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+	          							  FROM MOADD_ESTADOSUSUARIO
+										  WHERE LG_ANULAUSUARIO = 'N')
+										  
+	          ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+	]]>
+  </select>
+  
+  <select id="obtenerUsuarioConfTrewaCount"
+			resultType="java.math.BigDecimal"
+			parameterType="map">
+		
+		 SELECT count(uc.ID_USUARIO_CONFTREWA)
+	
+         FROM MOADR_USUARIO_CONFTREWA uc
+
+         INNER JOIN MOADD_USUARIOS u
+         	ON uc.ID_USUARIOS = u.ID_USUARIOS
+
+         WHERE u.ID_USUARIOS = #{idUsuarios}
+         AND u.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+         							  	FROM MOADD_ESTADOSUSUARIO
+								  		WHERE LG_ANULAUSUARIO = 'N')
+  </select>
+  
+</mapper>

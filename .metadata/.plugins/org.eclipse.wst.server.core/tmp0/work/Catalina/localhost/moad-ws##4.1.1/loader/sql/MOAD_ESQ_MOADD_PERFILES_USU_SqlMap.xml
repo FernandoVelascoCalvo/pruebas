@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PERFILES_USU">
+
+	<!-- ResultMap del modelo PerfilUsu -->
+	<resultMap id="PerfilUsuResultMap" type="PerfilUsu">
+		<result column="ID_PEUS" property="id" jdbcType="DECIMAL" />
+		<result column="CD_PERFIL" property="codigo" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- Obtiene la lista de todos los perfiles de usuario -->
+	<select id="obtenerPerfilesUsu" resultMap="PerfilUsuResultMap">
+		select * from MOADD_PERFILES_USU ORDER BY DS_DESCRIPCION
+	</select>
+	
+	<!-- Obtiene los perfiles de usuario que tiene un usuario a partir del id de usuario -->
+	<select id="obtenerPerfilesUsuPorIdUsuario" resultMap="PerfilUsuResultMap" parameterType="java.math.BigDecimal">
+		select * from MOADD_PERFILES_USU peus
+		left join MOADR_PERFUSU_USU puus on peus.ID_PEUS = puus.ID_PEUS
+		left join MOADD_USUARIOS us on puus.ID_USUARIOS = us.ID_USUARIOS
+		where us.ID_USUARIOS = #{value} ORDER BY peus.DS_DESCRIPCION
+	</select>
+	
+	<!-- Obtiene los perfiles de usuario que tiene un usuario a partir del codigo de usuario -->
+	<select id="obtenerPerfilesUsuPorCodigoUsuario" resultMap="PerfilUsuResultMap" parameterType="java.lang.String">
+		select * from MOADD_PERFILES_USU peus
+		left join MOADR_PERFUSU_USU puus on peus.ID_PEUS = puus.ID_PEUS
+		left join MOADD_USUARIOS us on puus.ID_USUARIOS = us.ID_USUARIOS
+		where us.CD_USUARIOS = #{value} ORDER BY peus.DS_DESCRIPCION
+	</select>
+	
+		<!-- Obtiene los perfiles de usuario que tiene un usuario a partir del codigo de usuario -->
+	<select id="obtenerPerfilesUsuPorNombreUsuario" resultMap="PerfilUsuResultMap" parameterType="java.lang.String">
+		select * from MOADD_PERFILES_USU peus
+		left join MOADR_PERFUSU_USU puus on peus.ID_PEUS = puus.ID_PEUS
+		left join MOADD_USUARIOS us on puus.ID_USUARIOS = us.ID_USUARIOS
+		where us.CD_USUARIOS = #{value} ORDER BY peus.DS_DESCRIPCION
+	</select>
+	
+	<!-- Obtiene los perfiles de usuario que tiene un usuario a partir del codigo de usuario -->
+	<select id="obtenerPerfilesUsuNoAsignadosPorIdUsuario" resultMap="PerfilUsuResultMap" parameterType="java.math.BigDecimal">
+		select * from MOADD_PERFILES_USU peus where peus.ID_PEUS
+        not in(select peusAux.ID_PEUS from MOADD_PERFILES_USU peusAux
+		left join MOADR_PERFUSU_USU puus on peusAux.ID_PEUS = puus.ID_PEUS
+		where puus.ID_USUARIOS = #{value} )ORDER BY peus.DS_DESCRIPCION
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,9 @@
+#Tomcat publish data
+#Fri Mar 15 09:12:15 CET 2019
+org.eclipse.jst.j2ee.server\:moad-api-ws=WEB-INF/lib/moad-api-ws-4.1.1.jar
+org.eclipse.jst.j2ee.server\:moad-model=WEB-INF/lib/moad-model-4.1.1.jar
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\Admin\\.m2\\repository\\org\\springframework\\spring-web\\3.2.13.RELEASE\\spring-web-3.2.13.RELEASE.jar=WEB-INF/lib/spring-web-3.2.13.RELEASE.jar
+org.eclipse.jst.j2ee.server\:moad-control=WEB-INF/lib/moad-control-4.1.1.jar
+org.eclipse.jst.j2ee.server\:moad-dao=WEB-INF/lib/moad-dao-4.1.1.jar
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\Admin\\.m2\\repository\\org\\springframework\\spring-web\\3.2.17.RELEASE\\spring-web-3.2.17.RELEASE.jar=WEB-INF/lib/spring-web-3.2.17.RELEASE.jar
+org.eclipse.jst.j2ee.server\:moad-tao=WEB-INF/lib/moad-tao-4.1.1.jar

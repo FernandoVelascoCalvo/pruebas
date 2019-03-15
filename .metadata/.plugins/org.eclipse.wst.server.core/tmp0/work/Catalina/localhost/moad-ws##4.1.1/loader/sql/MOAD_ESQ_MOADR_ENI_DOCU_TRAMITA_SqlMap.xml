@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOADR_ENI_DOCU_TRAMITA" >
+
+	<!-- ResultMap para los formatos de documentos ENI -->
+	<resultMap id="DocumentoTramiteENIResultMap" type="DocumentoTramiteENI" >
+		<id column="X_ENDT" property="id" jdbcType="DECIMAL" />    
+		<result column="C_TRAMITE" property="tramite" jdbcType="VARCHAR" />
+		<result column="C_TIPO_DOC_TRAMITE" property="tipoDocTramite" jdbcType="VARCHAR" />
+		<result column="C_ACCION_DOC" property="accion" jdbcType="VARCHAR" />
+		<result column="T_MASCARA_ENI" property="mascaraIdEspecifico" jdbcType="VARCHAR" />
+		<result column="C_LISTA_FORMATOS_DOC" property="listaFormatos" jdbcType="VARCHAR" />
+		<result column="C_PROPIETARIO" property="propietario" jdbcType="VARCHAR" />
+		<result column="T_ORGANISMO_APORTAR" property="organismo" jdbcType="VARCHAR" />
+		<association property="tipoDocumental" javaType="TipoDocumentalENI">
+			<id column="TD_X_ENTD" property="id" jdbcType="DECIMAL" />    
+			<result column="TD_C_CODIGO" property="codigo" jdbcType="VARCHAR" />
+			<result column="TD_T_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		</association>
+		<association property="estadoElaboracion" javaType="EstadoElaboracionENI">
+			<id column="EE_X_ENEE" property="id" jdbcType="DECIMAL" />    
+			<result column="EE_C_CODIGO" property="codigo" jdbcType="VARCHAR" />
+			<result column="EE_T_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>  
+  
+	<!-- Selecciona todos los registros de la tabla -->  
+	<select id="obtenerDocumentosTramite" resultMap="DocumentoTramiteENIResultMap" >
+		select D.X_ENDT,
+		       D.C_TRAMITE,
+		       D.C_TIPO_DOC_TRAMITE,
+		       D.C_ACCION_DOC,
+		       D.T_MASCARA_ENI,
+		       D.C_LISTA_FORMATOS_DOC,
+		       D.ENDT_X_ENTD,
+		       D.C_PROPIETARIO,
+		       D.ENDT_X_ENEE,
+		       D.T_ORGANISMO_APORTAR,
+		       EE.X_ENEE EE_X_ENEE,
+		       EE.C_CODIGO EE_C_CODIGO,
+		       EE.T_DESCRIPCION EE_T_DESCRIPCION,
+		       TD.X_ENTD TD_X_ENTD,
+		       TD.C_CODIGO TD_C_CODIGO,
+		       TD.T_DESCRIPCION TD_T_DESCRIPCION
+		from MOADR_ENI_DOCU_TRAMITA
+			left join MOADR_ENI_ESTADO_ELABORACION EE on EE.X_ENEE = D.ENDT_X_ENEE
+			left join MOADR_ENI_TIPO_DOCUMENTAL TD on TD.X_ENTD = D.ENDT_X_ENTD
+		ORDER BY C_TRAMITE, C_TIPO_DOC_TRAMITE, X_ENDT
+	</select>
+	
+	<!-- Selecciona por el tipo de aplicativo o trámite -->
+	<select id="obtenerByTramite" resultMap="DocumentoTramiteENIResultMap" parameterType="String">
+		select D.X_ENDT,
+		       D.C_TRAMITE,
+		       D.C_TIPO_DOC_TRAMITE,
+		       D.C_ACCION_DOC,
+		       D.T_MASCARA_ENI,
+		       D.C_LISTA_FORMATOS_DOC,
+		       D.ENDT_X_ENTD,
+		       D.C_PROPIETARIO,
+		       D.ENDT_X_ENEE,
+		       D.T_ORGANISMO_APORTAR,
+		       EE.X_ENEE EE_X_ENEE,
+		       EE.C_CODIGO EE_C_CODIGO,
+		       EE.T_DESCRIPCION EE_T_DESCRIPCION,
+		       TD.X_ENTD TD_X_ENTD,
+		       TD.C_CODIGO TD_C_CODIGO,
+		       TD.T_DESCRIPCION TD_T_DESCRIPCION
+		from MOADR_ENI_DOCU_TRAMITA D
+			left join MOADR_ENI_ESTADO_ELABORACION EE on EE.X_ENEE = D.ENDT_X_ENEE
+			left join MOADR_ENI_TIPO_DOCUMENTAL TD on TD.X_ENTD = D.ENDT_X_ENTD
+		where D.C_TRAMITE = #{id}
+		ORDER BY C_TIPO_DOC_TRAMITE, X_ENDT
+	</select>
+	
+</mapper>

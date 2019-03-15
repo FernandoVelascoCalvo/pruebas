@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_ACCIONES_ROLES" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="AccionRolResultMap" type="AccionRol" >
+    <result column="ID_ACCIONES_ROLES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_ROLES" property="idRol" jdbcType="DECIMAL" />
+    <result column="ID_ACCIONES" property="idAccion" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="AccionRolResultMap" parameterType="AccionRol" >
+    select ID_ACCIONES_ROLES, ID_ROLES, ID_ACCIONES
+    from MOADR_ACCIONES_ROLES
+    where ID_ACCIONES_ROLES = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="AccionRol" >
+    delete from MOADR_ACCIONES_ROLES
+    where ID_ACCIONES_ROLES = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="AccionRol" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_ACRO.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADR_ACCIONES_ROLES (ID_ACCIONES_ROLES,
+      ID_ROLES, ID_ACCIONES)
+    values (#{id,jdbcType=DECIMAL}, #{idRol,jdbcType=DECIMAL}, #{idAccion,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- Actualiza todos los campos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKey" parameterType="AccionRol" >
+    update MOADR_ACCIONES_ROLES
+    set ID_ROLES = #{idRol,jdbcType=DECIMAL},
+      ID_ACCIONES = #{idAccion,jdbcType=DECIMAL}
+    where ID_ACCIONES_ROLES = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos -->
+  <update id="updateByPrimaryKeySelective" parameterType="AccionRol" >  
+    update MOADR_ACCIONES_ROLES
+    <set>
+      <if test="idRol != null" >
+        ID_ROLES = #{idRol,jdbcType=DECIMAL}
+      </if>
+      <if test="idAccion != null" >
+        ,ID_ACCIONES = #{idAccion,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where ID_ACCIONES_ROLES = #{id}
+  </update>
+</mapper>

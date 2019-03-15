@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_TIPOSORGANIZA" >
+ 
+  <!-- ResultMap para los tipos de organización -->
+  <resultMap id="TipoOrganizacionResultMap" type="TipoOrganizacion" >
+    <result column="ID_TIPOSORGANIZA" property="id" jdbcType="DECIMAL" />    
+    <result column="CD_TIPOORGANIZA" property="cdTipoOrganiza" jdbcType="CHAR" />
+    <result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="LG_VIGENTE" property="vigente" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Selecciona un registro a partir de una clave primaria -->  
+  <select id="obtenerPorClave" resultMap="TipoOrganizacionResultMap" parameterType="TipoOrganizacion" >
+    select ID_TIPOSORGANIZA, CD_TIPOORGANIZA, DS_DESCRIPCION, LG_VIGENTE
+    from MOADD_TIPOSORGANIZA
+    where ID_TIPOSORGANIZA = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <!-- Elimina un registro a partir de una clave primaria -->    
+  <delete id="eliminarPorClave" parameterType="TipoOrganizacion" >
+    delete from MOADD_TIPOSORGANIZA
+    where ID_TIPOSORGANIZA = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- inserta un registro en la tabla MOADD_TIPOSORGANIZA -->    
+  <insert id="insertar" parameterType="TipoOrganizacion" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_TIOZ.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_TIPOSORGANIZA (ID_TIPOSORGANIZA, CD_TIPOORGANIZA, DS_DESCRIPCION, LG_VIGENTE)
+    values (#{id,jdbcType=DECIMAL}, #{cdTipoOrganiza,jdbcType=CHAR},
+      #{descripcion,jdbcType=VARCHAR}
+      <if test="vigente != null">
+	  	,#{vigente,typeHandler=SiNOHandler}
+      </if>
+      )
+  </insert>
+
+  <!-- modifica un registro en la tabla MOADD_TIPOSORGANIZA -->    
+  <update id="modificarPorClave" parameterType="TipoOrganizacion" >
+    update MOADD_TIPOSORGANIZA
+    set CD_TIPOORGANIZA = #{cdTipoOrganiza,jdbcType=CHAR},
+      DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      <if test="vigente != null">
+	  	,LG_VIGENTE = #{vigente,typeHandler=SiNOHandler}
+      </if>
+    where ID_TIPOSORGANIZA = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- modifica un registro en la tabla MOADD_TIPOSORGANIZA -->  
+  <update id="modificarPorClaveSelectivo" parameterType="TipoOrganizacion" >
+    update MOADD_TIPOSORGANIZA
+    <set>      
+      <if test="cdTipoOrganiza != null" >
+        CD_TIPOORGANIZA = #{cdTipoOrganiza,jdbcType=CHAR}
+      </if>
+      <if test="descripcion != null" >
+        ,DS_DESCRIPCION = #{descripcion,jdbcType=VARCHAR}
+      </if>
+      <if test="vigente != null" >
+        ,LG_VIGENTE = #{vigente,typeHandler=SiNOHandler}
+      </if>
+    </set>
+    where ID_TIPOSORGANIZA = #{id}
+  </update>  
+  
+</mapper>

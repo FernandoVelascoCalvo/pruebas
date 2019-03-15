@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_REGACCESOS" >
+  
+	<!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+	<resultMap id="RegistroAccesoResultMap" type="RegistroAcceso" >
+	  <result column="TX_USUARIO" property="usuario" jdbcType="VARCHAR" />
+	  <result column="FH_FECHA" property="fecha" jdbcType="TIMESTAMP" />
+	  <result column="LG_CORRECTO" property="valido" javaType="java.lang.Boolean" jdbcType="CHAR"/>
+	</resultMap>
+
+	<!-- Inserta un registro en la Base de Datos -->
+	<insert id="insert" parameterType="RegistroAcceso" >
+		insert into MOADD_REGACCESOS (TX_USUARIO, FH_FECHA, LG_CORRECTO)
+		values (#{usuario,jdbcType=VARCHAR}, #{fecha,jdbcType=TIMESTAMP}
+		<if test="valido != null">
+	            ,#{valido,typeHandler=SiNOHandler}
+        </if>
+        )
+	</insert>
+
+</mapper>

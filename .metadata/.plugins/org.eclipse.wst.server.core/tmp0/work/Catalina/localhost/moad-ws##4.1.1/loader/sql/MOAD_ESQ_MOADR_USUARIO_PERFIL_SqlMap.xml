@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_USUARIO_PERFIL" >
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="UsuarioPerfilResultMap" type="UsuarioPerfil" >
+    <result column="ID_USUARIO_PERFIL" property="id" jdbcType="DECIMAL" />
+    <result column="ID_PERFILES" property="idPerfil" jdbcType="DECIMAL" />
+    <result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+    <result column="ID_USUARIO_CONFTREWA" property="idUsuarioConfTrewa" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="UsuarioPerfilResultMapEXT" type="UsuarioPerfil" >
+    <result column="ID_USUARIO_PERFIL" property="id" jdbcType="DECIMAL" />
+    <result column="ID_PERFILES" property="idPerfil" jdbcType="DECIMAL" />
+    <result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+    <result column="ID_USUARIO_CONFTREWA" property="idUsuarioConfTrewa" jdbcType="DECIMAL" />
+
+    <!-- Usuario -->
+    <result column="USUARIO_ID_USUARIOS" property="usuario.id" jdbcType="DECIMAL" />
+	<result column="USUARIO_CD_USUARIOS" property="usuario.codigo" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_USUARIO" property="usuario.usuario" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_CONTRASENA" property="usuario.contrasena" jdbcType="VARCHAR" />
+	<result column="USUARIO_FH_CADUCA_CONTRASE" property="usuario.fechaCaducidadContrasena" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_TX_APELLIDO1" property="usuario.apellido1" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_APELLIDO2" property="usuario.apellido2" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_NOMBRE" property="usuario.nombre" jdbcType="VARCHAR" />
+	<result column="USUARIO_TX_SEXO" property="usuario.sexo" jdbcType="CHAR" />
+	<result column="USUARIO_TX_EMAIL" property="usuario.email" jdbcType="VARCHAR" />
+	<result column="USUARIO_FH_ALTA" property="usuario.fechaAlta" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_FH_BAJA" property="usuario.fechaBaja" jdbcType="TIMESTAMP" />
+	<result column="USUARIO_NU_FALLOSLOGIN" property="usuario.fallosLogin" jdbcType="DECIMAL" />
+	<result column="USUARIO_CD_ESTADOSUSUARIO" property="usuario.cdEstadoUsuario" jdbcType="VARCHAR" />
+	<result column="USUARIO_LG_PUBLICO" property="usuario.publico" javaType="boolean" jdbcType="CHAR" />
+	<result column="USUARIO_TX_DNI" property="usuario.dni" jdbcType="VARCHAR" />
+
+	<!-- Perfil -->
+	<result column="PERFIL_ID_PERFILES" property="perfil.id" jdbcType="DECIMAL" />
+    <result column="PERFIL_ID_CONVOCATORIAS" property="perfil.idConvocatoria" jdbcType="DECIMAL" />
+    <result column="PERFIL_DS_DESCRIPCION" property="perfil.descripcion" jdbcType="VARCHAR" />
+    <result column="PERFIL_CD_NOMBRETREWA" property="perfil.cdNombreTrewa" jdbcType="VARCHAR" />
+    <result column="PERFIL_LG_DEFAULT" property="perfil.defecto" javaType="boolean" jdbcType="CHAR" />
+    <result column="PERFIL_LG_PUBLICO" property="perfil.publico" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!--  Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="UsuarioPerfilResultMap" parameterType="UsuarioPerfil" >
+   select ID_USUARIO_PERFIL, 
+   			ID_PERFILES, 
+   			CD_USUARIOS
+   			ID_USUARIO_CONFTREWA
+    from MOADR_USUARIO_PERFIL
+    where ID_USUARIO_PERFIL = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="UsuarioPerfil" >
+    delete from MOADR_USUARIO_PERFIL
+    where ID_USUARIO_PERFIL = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="revocarPerfilUsuario" parameterType="UsuarioPerfil" >
+    delete from MOADR_USUARIO_PERFIL
+    where ID_PERFILES = #{idPerfil,jdbcType=DECIMAL} AND
+    	  CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="revocarPerfilUsuConfTrewa" parameterType="UsuarioPerfil" >
+    DELETE FROM MOADR_USUARIO_PERFIL
+    WHERE ID_PERFILES = #{idPerfil,jdbcType=DECIMAL} 
+    AND	  ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL}
+  </delete>
+  
+  <delete id="eliminarPerfilesByUsuario" parameterType="java.math.BigDecimal" >
+	<![CDATA[
+			DELETE FROM MOADR_USUARIO_PERFIL
+		
+			WHERE ID_USUARIO_CONFTREWA IN (
+					SELECT UCT.ID_USUARIO_CONFTREWA
+	
+				  	FROM MOADD_USUARIOS U
+				  
+				  	INNER JOIN MOADD_ESTADOSUSUARIO E 
+				  		ON U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+				  
+				  	INNER JOIN MOADR_USUARIO_CONFTREWA UCT
+				  		ON U.ID_USUARIOS = UCT.ID_USUARIOS
+				  
+				  	WHERE UCT.ID_USUARIOS = #{idUsuarios,jdbcType=DECIMAL}
+				  	AND U.LG_PUBLICO = 'N'
+				  	AND E.LG_ANULAUSUARIO = 'N'
+				  	)
+	]]>
+  </delete>
+  
+  <insert id="insert" parameterType="UsuarioPerfil" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_USPE.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADR_USUARIO_PERFIL (ID_USUARIO_PERFIL, 
+    									ID_PERFILES, 
+    									CD_USUARIOS, 
+    									ID_USUARIO_CONFTREWA)
+    values (#{id,jdbcType=DECIMAL}, 
+    		#{idPerfil,jdbcType=DECIMAL}, 
+    		#{cdUsuario,jdbcType=VARCHAR}, 
+    		#{idUsuarioConfTrewa,jdbcType=DECIMAL})
+  </insert>
+  
+    <!-- Actualiza un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKey" parameterType="UsuarioPerfil" >
+    update MOADR_USUARIO_PERFIL
+    set ID_PERFILES = #{idPerfil,jdbcType=DECIMAL},
+      CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+    where ID_USUARIO_PERFIL = #{id,jdbcType=DECIMAL}
+  </update>
+  
+    <!-- Actualiza solo los campos no nulos de un registro en la Base de Datos  -->
+  <update id="updateByPrimaryKeySelective" parameterType="UsuarioPerfil" >
+    update MOADR_USUARIO_PERFIL
+    <set>
+      <if test="idPerfil != null" >
+        ID_PERFILES = #{idPerfil,jdbcType=DECIMAL}
+      </if>
+      <if test="cdUsuario != null" >
+        ,CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_USUARIO_PERFIL = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- Revoca el perfil de un usuario para una convocatoria dados sus identificadores -->
+  <delete id="revocarPerfil" parameterType="UsuarioPerfil" >  
+	    delete from MOADR_USUARIO_PERFIL
+	    where CD_USUARIOS = #{cdUsuario,jdbcType=VARCHAR}
+	    AND ID_PERFILES = #{idPerfil,jdbcType=DECIMAL}
+  </delete>
+
+    <!--  Devuelve una lista con todos los usuarios con un mismo perfil -->
+  <select id="usuariosMismoPerfil" resultMap="UsuarioPerfilResultMap" parameterType="UsuarioPerfil" >
+   select ID_USUARIO_PERFIL, 
+   			ID_PERFILES,
+      		CD_USUARIOS,
+      		ID_USUARIO_CONFTREWA
+    from MOADR_USUARIO_PERFIL
+    where ID_PERFILES = #{idPerfil,jdbcType=DECIMAL} 
+    ORDER BY CD_USUARIOS
+  </select>
+  
+  	<!-- Devuelve informacion de la instancia de herramienta y de la herramienta a la que hace referencia -->
+	<select id="obtenerUsuarioPerfilPorClaveEXT" resultMap="UsuarioPerfilResultMapEXT" 
+	  		  parameterType="java.math.BigDecimal">
+	  		  <![CDATA[
+                select  up.ID_USUARIO_PERFIL, 
+                		up.ID_PERFILES, 
+                		up.CD_USUARIOS,
+                		up.ID_USUARIO_CONFTREWA,
+
+                        u.ID_USUARIOS AS USUARIO_ID_USUARIOS,
+						u.CD_USUARIOS AS USUARIO_CD_USUARIOS,
+						u.TX_USUARIO AS USUARIO_TX_USUARIO, 
+						u.TX_CONTRASENA AS USUARIO_TX_CONTRASENA,
+						u.FH_CADUCA_CONTRASE AS USUARIO_FH_CADUCA_CONTRASE,
+						u.TX_APELLIDO1 AS USUARIO_TX_APELLIDO1,
+						u.TX_APELLIDO2 AS USUARIO_TX_APELLIDO2,
+						u.TX_NOMBRE AS USUARIO_TX_NOMBRE,
+						u.TX_SEXO AS USUARIO_TX_SEXO,
+						u.TX_EMAIL AS USUARIO_TX_EMAIL,
+						u.FH_ALTA AS USUARIO_FH_ALTA,
+						u.FH_BAJA AS USUARIO_FH_BAJA,
+						u.NU_FALLOSLOGIN AS USUARIO_NU_FALLOSLOGIN,
+						u.CD_ESTADOSUSUARIO AS USUARIO_CD_ESTADOSUSUARIO,
+						u.LG_PUBLICO AS USUARIO_LG_PUBLICO,
+						u.TX_DNI AS USUARIO_TX_DNI,
+
+						p.ID_PERFILES AS PERFIL_ID_PERFILES,
+						p.ID_CONVOCATORIAS AS PERFIL_ID_CONVOCATORIAS,
+						p.DS_DESCRIPCION AS PERFIL_DS_DESCRIPCION,
+						p.CD_NOMBRETREWA AS PERFIL_CD_NOMBRETREWA,
+						p.LG_DEFAULT AS PERFIL_LG_DEFAULT,
+						p.LG_PUBLICO AS PERFIL_LG_PUBLICO
+
+                        from moadr_usuario_perfil up
+
+                        inner join MOADD_USUARIOS u
+                        on up.CD_USUARIOS = u.CD_USUARIOS
+
+                        inner join MOADD_PERFILES p
+                        on up.ID_PERFILES = p.ID_PERFILES
+
+                        where up.ID_USUARIO_PERFIL = #{value}
+                          and U.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+						  							  FROM MOADD_ESTADOSUSUARIO
+			  										  WHERE LG_ANULAUSUARIO = 'N')
+                        ORDER BY u.TX_NOMBRE,u.TX_APELLIDO1,u.TX_APELLIDO2
+                        ]]>
+						
+	</select>
+		
+	<!--  Devuelve una lista con todos los usuariosPerfiles asociados a una relacion usuario-configuracion trewa -->
+	<select id="obtenerPerfilesPorUsuConfTrewa" resultMap="UsuarioPerfilResultMap" parameterType="UsuarioPerfil">
+	    SELECT UP.ID_USUARIO_PERFIL, 
+	   			UP.ID_PERFILES, 
+	   			UP.CD_USUARIOS,
+	   			UP.ID_USUARIO_CONFTREWA
+	   			
+	    FROM MOADR_USUARIO_PERFIL UP
+	    	 
+	    WHERE UP.ID_USUARIO_CONFTREWA = #{idUsuarioConfTrewa,jdbcType=DECIMAL} 
+	</select>
+</mapper>

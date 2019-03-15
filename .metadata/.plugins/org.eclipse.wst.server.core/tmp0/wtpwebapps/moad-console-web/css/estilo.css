@@ -1,0 +1,272 @@
+/* CSS General */
+body { font-family:Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size:0.7em; color:#666666; margin:0em; padding:0em;background-image:url(../images/fnd_pg.gif); background-repeat:repeat-y; background-color:#ffffff; }
+
+a { text-decoration:none; color:#666666; }
+a:hover { text-decoration:underline; background-color:#ffffff; }
+
+.separador { margin:1.5em; }
+.txt1 { color:#187EE6; }
+.txt1 a { color:#187EE6; }
+.txt1 a:visited { color:#CCCCCC !important; background-color:#000000 !important }
+.txt1b { color:#187EE6; font-size:1.25em; }	
+.txt2 { color:#187EE6; font-size:1.20em; }	
+.subir {	color:#0E82E5;	background-image:url(../listado/fnd_subir.gif);	background-repeat:no-repeat;	text-align: right;	background-position: right;	padding-right: 1.5em;}
+.subir a { color:#0E82E5; }
+.sinborde { border:none}
+
+.cuadrohome {background-color:#E6F9CC; padding:0.5em; color:#000000; width:auto; }
+* html 	.cuadrohome { width:70% }
+
+h1,h2,h3 { font-family:Verdana, Arial, Helvetica, sans-serif; }
+	h1.h1home { color:#187EE6; font-size:1.1em; }
+	h2.h2 { color:#187EE6; font-size:1.2em;  background-image:url(../images/dest_fnd.gif); background-position:left; background-repeat:repeat-x; }
+	h3 { color:#187EE6; font-size:1em; }
+	h3.h3int { color:#000000; }
+	h2.h2b { color:#187EE6; font-size:1.2em;  background-image:url(../images/dest_fnd2.gif); background-position:left; background-repeat:no-repeat; }
+
+ul.ulcontsub { color:#000000; list-style-image:url(../listado/flecha.gif); padding-bottom:1em; }
+ul.ulcontsub a { color:#167ADE; }
+
+
+	
+input { font-size:0.8em; }
+input.busc { border: 1px solid #177EE6; background-color:#FFFFFF; color:#000000; }
+input.busc2 { border: 1px solid #7F9DB9; background-color:#D9EAFB; color:#000000; }
+input.busc3 { font-size:1em; border: 1px solid #7F9DB9; color:#000000; }
+input.btn { background-image:url(../images/fnd_btn.jpg);  border: 0.1em solid #177EE6;  color:#187EE6; padding:0.2em 1em 0.2em 1em; width:auto; }
+select { border: 1px solid #177EE6; background-color:#FFFFFF; color:#000000; font-size:0.8em;}
+
+
+									/* Maquetacion General */
+/* ---- Herramientas ---- */									
+	#listado { }
+	.listpg { font-weight:bolder; color:#000000; margin:0.5em 0em 0.5em 0em; text-align:right;}
+		.listpg a { color:#000000; }
+	#listpgfin { background-color:#79D53D; margin-top:0.5em; /*padding:0.2em;*/}
+		
+	
+	#tablalist { padding:0.5em; color:#000000; font-family:Verdana, Arial, Helvetica, sans-serif;  }
+	#tablalist td { height:2em}
+	#tablalist a { color: #000000;  text-decoration:none;}
+	#tablalist a:hover {text-decoration:underline !important; color: #000000 !important}
+	#tablalist a:visited {text-decoration:none; color:#999999;}
+		#tablalist th.thh { color:#6FD02D; background-image:url(../listado/fnd_th.gif); background-repeat:repeat-x; height:30px }
+		#tablalist th.thv { color:#6FD02D; text-align:left; }
+		#tablalist tr.trpar { background-color:#F9FEF1;}
+		#tablalist tr.trimp { }
+		#imprimir { color:#61B627; text-align:right; font-family:Verdana, Arial, Helvetica, sans-serif}
+		#imprimir a {color:#61B627;}
+		ul.listatabla { list-style-image:url(../listado/flecha2.gif)} 
+		.thdirec { text-align:left }
+			.direc2 { text-align:left; padding-left:1em; }
+		.thdirecpar { background-color:#EFEFEF;} /* directorio 2 nivel */
+			.thdirecpar2 { background-color:#F9FEF1;} /* directorio 3 nivel */
+									
+	#noticias {}
+	.notit { color: #0E82E5; font-weight:bold; font-size:1.2em;}
+	.notit h3 { font-size:1em; margin-bottom:0.2em; padding-bottom:0.2em}
+	.notitsub { color:#000000; font-weight:bold; margin-bottom:0.5em; padding-bottom:0.5em;}
+	.notitfech {	color:#61B627;	margin-bottom:0.5em;	padding-top: 0.5em;}
+	.nottxt {	float: left; /* */ width:100%; }
+        .notfoto {	float:left;	padding: 0em 0.5em 0em 0em; margin: 0.5em 0.5em 0em 0em;}
+	.notfotopie {	padding: 0.2em 0em 0.2em 0em; margin: 0.2em 0em 0.2em 0em; color:#000000;}
+	.notenlaces { width:auto; clear:both}
+		.notenlaces ul { margin:0em 0em 0em 1em; padding:0.5em 0em 0em 1em; list-style-image:url(../listado/flecha2.gif)}
+        .pretitulo {	font-size: 1.1em; margin-bottom:-0.75em;}
+			
+	
+	.btndestaca { background-image:url(../images/fnd_btn.jpg); background-repeat:repeat-x;  border: 0.1em solid #177EE6;  color:#187EE6; padding:0.4em 1em 0.4em 1em;  }
+	.btndestaca	a { color:#0E82E5}								
+	.encuestaresul {width:90%; margin:0em 1em 0.5em 1em; text-align:center }	
+
+
+/* ---- Caberera ---- */
+#cabecera { 
+    /* background-image: url(../header/cab_fnd.jpg); background-repeat:repeat-x; */
+	background-color:#2086ea;
+ }
+	/*#lang { text-align:right; color:#000000; padding:0.5em; width:10%; float:right }*/
+	#lang {
+ 			PADDING-RIGHT: 0.5em;
+ 			PADDING-LEFT: 0.5em; 
+ 			FLOAT: right;
+ 			PADDING-BOTTOM: 0.5em;
+ 			COLOR: #000000;
+ 			PADDING-TOP: 0.5em;
+ 			TEXT-ALIGN: right
+		  }
+	#lang a { color:#000000;}
+
+	#msup1 { background-color:#1F85EA;	text-align:right;	padding-right:1em; height:2.5em; color: #000000; }
+	#msup1 a { color:#000000;}
+		#msup1a { float:left;	padding-left:2em;	padding-top: 1em; color:#FFFFFF;} 
+		#msupla a { color:#FFFFFF;}
+		#msup1a a:hover { background-color: #FFFFFF; color:#000000;}
+		#msup1 A:visited { COLOR:#CCCCCC; text-decoration:none;  }
+		#msup1a A:visited {	COLOR: #CCCCCC; }
+	#msup1 label { color:#FFFFFF;}
+
+	#msup2 { background-image:url(../header/msup2_fnd.jpg); background-repeat:repeat-x; text-align:right; height:39px;	}
+		#msup2a { float:left; width:auto;	} 
+		#msup2b { width:auto;	padding-top: 1.1em; padding-right:2em; 	} 
+			#msup2b a { color:#000000; }
+
+
+/* ---- Cuerpo ---- */
+
+
+#cuerpo { margin:0em;	padding:0em;	width: auto; }
+	#mizq {	width: 175px;	background-color: #E4F0FF; float:left; }
+
+	#path {	padding:0.5em;	font-weight:bold;}
+		#path a { font-weight:normal; }
+		#path a:hover { background-color: #FFFFFF; color:#000000}
+		
+		#titulopg {	background-image: url(../listado/fnd_titpg.gif);	background-repeat: no-repeat;	background-position:center;	padding-top: 0.5em; }
+		#titulopgsin { background-image: url(../listado/fnd_titpgSin.gif); background-repeat: no-repeat;     background-position:center;  padding-top: 0.5em; }
+		#tituloline {  }
+		#titulopg h1 { color:#79D53D; font-size:2.1em; margin-bottom:0.5em; text-align:center; font-weight:normal;  width:100%; }
+
+/* ---- Menu lateral ---- */
+#menulat {	padding:0em;	width: 175px;	float: left; background-color:#E4F0FF }
+* html #menulat {margin-top:-2px;} /* IE */
+		/* Primer nivel */
+		#menulat ul { margin: 0px; padding: 0px; list-style-type: none;  }
+		#menulat li { margin: 0px; margin-bottom:1px;  }
+		
+		#menulat ul span		{
+		display: block; 
+		width: 165px; 
+		padding-top:1em; padding-bottom:1em; padding-left:10px; /* alto del menu */ 
+		background-color: #7BB7F2;
+		border-bottom: 1px solid #2779CB;
+		text-decoration: none; color:#FFFFFF;  }
+				
+		#menulat ul a		{
+		display: block; 
+		width: 165px;
+		padding-top:1em; padding-bottom:1em; padding-left:10px; /* alto del menu */ 
+		background-color: #4399EC;
+		border-bottom: 1px solid #2779CB;
+		text-decoration: none; color:#FFFFFF;  }
+		
+		#menulat ul a:hover		{
+		color: #FFFFFF;
+		background-color: #7BB7F2;
+		text-decoration: underline;
+		border-bottom: 1px solid #2779CB; }
+
+		/* segundo nivel */
+		#menulat ul ul { margin:0em 0em 0em 0em; padding:0.5em 0em 0.5em 15px; width:160px; list-style-type: none;background-color: #EFEFEF; color:#000000; font-weight:bold; }
+		#menulat ul ul li { border-bottom: 0em;  margin-bottom:0px; }
+		
+		#menulat ul ul a		{
+		display: block; 
+		width: 160px; font-weight:normal;
+		padding-top:0.3em; padding-bottom:0.3em; padding-left:0px;  /*alto del menu 2 nivel*/ 
+		background-color: #EFEFEF;
+		text-decoration: none; color:#000000; border:0em; }
+		
+		#menulat ul ul a:hover	{
+		color: #000000;
+		background-color: #EFEFEF;
+		text-decoration: underline;
+		border-bottom: 0em; }
+		
+
+		#line1 { background-color:#EDFAE4; padding:0.2em;  width:auto;}
+		/*#logos1 { padding:1em; background-color:#E4F0FF; width:auto; }*/
+        #logos1{
+			 PADDING-RIGHT: 0; 
+			 PADDING-LEFT: 0;
+			 PADDING-BOTTOM: 1em;
+			 WIDTH: auto;
+			 PADDING-TOP: 1em; 
+			 BACKGROUND-COLOR: #e4f0ff; 
+			 text-align:center;
+		} 
+
+		/*.imgsep1 { padding:1em; border:none}*/
+		.imgsep1{
+			 PADDING-RIGHT: 2px; 
+			 PADDING-LEFT: 2px;
+			 PADDING-BOTTOM: 2px; 
+			 BORDER-TOP-STYLE: none;
+			 PADDING-TOP: 2px;
+			 BORDER-RIGHT-STYLE: none;
+			 BORDER-LEFT-STYLE: none;
+			 BORDER-BOTTOM-STYLE: none
+		}
+		.imgsepint { padding:0em 0.5em 0.5em 0.5em; border:none}*/
+
+			
+
+/* ---- Pie ---- */
+#pielink {	color:#468481;	width:100%;	float:left; font-size:0.8em; text-align: center; font-family:Verdana, Arial, Helvetica, sans-serif; padding-top:1em;}
+#pielink {	color:#468481;	width:100%;	float:left; font-size:0.8em; text-align: center; font-family:Verdana, Arial, Helvetica, sans-serif; padding-top:1em;}
+
+#pielink a { color:#468481;text-decoration:underline;}
+
+#pielink a:hover { text-decoration:none;}
+#pielink A:visited {COLOR:#305A58; TEXT-DECORATION:underline;}
+
+#pie{ color:#005600;width:100%;	float:left; font-size:0.8em; text-align: center; font-family:Verdana, Arial, Helvetica, sans-serif; padding-top:1em;}
+
+#pie2 {width:100%; text-align:center}
+	
+	
+h2.mapaweb { font-size:1.3em; color:#79D53D; font-weight:normal; }			
+ul.mapaweb {	list-style:none; text-transform:uppercase;	color: #187EE6;}
+ul.mapaweb li { margin-bottom:0.3em; margin-top:0.3em;}
+ul.mapaweb a { color:#187EE6; font-weight:bold  }
+ul.mapaweb ul { list-style:none; text-transform:none; font-weight:normal; list-style-image:url(../listado/flecha.gif)}
+ul.mapaweb ul a { color:#666666; text-transform:none; font-weight:normal; }
+.mapawebcuad { width:32%; float:left; margin-left:0.5em; }
+	
+#acceso_multimedia {
+ float:right;
+ height:69px;
+ width:238px;
+}
+ 
+#acceso_multimedia img {
+ border:0;
+ }
+ 
+#acceso_multimedia a:hover {
+ background-color:transparent !important;
+ }
+
+
+
+.imgleft {
+ float:left;
+ }
+ 
+.imgcenter {
+ margin:0 auto 0 auto;
+ display:block;
+ }
+ 
+ #actualidad a {
+	color:#666666;
+	}
+	
+#actualidad a:hover {
+	color:#666666 !important;
+	text-decoration:underline !important;
+	}
+	
+#actualidad a:visited {
+	color:#999999; text-decoration:none;
+	}
+	
+.destacados A {
+ COLOR: #ffffff !important;
+}
+.destacados A:hover {
+ text-decoration:underline;
+}
+.destacados A:visited {
+ color:#CCCCCC !important
+}

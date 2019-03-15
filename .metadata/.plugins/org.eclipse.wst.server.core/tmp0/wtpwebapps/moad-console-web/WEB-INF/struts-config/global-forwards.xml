@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+       "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+       
+<struts-config>
+
+	<!-- ==================================================================== -->
+	<!-- ========== Global Forward Definitions ============================== -->
+	<!-- ==================================================================== -->
+	<global-forwards>
+		<forward name="errorGeneral" path="/errorGeneral.do" />
+		<!-- Trámites -->
+		<forward name="tramites" path="/tramites.do" />
+		<forward name="borrarTramite" path="/borrarTramite.do" />
+		<forward name="editarTramite" path="/editarTramite.do" />
+		<forward name="crearTramite" path="/crearTramite.do" />
+		<!-- <forward name="listadoTramites" path="/listadoTramites.do" /> -->
+
+
+		<!-- Seguridad -->
+		<forward name="login" path="/login.do" />
+		<!-- Chequeo de integridad -->
+		<forward name="chequearIntegridad" path="/chequearIntegridad.do" />
+		<!-- Listados -->
+		<forward name="listadoListados" path="/listadoListados.do" />
+		<forward name="editarListado" path="/editarListado.do" />
+		<forward name="borrarListado" path="/borrarListado.do" />
+		<!-- Campos de listados -->
+		<forward name="editarCampo" path="/editarCampo.do" />
+		<forward name="borrarCampo" path="/borrarCampo.do" />
+		<!-- Roles -->
+		<forward name="listadoRoles" path="/listadoRoles.do" />
+		<forward name="editarRol" path="/editarRol.do" />
+		<forward name="borrarRol" path="/borrarRol.do" />
+		<forward name="crearRol" path="/crearRol.do" />
+		<forward name="asignarFuncionalidad" path="/asignarFuncionalidad.do" />
+		<forward name="revocarFuncionalidad" path="/revocarFuncionalidad.do" />
+		<!-- Herramientas configurables -->
+		<forward name="listadoHerramientas" path="/listadoHerramientas.do" />
+		<forward name="editarHerramienta" path="/editarHerramienta.do" />
+		<forward name="borrarHerramienta" path="/borrarHerramienta.do" />
+		<forward name="chequearConfiguracion" path="/chequearConfiguracion.do" />
+		<!-- Parámetros de herramientas configurables -->
+		<forward name="editarParametro" path="/editarParametro.do" />
+		<forward name="borrarParametro" path="/borrarParametro.do" />
+
+		<forward name="editarInstHerramienta" path="/editarInstHerramienta.do" />
+		<forward name="crearInstHerramienta" path="/crearInstHerramienta.do" />
+		<forward name="borrarInstHerramienta" path="/borrarInstHerramienta.do" />
+
+		<!-- Procedimientos -->
+		<forward name="listadoProcedimientos" path="/listadoProcedimientos.do" />
+		<forward name="editarProcedimiento" path="/editarProcedimiento.do" />
+		<forward name="borrarProcedimiento" path="/borrarProcedimiento.do" />
+		<forward name="cambiarClaveCifrado" path="/cambiarClaveCifrado.do" />
+
+		<!-- Procedimientos y Configuraciones -->
+		<forward name="listadoProcedimientoConfiguraciones" path="/listadoProcedimientoConfiguraciones.do" />
+		<forward name="listadoConfiguracionHerramientas" path="/listadoConfiguracionHerramientas.do" />
+		<forward name="listadoConfiguraciones" path="/listadoConfiguraciones.do" />
+		<forward name="editarConfiguracion" path="/editarConfiguracion.do" />
+		<forward name="crearConfiguracion" path="/crearConfiguracion.do" />
+		<forward name="borrarConfiguracion" path="/borrarConfiguracion.do" />
+		<forward name="importarConfiguracion" path="/importarConfiguracion.do" />
+		<forward name="exportarConfiguracion" path="/exportarConfiguracion.do" />
+		<forward name="importarProcedimiento" path="/importarProcedimiento.do" />
+		<forward name="exportarProcedimiento" path="/exportarProcedimiento.do" />
+
+
+		<!-- Procedimientos y Listados -->
+		<forward name="listadoProcedimientoListados" path="/listadoProcedimientoListados.do" />
+		<forward name="asignarListado" path="/asignarListado.do" />
+		<forward name="revocarListado" path="/revocarListado.do" />
+
+		<!-- Procedimientos y TiposCertificado -->
+		<forward name="listadoProcedimientoTiposCertificado" path="/listadoProcedimientoTiposCertificado.do" />
+		<forward name="asignarTipoCertificado" path="/asignarTipoCertificado.do" />
+		<forward name="revocarTipoCertificado" path="/revocarTipoCertificado.do" />
+
+		<!-- Procedimientos, TiposCertificado y Perfiles -->
+		<forward name="listadoTipoCertificadoPerfiles" path="/listadoTipoCertificadoPerfiles.do" />
+		<forward name="asignarPerfilTipoCertificado" path="/asignarPerfilTipoCertificado.do" />
+		<forward name="revocarPerfilTipoCertificado" path="/revocarPerfilTipoCertificado.do" />
+
+		<!-- Procedimientos y Ordenes -->
+		<forward name="crearProcedimiento" path="/crearProcedimiento.do" />
+		<forward name="listadoProcedimientoListados" path="/listadoProcedimientoListados.do" />
+		<forward name="borrarOrden" path="/borrarOrden.do" />
+		<forward name="crearOrden" path="/crearOrden.do" />
+		<forward name="editarOrden" path="/editarOrden.do" />
+		<forward name="listadoOrdenConvocatorias" path="/listadoOrdenConvocatorias.do" />
+		<forward name="crearConvocatoria" path="/crearConvocatoria.do" />
+		<forward name="editarConvocatoria" path="/editarConvocatoria.do" />
+		<forward name="borrarConvocatoria" path="/borrarConvocatoria.do" />
+		<forward name="listadoConvocatoriaPerfiles" path="/listadoConvocatoriaPerfiles.do" />
+		<forward name="crearPerfil" path="/crearPerfil.do" />
+		<forward name="editarPerfil" path="/editarPerfil.do" />
+		<forward name="borrarPerfil" path="/borrarPerfil.do" />
+		<forward name="sincronizarPerfil" path="sincronizarPerfil.do" />
+		<forward name="descargarAdjuntoConvocatoria" path="/descargarAdjuntoConvocatoria.do" />
+		<forward name="descargarAdjuntoProcedimiento" path="/descargarAdjuntoProcedimiento.do" />
+		<forward name="asignarTipoIdentificacionPerfil" path="/asignarTipoIdentificacionPerfil.do" />
+		<forward name="asignarTipoIdentificacionPerfil" path="/asignarTipoIdentificacionPerfil.do" />
+		<forward name="revocarTipoIdentificacionPerfil" path="/revocarTipoIdentificacionPerfil.do" />
+
+
+		<!-- Procedimientos, Version Presenta y Convocatorias -->
+		<forward name="listadoVersionPresentaConvocatorias" path="/listadoVersionPresentaConvocatorias.do" />
+		<forward name="asignarConvocatoriaVersionPresenta" path="/asignarConvocatoriaVersionPresenta.do" />
+		<forward name="revocarConvocatoriaVersionPresenta" path="/revocarConvocatoriaVersionPresenta.do" />
+		<forward name="listadoProcedimientoVersionesPresenta" path="/listadoProcedimientoVersionesPresenta.do" />
+		<forward name="crearVersionPresenta" path="/crearVersionPresenta.do" />
+		<forward name="editarVersionPresenta" path="/editarVersionPresenta.do" />
+		<forward name="borrarVersionPresenta" path="/borrarVersionPresenta.do" />
+
+		<!-- Procedimientos, Version Presenta y Plantillas -->
+		<forward name="listadoVersionPresentaPlantillas" path="/listadoVersionPresentaPlantillas.do" />
+		<forward name="crearPlantilla" path="/crearPlantilla.do" />
+		<forward name="editarPlantilla" path="/editarPlantilla.do" />
+		<forward name="borrarPlantilla" path="/borrarPlantilla.do" />
+		<forward name="descargarPlantilla" path="/descargarPlantilla.do" />
+		<forward name="descargarVersionPresenta" path="/descargarVersionPresenta.do" />
+
+		<!-- Procedimientos, Version Presenta y Anexos -->
+		<forward name="listadoVersionPresentaAnexos" path="/listadoVersionPresentaAnexos.do" />
+		<forward name="crearAnexo" path="/crearAnexo.do" />
+		<forward name="editarAnexo" path="/editarAnexo.do" />
+		<forward name="borrarAnexo" path="/borrarAnexo.do" />
+
+		<!-- Procedimientos y Documentos -->
+		<forward name="listadoDocumentos" path="/listadoDocumentos.do" />
+		<forward name="crearDocumento" path="/crearDocumento.do" />
+		<forward name="editarDocumento" path="/editarDocumento.do" />
+		<forward name="borrarDocumento" path="/borrarDocumento.do" />
+
+		<!-- Usuarios -->
+		<forward name="crearEmpleo" path="/crearEmpleo.do" />
+		<forward name="editarEmpleo" path="/crearEmpleo.do" />
+		<forward name="sincronizarEmpleo" path="sincronizarEmpleo.do" />
+
+		<forward name="editarUsuario" path="/editarUsuario.do" />
+		<forward name="comprobarUsuario" path="/comprobarUsuario.do" />
+
+		<forward name="borrarUsuario" path="/borrarUsuario.do" />
+		<forward name="listadoUsuarios" path="/listadoUsuarios.do" />
+		<forward name="listadoUsuarioRoles" path="/listadoUsuarioRoles.do" />
+		<forward name="listadoUsuarioEmpleos" path="/listadoUsuarioEmpleos.do" />
+		<forward name="listadoUsuarioPerfiles" path="/listadoUsuarioPerfiles.do" />
+		<forward name="listadoUsuarioConfTrewa" path="/listadoUsuarioConfTrewa.do" />
+		<forward name="listadoUsuarioPerfilesMoad" path="/listadoUsuarioPerfilesMoad.do" />
+
+		<forward name="mostrarUsuario" path="/mostrarUsuario.do" />
+		<forward name="revocarPerfil" path="/revocarPerfil.do" />
+		<forward name="revocarRol" path="/revocarRol.do" />
+		<forward name="asignarRol" path="/asignarRol.do" />
+		<forward name="borrarEmpleo" path="/asignarRol.do" />
+		<forward name="asignarPerfil" path="/asignarPerfil.do" />
+		<forward name="cambiarContrasena" path="/cambiarContrasena.do" />
+		<forward name="asignarPerfilMoad" path="/asignarPerfilMoad.do" />
+
+		<!-- Aplicaciones -->
+		<forward name="listadoAplicaciones" path="/listadoAplicaciones.do" />
+		<forward name="editarAplicacion" path="/editarAplicacion.do" />
+		<forward name="borrarAplicacion" path="/borrarAplicacion.do" />
+
+		<!-- Oficinas de Registro -->
+		<forward name="listadoOficinas" path="/listadoOficinas.do" />
+		<forward name="crearOficina" path="/crearOficina.do" />
+		<forward name="editarOficina" path="/editarOficina.do" />
+		<forward name="borrarOficina" path="/borrarOficina.do" />
+
+		<!-- tipos de Certificados -->
+		<forward name="listadoTiposCertificados" path="/listadoTiposCertificados.do" />
+		<forward name="/crearTiposCertificados" path="/crearTiposCertificados.do" />
+		<forward name="/editarTiposCertificados" path="/editarTiposCertificados.do" />
+		<forward name="borrarTiposCertificados" path="/borrarTiposCertificados.do" />
+
+		<!-- Menus -->
+		<forward name="listadoMenus" path="/listadoMenus.do" />
+		<forward name="crearMenus" path="/crearMenus.do" />
+		<forward name="editarMenus" path="/editarMenus.do" />
+		<forward name="borrarMenus" path="/borrarMenus.do" />
+		<!-- SubMenus -->
+		<forward name="listadoSubMenus" path="/listadoSubMenus.do" />
+		<forward name="crearSubMenus" path="/crearSubMenus.do" />
+		<forward name="editarSubMenus" path="/editarSubMenus.do" />
+		<forward name="borrarSubMenus" path="/borrarSubMenus.do" />
+
+		<!-- Configuraciones Trewa -->
+		<forward name="listadoConfiguracionTrewa" path="/listadoConfiguracionTrewa.do" />
+		<forward name="crearConfiguracionTrewa" path="/crearConfiguracionTrewa.do" />
+		<forward name="editarConfiguracionTrewa" path="/editarConfiguracionTrewa.do" />
+		<forward name="borrarConfiguracionTrewa" path="/borrarConfiguracionTrewa.do" />
+		<forward name="validarConfiguracionTrewa" path="/validarConfiguracionTrewa.do" />
+		<forward name="asignarConfiguracionTrewa" path="/asignarConfiguracionTrewa.do" />
+		<forward name="sincronizarConfTrewa" path="sincronizarConfTrewa.do" />
+
+		<!-- Generales -->
+		<forward name="logout" path="/logout.jsp" />
+
+		<!-- Pagina principal -->
+		<forward name="paginaPrincipal" path="/paginaPrincipal.do" />
+	</global-forwards>
+</struts-config>

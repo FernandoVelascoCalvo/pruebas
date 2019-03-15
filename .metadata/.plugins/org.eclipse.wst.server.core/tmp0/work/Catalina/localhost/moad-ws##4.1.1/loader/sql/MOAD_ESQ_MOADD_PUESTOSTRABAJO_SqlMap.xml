@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PUESTOSTRABAJO" >
+
+  <resultMap id="PuestoTrabajoResultMap" type="PuestoTrabajo" >
+    <result column="ID_PUESTOSTRABAJO" property="id" jdbcType="DECIMAL" />
+    <result column="CD_PUESTOSTRABAJO" property="cdPuestoTrabajo" jdbcType="VARCHAR" />
+    <result column="DS_BREVE" property="descripcionBreve" jdbcType="VARCHAR" />
+    <result column="DS_EXTENDIDA" property="descripcionExtendida" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- Selecciona un registro a partir de una clave primaria -->
+  <select id="obtenerPorClave" resultMap="PuestoTrabajoResultMap" parameterType="PuestoTrabajo" >
+    select ID_PUESTOSTRABAJO, CD_PUESTOSTRABAJO, DS_BREVE, DS_EXTENDIDA
+    from MOADD_PUESTOSTRABAJO
+    where ID_PUESTOSTRABAJO = #{id,jdbcType=DECIMAL}
+  </select>
+
+ <!-- Elimina un registro a partir de una clave primaria -->    
+  <delete id="eliminarPorClave" parameterType="PuestoTrabajo" >
+    delete from MOADD_PUESTOSTRABAJO
+    where ID_PUESTOSTRABAJO = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- inserta un registro en la tabla MOADD_PUESTOSTRABAJO -->    
+  <insert id="insertar" parameterType="PuestoTrabajo" >
+	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_PUTR.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_PUESTOSTRABAJO (ID_PUESTOSTRABAJO, CD_PUESTOSTRABAJO, DS_BREVE, DS_EXTENDIDA)
+    values (#{id,jdbcType=DECIMAL}, #{cdPuestoTrabajo,jdbcType=VARCHAR},
+      #{descripcionBreve,jdbcType=VARCHAR}, #{descripcionExtendida,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- modifica un registro en la tabla MOADD_PUESTOSTRABAJO -->    
+  <update id="modificarPorClave" parameterType="PuestoTrabajo" >
+    update MOADD_PUESTOSTRABAJO
+    set CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR},
+      DS_BREVE = #{descripcionBreve,jdbcType=VARCHAR},
+      DS_EXTENDIDA = #{descripcionExtendida,jdbcType=VARCHAR}
+    where ID_PUESTOSTRABAJO = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <!-- modifica un registro en la tabla MOADD_PUESTOSTRABAJO -->    
+  <update id="modificarPorClaveSelectivo" parameterType="PuestoTrabajo" >
+    update MOADD_PUESTOSTRABAJO
+    <set>
+      <if test="cdPuestoTrabajo != null" >
+        CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcionBreve != null" >
+        ,DS_BREVE = #{descripcionBreve,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcionExtendida != null" >
+        ,DS_EXTENDIDA = #{descripcionExtendida,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID_PUESTOSTRABAJO = #{id,jdbcType=DECIMAL}
+  </update>
+
+	<!-- Obtiene todos los puestos de trabajo. -->
+    <select id="obtenerPuestosTrabajo" resultMap="PuestoTrabajoResultMap">
+	    select ID_PUESTOSTRABAJO, CD_PUESTOSTRABAJO, DS_BREVE, DS_EXTENDIDA
+	    from MOADD_PUESTOSTRABAJO ORDER BY DS_BREVE
+    </select>
+
+	<!-- Obtiene todos los puestos de trabajo de una UO -->
+    <select id="obtenerPuestosTrabajoUO" resultMap="PuestoTrabajoResultMap">
+	    select PT.ID_PUESTOSTRABAJO, PT.CD_PUESTOSTRABAJO, PT.DS_BREVE, PT.DS_EXTENDIDA
+	    from MOADD_PUESTOSTRABAJO PT
+		inner join MOADR_PUESTRAB_UNIORG PTUO
+		on PT.CD_PUESTOSTRABAJO = PTUO.CD_PUESTOSTRABAJO
+		where PTUO.ID_UNIDADESORGANIC = #{value} ORDER BY PT.DS_BREVE
+    </select>
+
+    <!-- Selecciona un registro a partir de una clave primaria -->
+	<select id="obtenerPorCdPuesto" resultMap="PuestoTrabajoResultMap" parameterType="string" >
+	    select ID_PUESTOSTRABAJO, CD_PUESTOSTRABAJO, DS_BREVE, DS_EXTENDIDA
+	    from MOADD_PUESTOSTRABAJO
+	    where CD_PUESTOSTRABAJO = #{cdPuestoTrabajo,jdbcType=VARCHAR} ORDER BY DS_BREVE
+	</select>
+
+</mapper>

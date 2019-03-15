@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADR_LISTAD_PROCEDI" >
+
+
+  <!-- Relacion entre las columnas de la tabla con los datos miembro de las clases -->
+  <resultMap id="ListadoProcedimientoResultMap" type="ListadoProcedimiento" >
+    <result column="ID_LISTAD_PROCEDI" property="id" jdbcType="DECIMAL" />
+    <result column="ID_LISTADOS" property="idListado" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+  </resultMap>
+
+  
+  <!-- Consulta un registro por su identificador -->
+  <select id="selectByPrimaryKey" resultMap="ListadoProcedimientoResultMap" parameterType="ListadoProcedimiento" >
+    select ID_LISTAD_PROCEDI, ID_LISTADOS, ID_PROCEDIMIENTOS
+    from MOADR_LISTAD_PROCEDI
+    where ID_LISTAD_PROCEDI = #{id,jdbcType=DECIMAL}
+  </select>
+
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="deleteByPrimaryKey" parameterType="ListadoProcedimiento" >
+    delete from MOADR_LISTAD_PROCEDI
+    where ID_LISTAD_PROCEDI = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- Inserta un registro en la Base de Datos -->
+  <insert id="insert" parameterType="ListadoProcedimiento" >
+  
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_LIPR.NEXTVAL FROM DUAL	
+	</selectKey>
+    
+    insert into MOADR_LISTAD_PROCEDI (ID_LISTAD_PROCEDI, ID_LISTADOS, ID_PROCEDIMIENTOS)
+    values (#{id,jdbcType=DECIMAL}, #{idListado,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- Borra un registro de la Base de Datos -->
+  <delete id="borrarListadoProcedimiento" parameterType="ListadoProcedimiento" >
+    delete from MOADR_LISTAD_PROCEDI
+    where ID_LISTADOS = #{idListado,jdbcType=DECIMAL} AND
+    	  ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MOAD_ESQ_MOADD_CONTRASENAS" >
+
+	<!-- ResultMap del modelo Contrasenas -->
+	<resultMap id="ContrasenasResultMap" type="Contrasena" >
+		<result column="ID_CONTRASENAS" property="id" jdbcType="DECIMAL" />
+		<result column="CD_USUARIOS" property="cdUsuario" jdbcType="VARCHAR" />
+		<result column="TX_CONTRASENA" property="contrasena" jdbcType="VARCHAR" />
+		<result column="FH_BAJA" property="fechaBaja" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<!-- Insertar una contraseña para un usuario -->
+	<insert id="insertarParaUsuario" parameterType="java.lang.String" >
+			insert into MOADD_CONTRASENAS (ID_CONTRASENAS, 
+			                               CD_USUARIOS, 
+			                               TX_CONTRASENA, 
+			                               FH_BAJA)
+			select MOAD_SQ_CONT.NEXTVAL, 
+			       CD_USUARIOS, 
+			       TX_CONTRASENA, 
+			       sysdate
+			from MOADD_USUARIOS
+			where TX_USUARIO = #{value}
+			  and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+			  							FROM MOADD_ESTADOSUSUARIO
+			  							WHERE LG_ANULAUSUARIO = 'N')
+	</insert>
+		
+	<!-- Comprobar si la contraseña elegida no ha sido usada anteriormente -->
+	<select id="contrasenasRepetidas" resultType="java.lang.Integer" parameterType="map" >
+		select count(TX_CONTRASENA)
+		from (select CON.TX_CONTRASENA
+			  from MOADD_CONTRASENAS CON
+			  
+			
+			  
+			  <if test="cdUsuario != null">
+			  	where CON.CD_USUARIOS = #{cdUsuario}
+			  </if>
+			  <if test="username != null">
+			  	join MOADD_USUARIOS USU 
+			  	on USU.CD_USUARIOS = CON.CD_USUARIOS 
+			  	where USU.TX_USUARIO =  #{username}
+			  </if>
+			  	and ((CON.FH_BAJA > sysdate - #{diasAntiguedad}) or (rownum &lt;= #{nUltimas}))
+			  order by CON.FH_BAJA desc)
+		where TX_CONTRASENA = #{contrasena}
+	</select>
+</mapper>

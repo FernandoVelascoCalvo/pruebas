@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_ORDENES" >
+
+  <!-- Mapeo de las columnas de la tabla MOADD_ORDENES y los datos miembro de la clase Orden -->
+  <resultMap id="OrdenResultMap" type="Orden" >
+    <result column="ID_ORDENES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+    <result column="CD_TIPOEXPTREWA" property="cdTipoExpTrewa" jdbcType="VARCHAR" />
+    <result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+    <result column="FH_FECHA" property="fecha" jdbcType="TIMESTAMP" />
+    <result column="TX_CONVOCANTE" property="convocante" jdbcType="VARCHAR" />
+    <result column="TX_BENEFICIARIO" property="beneficiario" jdbcType="VARCHAR" />
+    <result column="TX_REFERENCIABOJA" property="referenciaBoja" jdbcType="VARCHAR" />
+    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- Mapeo de las columnas de la tabla MOADD_ORDENES y los datos de los procedimientos asociados a esta orden -->
+  <resultMap id="OrdenResultMapEXT" type="Orden" >
+
+	<!-- Miembros de orden-->
+	<result column="ID_ORDENES" property="id" jdbcType="DECIMAL" />
+    <result column="ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+    <result column="CD_TIPOEXPTREWA" property="cdTipoExpTrewa" jdbcType="VARCHAR" />
+    <result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+    <result column="FH_FECHA" property="fecha" jdbcType="TIMESTAMP" />
+    <result column="TX_CONVOCANTE" property="convocante" jdbcType="VARCHAR" />
+    <result column="TX_BENEFICIARIO" property="beneficiario" jdbcType="VARCHAR" />
+    <result column="TX_REFERENCIABOJA" property="referenciaBoja" jdbcType="VARCHAR" />
+    <result column="LG_VISIBLE" property="visible" javaType="boolean" jdbcType="CHAR" />
+
+	<!-- Miembros de orden-->
+	<result column="PROCEDIMIENTO_ID_PROCEDIMIENTO" property="procedimiento.id" jdbcType="DECIMAL" />
+    <result column="PROCEDIMIENTO_DS_NOMBRE" property="procedimiento.nombre" jdbcType="VARCHAR" />
+    <result column="PROCEDIMIENTO_DS_DESCRIPCION" property="procedimiento.descripcion" jdbcType="VARCHAR" />
+    <result column="PROCEDIMIENTO_TX_URL" property="procedimiento.url" jdbcType="VARCHAR" />
+    <result column="PROCEDIMIENTO_CD_SISTEMATREWA" property="procedimiento.cdSistemaTrewa" jdbcType="VARCHAR" />
+    <result column="PROCEDIMIENTO_LG_ADMINISTRABLE" property="procedimiento.administrable" javaType="boolean" jdbcType="CHAR" />
+    <result column="PROCEDIMIENTO_LG_VISIBLE" property="procedimiento.visible" javaType="boolean" jdbcType="CHAR" />
+
+  </resultMap>
+
+  <!-- ResultMap de los datos básicos de una orden -->
+  <resultMap id="DatosBasicosResultMap" type="Orden" >
+    <result column="DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!--  Mapeo para obtener ordenes que contienen una lista de convocatorias -->
+  <resultMap id="OrdenConConvocatoriasResultMap" type="Orden">
+	  	<id column="ID_ORDENES" property="id" jdbcType="DECIMAL" />
+	    <result column="ORDEN_ID_PROCEDIMIENTOS" property="idProcedimiento" jdbcType="DECIMAL" />
+	    <result column="ORDEN_CD_TIPOEXPTREWA" property="cdTipoExpTrewa" jdbcType="VARCHAR" />
+	    <result column="ORDEN_DS_TITULO" property="titulo" jdbcType="VARCHAR" />
+	    <result column="FH_FECHA" property="fecha" jdbcType="TIMESTAMP" />
+	    <result column="TX_CONVOCANTE" property="convocante" jdbcType="VARCHAR" />
+	    <result column="TX_BENEFICIARIO" property="beneficiario" jdbcType="VARCHAR" />
+	    <result column="TX_REFERENCIABOJA" property="referenciaBoja" jdbcType="VARCHAR" />
+	    <collection property="convocatorias" resultMap="MOAD_ESQ_MOADD_PROCEDIMIENTOS.ConvocatoriaConPerfilesResultMap" />
+  </resultMap>
+
+  <!-- Selección de registro de la tabla MOADD_ORDENES por su clave primaria  -->
+  <select id="selectByPrimaryKey" resultMap="OrdenResultMap" parameterType="Orden" >
+    select ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, DS_TITULO, LG_VISIBLE,
+     		FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA
+    from MOADD_ORDENES
+    where ID_ORDENES = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="Orden" >
+    <!--
+      Borrado de registro de la tabla MOADD_ORDENES por su clave primaria
+    -->
+    delete from MOADD_ORDENES
+    where ID_ORDENES = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <delete id="borrarOrdenProced" parameterType="Orden" >
+    <!--
+      Borrado de registro de la tabla MOADD_ORDENES por su clave primaria y por el identificador de procedimientos
+    -->
+    delete from MOADD_ORDENES
+    where ID_ORDENES = #{id,jdbcType=DECIMAL}
+      and ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="Orden" >
+    <!--
+      Inserción de registro en la tabla MOADD_ORDENES
+    -->
+    <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+	       SELECT MOAD_SQ_ORDE.NEXTVAL FROM DUAL
+	</selectKey>
+
+    insert into MOADD_ORDENES (ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, LG_VISIBLE,
+      DS_TITULO, FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA)
+    values (#{id,jdbcType=DECIMAL}, #{idProcedimiento,jdbcType=DECIMAL},
+      #{cdTipoExpTrewa,jdbcType=VARCHAR}
+      <if test="visible != null">
+      	,#{visible,typeHandler=SiNOHandler}
+      </if>
+	  ,#{titulo,jdbcType=VARCHAR},
+      #{fecha,jdbcType=TIMESTAMP}, #{convocante,jdbcType=VARCHAR}, #{beneficiario,jdbcType=VARCHAR},
+      #{referenciaBoja,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="Orden" >
+    <!--
+      Actualiza un registro de la tabla MOADD_ORDENES
+    -->
+    update MOADD_ORDENES
+    set ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL},
+      CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR},
+      DS_TITULO = #{titulo,jdbcType=VARCHAR},
+      FH_FECHA = #{fecha,jdbcType=TIMESTAMP},
+      TX_CONVOCANTE = #{convocante,jdbcType=VARCHAR},
+      TX_BENEFICIARIO = #{beneficiario,jdbcType=VARCHAR},
+     <if test="visible != null">
+      		LG_VISIBLE = #{visible,typeHandler=SiNOHandler},
+      </if>
+      TX_REFERENCIABOJA = #{referenciaBoja,jdbcType=VARCHAR}
+    where ID_ORDENES = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="Orden" >
+    <!--
+      Actualiza los campos no nulos de un registro de la tabla MOADD_ORDENES
+    -->
+	  update MOADD_ORDENES
+	    <set>
+	       <if test="idProcedimiento != null">
+	        ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL},
+	      </if>
+	      <if test="cdTipoExpTrewa != null">
+	        CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR},
+	      </if>
+	      <if test="titulo != null">
+	        DS_TITULO = #{titulo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fecha != null">
+	        FH_FECHA = #{fecha,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="convocante != null">
+	        TX_CONVOCANTE = #{convocante,jdbcType=VARCHAR},
+	      </if>
+	      <if test="beneficiario != null">
+	        TX_BENEFICIARIO = #{beneficiario,jdbcType=VARCHAR},
+	      </if>
+	      <if test="referenciaBoja != null">
+	        TX_REFERENCIABOJA = #{referenciaBoja,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visible != null">
+	        LG_VISIBLE = #{visible,typeHandler=SiNOHandler}
+	      </if>
+	    </set>
+	    where ID_ORDENES = #{id}
+  </update>
+
+  <!--
+      Selección de registros de la tabla MOADD_ORDENES por el identificador del procedimiento
+   -->
+  <select id="obtenerOrdenesPorProcedimiento" resultMap="OrdenResultMap" parameterType="Orden" >
+    select ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, LG_VISIBLE,
+      DS_TITULO, FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA
+    from MOADD_ORDENES
+    where ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL} ORDER BY DS_TITULO
+  </select>
+
+  <!--
+      Selección de registros de la tabla MOADD_ORDENES por el identificador del procedimiento y la orden
+   -->
+  <select id="obtenerOrdenProced" resultMap="OrdenResultMap" parameterType="Orden" >
+    select ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, LG_VISIBLE,
+      DS_TITULO, FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA
+    from MOADD_ORDENES
+    where ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL}
+    and ID_ORDENES = #{id,jdbcType=DECIMAL}
+    ORDER BY DS_TITULO
+  </select>
+  
+  <!--
+      Selección de registros de la tabla MOADD_ORDENES por el identificador del listado
+   -->
+  <select id="obtenerOrdenesPorListado" resultMap="OrdenResultMap" parameterType="java.math.BigDecimal" >
+    select o.ID_ORDENES, o.ID_PROCEDIMIENTOS, o.CD_TIPOEXPTREWA, o.LG_VISIBLE,
+    o.DS_TITULO, o.FH_FECHA, o.TX_CONVOCANTE, o.TX_BENEFICIARIO,
+    o.TX_REFERENCIABOJA
+    from MOADD_ORDENES o inner join MOADR_LISTAD_PROCEDI lp
+	on o.ID_ORDENES = lp.ID_ORDENES
+    where lp.ID_LISTADOS = #{id} ORDER BY o.DS_TITULO
+  </select>
+
+  <!--
+      Selección de registros de la tabla MOADD_ORDENES por el código del tipo de expediente en Trewa
+   -->
+  <select id="obtenerOrdenPorTipoExpTrewa" resultMap="OrdenResultMap" parameterType="Orden" >
+    select ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, LG_VISIBLE,
+    DS_TITULO, FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA
+    from MOADD_ORDENES
+    where CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR} ORDER BY DS_TITULO
+  </select>
+
+	<select id="selectOrdenesPerfilesDefecto" resultMap="OrdenResultMap" >
+	    select ordenes.ID_ORDENES, ordenes.ID_PROCEDIMIENTOS, ordenes.CD_TIPOEXPTREWA,
+          ordenes.DS_TITULO, ordenes.FH_FECHA, ordenes.TX_CONVOCANTE,
+          ordenes.TX_BENEFICIARIO, ordenes.TX_REFERENCIABOJA, ordenes.LG_VISIBLE
+        from MOADD_ORDENES ordenes join MOADD_CONVOCATORIAS convocatorias on (ordenes.ID_ORDENES = convocatorias.ID_ORDENES) join MOADD_PERFILES perfiles on (convocatorias.ID_CONVOCATORIAS = perfiles.ID_CONVOCATORIAS)
+        where perfiles.LG_DEFAULT = 'S'
+    </select>
+
+	<!-- Selección de registro de la tabla MOADD_ORDENES por su clave primaria, se trae tambien el procedimiento asociado -->
+	<select id="obtenerOrdenesEXT" resultMap="OrdenResultMapEXT">
+        select o.ID_ORDENES, o.ID_PROCEDIMIENTOS, o.CD_TIPOEXPTREWA, o.DS_TITULO,
+            o.FH_FECHA, o.TX_CONVOCANTE, o.TX_BENEFICIARIO, o.TX_REFERENCIABOJA,
+            o.LG_VISIBLE,
+            p.ID_PROCEDIMIENTOS as PROCEDIMIENTO_ID_PROCEDIMIENTO,
+            p.DS_NOMBRE as PROCEDIMIENTO_DS_NOMBRE,
+            p.DS_DESCRIPCION as PROCEDIMIENTO_DS_DESCRIPCION,
+            p.TX_URL as PROCEDIMIENTO_TX_URL,
+            p.CD_SISTEMATREWA as PROCEDIMIENTO_CD_SISTEMATREWA,
+            p.LG_ADMINISTRABLE as PROCEDIMIENTO_LG_ADMINISTRABLE,
+            p.LG_VISIBLE as PROCEDIMIENTO_LG_VISIBLE
+
+        from MOADD_ORDENES o
+
+        inner join MOADD_PROCEDIMIENTOS p
+        on o.ID_PROCEDIMIENTOS = p.ID_PROCEDIMIENTOS
+  </select>
+  
+  <!-- Seleccion de las ordenes a traves del sistema trew@ del procedimiento-->
+  <select id="obtenerOrdenesBySistemaTrewa" resultMap="OrdenResultMapEXT" parameterType="java.lang.String" >
+   SELECT o.ID_ORDENES, 
+		   o.ID_PROCEDIMIENTOS, 
+		   o.CD_TIPOEXPTREWA, 
+		   o.DS_TITULO,
+		   o.FH_FECHA, 
+		   o.TX_CONVOCANTE, 
+		   o.TX_BENEFICIARIO, 
+		   o.TX_REFERENCIABOJA,
+		   o.LG_VISIBLE,
+		   p.ID_PROCEDIMIENTOS as PROCEDIMIENTO_ID_PROCEDIMIENTO,
+		   p.DS_NOMBRE as PROCEDIMIENTO_DS_NOMBRE,
+		   p.DS_DESCRIPCION as PROCEDIMIENTO_DS_DESCRIPCION,
+		   p.TX_URL as PROCEDIMIENTO_TX_URL,
+		   p.CD_SISTEMATREWA as PROCEDIMIENTO_CD_SISTEMATREWA,
+		   p.LG_ADMINISTRABLE as PROCEDIMIENTO_LG_ADMINISTRABLE,
+		   p.LG_VISIBLE as PROCEDIMIENTO_LG_VISIBLE
+			   
+	FROM MOADD_ORDENES o
+    INNER JOIN MOADD_PROCEDIMIENTOS p ON o.ID_PROCEDIMIENTOS = p.ID_PROCEDIMIENTOS
+	WHERE p.CD_SISTEMATREWA = #{value}
+  </select>  
+
+  <!-- Devuelve el nombre de la orden en un bean OrdenImpl -->
+  <select id="obtenerDatosBasicosOrden" resultMap="DatosBasicosResultMap" parameterType="java.math.BigDecimal">
+    select DS_TITULO
+    from MOADD_ORDENES
+    where ID_ORDENES = #{value}
+  </select>
+
+  <!-- obtiene todas las ordenes asociadas a un procedimiento con un tipo de expediente trewa -->
+  <select id="obtenerOrdenesPorProcedimientoYTipoExpTrewa" resultMap="OrdenResultMap" parameterType="Orden" >
+    select ID_ORDENES, ID_PROCEDIMIENTOS, CD_TIPOEXPTREWA, LG_VISIBLE, DS_TITULO,
+           FH_FECHA, TX_CONVOCANTE, TX_BENEFICIARIO, TX_REFERENCIABOJA
+    from MOADD_ORDENES
+    where ID_PROCEDIMIENTOS = #{idProcedimiento,jdbcType=DECIMAL} AND
+          CD_TIPOEXPTREWA = #{cdTipoExpTrewa,jdbcType=VARCHAR}
+    ORDER BY DS_TITULO
+  </select>
+  
+  <!-- Devuelve una orden a partir de su identificador -->
+	<select id="obtenerOrdenEXT" resultMap="OrdenConConvocatoriasResultMap" parameterType="java.math.BigDecimal">
+	<![CDATA[
+		select ORD.ID_ORDENES,
+		       ORD.ID_PROCEDIMIENTOS as ORDEN_ID_PROCEDIMIENTOS,
+               ORD.CD_TIPOEXPTREWA as ORDEN_CD_TIPOEXPTREWA,
+               ORD.DS_TITULO as ORDEN_DS_TITULO,
+               ORD.FH_FECHA, ORD.TX_CONVOCANTE,
+               ORD.TX_BENEFICIARIO, ORD.TX_REFERENCIABOJA,
+               CON.ID_CONVOCATORIAS,
+               CON.ID_ORDENES as CONVOCATORIA_ID_ORDENES,
+               CON.FH_FECHACOMIENZO,
+               CON.FH_FECHAFIN,
+               CON.DS_DESCRIPCION as CONVOCATORIA_DS_DESCRIPCION,
+               CON.CD_PROCTREWA,
+               CON.CD_TIPOEXPTREWA as CONVOCATORIA_CD_TIPOEXPTREWA,
+               CON.DS_TITULO as CONVOCATORIA_DS_TITULO,
+               FPC.FH_INICIO, FPC.FH_FIN,
+               PER.ID_PERFILES,
+               PER.ID_CONVOCATORIAS as PERFIL_ID_CONVOCATORIAS,
+               PER.DS_DESCRIPCION as PERFIL_DS_DESCRIPCION,
+               PER.CD_NOMBRETREWA,               
+               PER.LG_DEFAULT,
+               PER.LG_PUBLICO,
+               null as CD_USUARIOS_PUBLICO,
+               TI.ID_TIPOSIDENTIFICA AS TIP_ID_TIPOSIDENTIFICA,
+               TI.DS_NOMBRE AS TIP_DS_NOMBRE,
+			   TI.DS_DESCRIPCION AS TIP_DS_DESCRIPCION
+               
+               
+        from moadd_ordenes ORD             	
+             left join moadd_convocatorias CON
+             	on (ORD.ID_ORDENES = CON.ID_ORDENES)
+             left join MOADD_FECHASPRESCONV FPC
+			 	on (FPC.ID_CONVOCATORIAS = CON.ID_CONVOCATORIAS)
+             left join moadd_perfiles PER
+             	on (CON.ID_CONVOCATORIAS = PER.ID_CONVOCATORIAS)
+             left join MOADR_TIDENTIFIC_PERF RTI
+				on (PER.ID_PERFILES = RTI.ID_PERFILES)
+			 left join MOADD_TIPOSIDENTIFICA TI
+				on (TI.ID_TIPOSIDENTIFICA = RTI.ID_TIPOSIDENTIFICA)
+			 
+        where ORD.ID_ORDENES = #{value}
+		
+        order by ORD.ID_ORDENES,
+                 CON.ID_CONVOCATORIAS,
+                 PER.ID_PERFILES
+                 ]]>
+	</select>
+
+
+</mapper>

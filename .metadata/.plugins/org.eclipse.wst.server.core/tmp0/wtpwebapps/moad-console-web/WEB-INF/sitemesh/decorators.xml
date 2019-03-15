@@ -1,0 +1,16 @@
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/miniapplet/*</pattern>
+        <pattern>/resources/*</pattern>
+        <pattern>/exportar*</pattern>
+        <pattern>/descargar*</pattern>
+        <pattern>/paginaPrincipal*</pattern>
+        <pattern>/**/*.html</pattern>
+    </excludes>
+	<decorator name="moad_login" page="moad_login.jsp">
+    	<pattern>/login.do</pattern>
+    </decorator>
+    <decorator name="moad" page="moad.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

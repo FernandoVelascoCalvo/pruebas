@@ -1,0 +1,1109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_USUARIOS" >
+
+	<resultMap id="UsuarioSolo" type="Usuario" >
+		<result column="ID_USUARIOS" property="id" jdbcType="DECIMAL" />
+		<result column="CD_USUARIOS" property="codigo" jdbcType="VARCHAR" />
+		<result column="TX_USUARIO" property="usuario" jdbcType="VARCHAR" />
+		<result column="TX_CONTRASENA" property="contrasena" jdbcType="VARCHAR" />
+		<result column="FH_CADUCA_CONTRASE" property="fechaCaducidadContrasena" jdbcType="TIMESTAMP" />
+		<result column="TX_APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+		<result column="TX_APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+		<result column="TX_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="TX_SEXO" property="sexo" jdbcType="CHAR" />
+		<result column="FH_ALTA" property="fechaAlta" jdbcType="TIMESTAMP" />
+		<result column="FH_BAJA" property="fechaBaja" jdbcType="TIMESTAMP" />
+		<result column="NU_FALLOSLOGIN" property="fallosLogin" jdbcType="DECIMAL" />
+		<result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+		<result column="TX_DNI" property="dni" jdbcType="VARCHAR" />
+
+	    <result column="TX_NOMBREVIA" property="nombreVia" jdbcType="VARCHAR" />
+	    <result column="NU_NUMERO" property="numero" jdbcType="CHAR" />
+	    <result column="TX_LETRA" property="letra" jdbcType="CHAR" />
+	    <result column="TX_ESCALERA" property="escalera" jdbcType="CHAR" />
+	    <result column="NU_PISO" property="piso" jdbcType="CHAR" />
+	    <result column="TX_PUERTA" property="puerta" jdbcType="VARCHAR" />
+	    <result column="TX_CP" property="codigoPostal" jdbcType="VARCHAR" />
+	    <result column="TX_TELEFONO" property="telefono" jdbcType="VARCHAR" />
+	    <result column="TX_MOVIL" property="movil" jdbcType="VARCHAR" />
+	    <result column="TX_FAX" property="fax" jdbcType="VARCHAR" />
+	    <result column="TX_EMAIL" property="email" jdbcType="VARCHAR" />
+
+		<result column="CD_ESTADOSUSUARIO" property="cdEstadoUsuario" jdbcType="VARCHAR" />
+		<result column="CD_MUNICIPIO" property="cdMunicipio" jdbcType="CHAR" />
+		<result column="CD_PROVINCIA" property="cdProvincia" jdbcType="CHAR" />
+		<result column="CD_TIPOVIA" property="cdTipoVia" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- Todos los datos del usuario, incluido las tablas foráneas -->
+	<resultMap id="UsuarioResultMap" type="Usuario" >
+		<result column="ID_USUARIOS" property="id" jdbcType="DECIMAL" />
+		<result column="CD_USUARIOS" property="codigo" jdbcType="VARCHAR" />
+		<result column="TX_USUARIO" property="usuario" jdbcType="VARCHAR" />
+		<result column="TX_CONTRASENA" property="contrasena" jdbcType="VARCHAR" />
+		<result column="FH_CADUCA_CONTRASE" property="fechaCaducidadContrasena" jdbcType="TIMESTAMP" />
+		<result column="TX_APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+		<result column="TX_APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+		<result column="TX_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="TX_SEXO" property="sexo" jdbcType="CHAR" />
+		<result column="FH_ALTA" property="fechaAlta" jdbcType="TIMESTAMP" />
+		<result column="FH_BAJA" property="fechaBaja" jdbcType="TIMESTAMP" />
+		<result column="NU_FALLOSLOGIN" property="fallosLogin" jdbcType="DECIMAL" />
+		<result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+		<result column="TX_DNI" property="dni" jdbcType="VARCHAR" />
+
+	    <result column="TX_NOMBREVIA" property="nombreVia" jdbcType="VARCHAR" />
+	    <result column="NU_NUMERO" property="numero" jdbcType="CHAR" />
+	    <result column="TX_LETRA" property="letra" jdbcType="CHAR" />
+	    <result column="TX_ESCALERA" property="escalera" jdbcType="CHAR" />
+	    <result column="NU_PISO" property="piso" jdbcType="CHAR" />
+	    <result column="TX_PUERTA" property="puerta" jdbcType="VARCHAR" />
+	    <result column="TX_CP" property="codigoPostal" jdbcType="VARCHAR" />
+	    <result column="TX_TELEFONO" property="telefono" jdbcType="VARCHAR" />
+	    <result column="TX_MOVIL" property="movil" jdbcType="VARCHAR" />
+	    <result column="TX_FAX" property="fax" jdbcType="VARCHAR" />
+	    <result column="TX_EMAIL" property="email" jdbcType="VARCHAR" />
+
+		<result column="CD_ESTADOSUSUARIO" property="cdEstadoUsuario" jdbcType="VARCHAR" />
+		<result column="CD_MUNICIPIO" property="cdMunicipio" jdbcType="CHAR" />
+		<result column="CD_PROVINCIA" property="cdProvincia" jdbcType="CHAR" />
+		<result column="CD_TIPOVIA" property="cdTipoVia" jdbcType="VARCHAR" />
+
+	    <result column="MUNICIPIO_ID"
+	    		property="municipio.id" jdbcType="DECIMAL" />
+	    <result column="MUNICIPIO_CD_MUNICIPIO"
+	    		property="municipio.cdMunicipio" jdbcType="VARCHAR" />
+	    <result column="MUNICIPIO_CD_PROVINCIA"
+	    		property="municipio.cdProvincia" jdbcType="VARCHAR" />
+	    <result column="MUNICIPIO_DS_BREVE"
+	    		property="municipio.descripcionBreve" jdbcType="VARCHAR" />
+	    <result column="MUNICIPIO_DS_EXTENDIDA"
+	    		property="municipio.descripcionExtendida" jdbcType="VARCHAR" />
+
+	    <result column="PROVINCIA_ID"
+	    		property="provincia.id" jdbcType="DECIMAL" />
+	    <result column="PROVINCIA_CD_PAIS"
+	    		property="provincia.cdPais" jdbcType="VARCHAR" />
+	    <result column="PROVINCIA_CD_PROVINCIA"
+	    		property="provincia.cdProvincia" jdbcType="VARCHAR" />
+	    <result column="PROVINCIA_DS_BREVE"
+	    		property="provincia.descripcionBreve" jdbcType="VARCHAR" />
+	    <result column="PROVINCIA_DS_EXTENDIDA"
+	    		property="provincia.descripcionExtendida" jdbcType="VARCHAR" />
+
+	    <result column="TIPOVIA_ID"
+	    		property="tipoVia.id" jdbcType="DECIMAL" />
+	    <result column="TIPOVIA_CD_TIPOVIA"
+	    		property="tipoVia.cdTipoVia" jdbcType="VARCHAR" />
+	    <result column="TIPOVIA_DESCRIPCION"
+	    		property="tipoVia.descripcion" jdbcType="VARCHAR" />
+	    <result column="TIPOVIA_CD_NIWA"
+	    		property="tipoVia.cdNiwa" jdbcType="VARCHAR" />
+
+	    <result column="ESTADOUSUARIO_ID"
+	    		property="estadoUsuario.id" jdbcType="DECIMAL" />
+	    <result column="ESTADOUSUARIO_CD_ESTADOUSUARIO"
+	    		property="estadoUsuario.cdEstadoUsuario" jdbcType="VARCHAR" />
+	    <result column="ESTADOUSUARIO_NOMBRE"
+	    		property="estadoUsuario.nombre" jdbcType="VARCHAR" />
+	    <result column="ESTADOUSUARIO_DESCRIPCION"
+	    		property="estadoUsuario.descripcion" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<!-- Datos del usuario necesarios para mostrar en el listado de la consola -->
+	<resultMap id="UsuarioListadoResultMap" type="Usuario" >
+		<result column="CD_USUARIOS" property="codigo" jdbcType="VARCHAR" />
+		<result column="TX_APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+		<result column="TX_APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+		<result column="TX_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="TX_DNI" property="dni" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- ResultMap de los datos básicos del usuario -->
+	<resultMap id="DatosBasicosResultMap" type="Usuario" >
+		<result column="TX_APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+		<result column="TX_APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+		<result column="TX_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="CD_USUARIOS" property="codigo" jdbcType="VARCHAR" />
+		<result column="ID_USUARIOS" property="id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- ResultMap de los posibles estados de un usuario -->
+	<resultMap id="EstadosUsuarioResultMap" type="EstadoUsuario" >
+		<result column="ID_ESTADOSUSUARIO" property="id" jdbcType="DECIMAL" />
+		<result column="CD_ESTADOSUSUARIO" property="cdEstadoUsuario" jdbcType="VARCHAR" />
+		<result column="DS_NOMBRE" property="nombre" jdbcType="VARCHAR" />
+		<result column="DS_DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="UsuarioConEstado" type="Usuario">
+		<result column="CD_USUARIOS" property="codigo" jdbcType="VARCHAR" />
+		<result column="LG_PUBLICO" property="publico" javaType="boolean" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="selectUsuariosByIdProcedimiento" resultMap="UsuarioSolo"
+		parameterType="java.math.BigDecimal" >
+		<![CDATA[
+		SELECT DISTINCT usuarios.ID_USUARIOS, usuarios.CD_USUARIOS, usuarios.TX_USUARIO, usuarios.TX_CONTRASENA,
+		       usuarios.FH_CADUCA_CONTRASE, usuarios.TX_APELLIDO1, usuarios.TX_APELLIDO2,
+		       usuarios.TX_NOMBRE, usuarios.TX_SEXO, usuarios.FH_ALTA, usuarios.FH_BAJA, usuarios.NU_FALLOSLOGIN,
+		       usuarios.LG_PUBLICO, usuarios.TX_DNI, usuarios.TX_NOMBREVIA, usuarios.NU_NUMERO,
+		       usuarios.TX_LETRA, usuarios.TX_ESCALERA, usuarios.NU_PISO, usuarios.TX_PUERTA, usuarios.TX_CP,
+		       usuarios.TX_TELEFONO, usuarios.TX_MOVIL, usuarios.TX_FAX, usuarios.TX_EMAIL,
+		       usuarios.CD_ESTADOSUSUARIO,  usuarios.CD_MUNICIPIO, usuarios.CD_PROVINCIA,
+		       usuarios.CD_TIPOVIA
+        FROM MOADD_USUARIOS usuarios
+            JOIN MOADR_USUARIO_PERFIL usuario_perfil ON (usuarios.CD_USUARIOS = usuario_perfil.CD_USUARIOS)
+            JOIN MOADD_PERFILES perfiles ON (usuario_perfil.ID_PERFILES = perfiles.ID_PERFILES)
+            JOIN MOADD_CONVOCATORIAS convocatorias ON (perfiles.ID_CONVOCATORIAS = convocatorias.ID_CONVOCATORIAS)
+            JOIN MOADD_ORDENES ordenes ON (convocatorias.ID_ORDENES = ordenes.ID_ORDENES)
+            JOIN MOADD_PROCEDIMIENTOS procedimientos ON (ordenes.ID_PROCEDIMIENTOS = procedimientos.ID_PROCEDIMIENTOS)
+        WHERE
+            procedimientos.ID_PROCEDIMIENTOS = #{value}
+            AND usuarios.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+            							       FROM MOADD_ESTADOSUSUARIO
+            							       WHERE LG_ANULAUSUARIO = 'N')
+            AND usuarios.LG_PUBLICO = 'N'
+            ORDER BY usuarios.TX_USUARIO,usuarios.TX_APELLIDO1, usuarios.TX_APELLIDO2
+             ]]>
+    </select>
+
+    <select id="selectUsuariosPorFiltro" resultMap="UsuarioSolo"
+		parameterType="Usuario" >
+		<![CDATA[
+		select U.ID_USUARIOS, U.CD_USUARIOS, U.TX_USUARIO, U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE, U.TX_APELLIDO1, U.TX_APELLIDO2,
+		       U.TX_NOMBRE, U.TX_SEXO, U.FH_ALTA, U.FH_BAJA, U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO, U.TX_DNI, U.TX_NOMBREVIA, U.NU_NUMERO, U.TX_LETRA,
+		       U.TX_ESCALERA, U.NU_PISO, U.TX_PUERTA, U.TX_CP, U.TX_TELEFONO,
+		       U.TX_MOVIL, U.TX_FAX, U.TX_EMAIL, U.CD_ESTADOSUSUARIO, U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA, U.CD_TIPOVIA
+		from MOADD_USUARIOS U
+		where U.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+            							     FROM MOADD_ESTADOSUSUARIO
+            							     WHERE LG_VISIBLE = 'S')
+			]]>
+			
+			<if test="nombre != null or dni != null or apellido1 != null or apellido2 != null">
+			 	AND (
+			 	<trim prefixOverrides="OR">
+				 	<if test="nombre != null">
+				 		 UPPER(tx_nombre) LIKE UPPER('%${nombre}%')
+				 	</if>
+	
+				 	<if test="dni != null">
+				 		  OR UPPER(tx_dni) LIKE UPPER('%${dni}%')
+				 	</if>
+				 	<if test="apellido1 != null">
+				 		 OR UPPER(tx_apellido1) LIKE UPPER('%${apellido1}%')
+				 	</if>
+				 	<if test="apellido2 != null">
+				 		 OR UPPER(tx_apellido2) LIKE UPPER('%${apellido2}%')
+				 	</if>
+			 	</trim>
+			 	)
+			 </if>
+			
+			  AND U.LG_PUBLICO = 'N'
+
+		order by U.TX_APELLIDO1, U.TX_APELLIDO2, U.TX_NOMBRE
+    </select>
+
+	<!-- Se obtienen los datos de un usuario a partir de su código único -->
+	<select id="obtenerUsuario" resultMap="UsuarioResultMap" parameterType="java.util.Map" >
+	<![CDATA[
+	    select U.ID_USUARIOS,
+		       U.CD_USUARIOS,
+		       U.TX_USUARIO,
+		       U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE,
+		       U.TX_APELLIDO1,
+		       U.TX_APELLIDO2,
+		       U.TX_NOMBRE,
+		       U.TX_SEXO,
+		       U.FH_ALTA,
+		       U.FH_BAJA,
+		       U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO,
+		       U.TX_DNI,
+		       U.TX_NOMBREVIA,
+		       U.NU_NUMERO,
+		       U.TX_LETRA,
+		       U.TX_ESCALERA,
+		       U.NU_PISO,
+		       U.TX_PUERTA,
+		       U.TX_CP,
+		       U.TX_TELEFONO,
+		       U.TX_MOVIL,
+		       U.TX_FAX,
+		       U.TX_EMAIL,
+		       U.CD_ESTADOSUSUARIO,
+		       U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA,
+		       U.CD_TIPOVIA,
+		       M.ID_MUNICIPIOS AS MUNICIPIO_ID,
+		       M.CD_MUNICIPIO AS MUNICIPIO_CD_MUNICIPIO,
+		       M.CD_PROVINCIA AS MUNICIPIO_CD_PROVINCIA,
+		       M.DS_BREVE AS MUNICIPIO_DS_BREVE,
+		       M.DS_EXTENDIDA AS MUNICIPIO_DS_EXTENDIDA,
+		       P.ID_PROVINCIAS AS PROVINCIA_ID,
+		       P.CD_PAIS AS PROVINCIA_CD_PAIS,
+		       P.CD_PROVINCIA AS PROVINCIA_CD_PROVINCIA,
+		       P.DS_BREVE AS PROVINCIA_DS_BREVE,
+		       P.DS_EXTENDIDA AS PROVINCIA_DS_EXTENDIDA,
+		       T.ID_TIPOSVIA AS TIPOVIA_ID,
+		       T.CD_TIPOVIA AS TIPOVIA_CD_TIPOVIA,
+		       T.DS_DESCRIPCION AS TIPOVIA_DESCRIPCION,
+		       T.CD_NIWA AS TIPOVIA_CD_NIWA,
+		       E.ID_ESTADOSUSUARIO AS ESTADOUSUARIO_ID,
+		       E.CD_ESTADOSUSUARIO AS ESTADOUSUARIO_CD_ESTADOUSUARIO,
+		       E.DS_NOMBRE AS ESTADOUSUARIO_NOMBRE,
+		       E.DS_DESCRIPCION AS ESTADOUSUARIO_DESCRIPCION
+
+		from MOADD_USUARIOS U
+
+		left outer join MOADD_TIPOSVIA T
+		on U.CD_TIPOVIA = T.CD_TIPOVIA
+
+		left outer join MOADD_PROVINCIAS P
+		on U.CD_PROVINCIA = P.CD_PROVINCIA
+
+		left outer join MOADD_MUNICIPIOS M
+		on U.CD_MUNICIPIO = M.CD_MUNICIPIO and U.CD_PROVINCIA = M.CD_PROVINCIA
+
+		left outer join MOADD_ESTADOSUSUARIO E
+		on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+
+		where U.CD_USUARIOS = #{cdusuario}
+		  and u.CD_ESTADOSUSUARIO in (select CD_ESTADOSUSUARIO
+            							     from MOADD_ESTADOSUSUARIO
+            							     where LG_ANULAUSUARIO = 'N')
+
+          ]]>
+          <if test="aplicacion != null">
+            and u.LG_PUBLICO = 'N'
+          </if>
+          <![CDATA[  
+		  
+		  order by U.TX_USUARIO, U.TX_APELLIDO1, U.TX_APELLIDO2
+		  ]]>
+	</select>
+	
+	<!-- Se obtienen los datos de un usuario a partir de su dni -->
+	<select id="obtenerUsuarioDNI" resultMap="UsuarioResultMap" parameterType="java.lang.String" >
+	<![CDATA[
+	    select U.ID_USUARIOS,
+		       U.CD_USUARIOS,
+		       U.TX_USUARIO,
+		       U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE,
+		       U.TX_APELLIDO1,
+		       U.TX_APELLIDO2,
+		       U.TX_NOMBRE,
+		       U.TX_SEXO,
+		       U.FH_ALTA,
+		       U.FH_BAJA,
+		       U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO,
+		       U.TX_DNI,
+		       U.TX_NOMBREVIA,
+		       U.NU_NUMERO,
+		       U.TX_LETRA,
+		       U.TX_ESCALERA,
+		       U.NU_PISO,
+		       U.TX_PUERTA,
+		       U.TX_CP,
+		       U.TX_TELEFONO,
+		       U.TX_MOVIL,
+		       U.TX_FAX,
+		       U.TX_EMAIL,
+		       U.CD_ESTADOSUSUARIO,
+		       U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA,
+		       U.CD_TIPOVIA,
+		       M.ID_MUNICIPIOS AS MUNICIPIO_ID,
+		       M.CD_MUNICIPIO AS MUNICIPIO_CD_MUNICIPIO,
+		       M.CD_PROVINCIA AS MUNICIPIO_CD_PROVINCIA,
+		       M.DS_BREVE AS MUNICIPIO_DS_BREVE,
+		       M.DS_EXTENDIDA AS MUNICIPIO_DS_EXTENDIDA,
+		       P.ID_PROVINCIAS AS PROVINCIA_ID,
+		       P.CD_PAIS AS PROVINCIA_CD_PAIS,
+		       P.CD_PROVINCIA AS PROVINCIA_CD_PROVINCIA,
+		       P.DS_BREVE AS PROVINCIA_DS_BREVE,
+		       P.DS_EXTENDIDA AS PROVINCIA_DS_EXTENDIDA,
+		       T.ID_TIPOSVIA AS TIPOVIA_ID,
+		       T.CD_TIPOVIA AS TIPOVIA_CD_TIPOVIA,
+		       T.DS_DESCRIPCION AS TIPOVIA_DESCRIPCION,
+		       T.CD_NIWA AS TIPOVIA_CD_NIWA,
+		       E.ID_ESTADOSUSUARIO AS ESTADOUSUARIO_ID,
+		       E.CD_ESTADOSUSUARIO AS ESTADOUSUARIO_CD_ESTADOUSUARIO,
+		       E.DS_NOMBRE AS ESTADOUSUARIO_NOMBRE,
+		       E.DS_DESCRIPCION AS ESTADOUSUARIO_DESCRIPCION
+
+		from MOADD_USUARIOS U
+
+		left outer join MOADD_TIPOSVIA T
+		on U.CD_TIPOVIA = T.CD_TIPOVIA
+
+		left outer join MOADD_PROVINCIAS P
+		on U.CD_PROVINCIA = P.CD_PROVINCIA
+
+		left outer join MOADD_MUNICIPIOS M
+		on U.CD_MUNICIPIO = M.CD_MUNICIPIO and U.CD_PROVINCIA = M.CD_PROVINCIA
+
+		left outer join MOADD_ESTADOSUSUARIO E
+		on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+
+		where U.CD_USUARIOS = #{value}
+		  order by U.TX_USUARIO, U.TX_APELLIDO1, U.TX_APELLIDO2
+		  ]]>
+	</select>
+
+<!-- Se obtienen los datos de un usuario a partir de su dni -->
+	<select id="obtenerUsuarioById" resultMap="UsuarioResultMap" parameterType="java.math.BigDecimal" >
+	<![CDATA[
+	    select U.ID_USUARIOS,
+		       U.CD_USUARIOS,
+		       U.TX_USUARIO,
+		       U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE,
+		       U.TX_APELLIDO1,
+		       U.TX_APELLIDO2,
+		       U.TX_NOMBRE,
+		       U.TX_SEXO,
+		       U.FH_ALTA,
+		       U.FH_BAJA,
+		       U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO,
+		       U.TX_DNI,
+		       U.TX_NOMBREVIA,
+		       U.NU_NUMERO,
+		       U.TX_LETRA,
+		       U.TX_ESCALERA,
+		       U.NU_PISO,
+		       U.TX_PUERTA,
+		       U.TX_CP,
+		       U.TX_TELEFONO,
+		       U.TX_MOVIL,
+		       U.TX_FAX,
+		       U.TX_EMAIL,
+		       U.CD_ESTADOSUSUARIO,
+		       U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA,
+		       U.CD_TIPOVIA,
+		       M.ID_MUNICIPIOS AS MUNICIPIO_ID,
+		       M.CD_MUNICIPIO AS MUNICIPIO_CD_MUNICIPIO,
+		       M.CD_PROVINCIA AS MUNICIPIO_CD_PROVINCIA,
+		       M.DS_BREVE AS MUNICIPIO_DS_BREVE,
+		       M.DS_EXTENDIDA AS MUNICIPIO_DS_EXTENDIDA,
+		       P.ID_PROVINCIAS AS PROVINCIA_ID,
+		       P.CD_PAIS AS PROVINCIA_CD_PAIS,
+		       P.CD_PROVINCIA AS PROVINCIA_CD_PROVINCIA,
+		       P.DS_BREVE AS PROVINCIA_DS_BREVE,
+		       P.DS_EXTENDIDA AS PROVINCIA_DS_EXTENDIDA,
+		       T.ID_TIPOSVIA AS TIPOVIA_ID,
+		       T.CD_TIPOVIA AS TIPOVIA_CD_TIPOVIA,
+		       T.DS_DESCRIPCION AS TIPOVIA_DESCRIPCION,
+		       T.CD_NIWA AS TIPOVIA_CD_NIWA,
+		       E.ID_ESTADOSUSUARIO AS ESTADOUSUARIO_ID,
+		       E.CD_ESTADOSUSUARIO AS ESTADOUSUARIO_CD_ESTADOUSUARIO,
+		       E.DS_NOMBRE AS ESTADOUSUARIO_NOMBRE,
+		       E.DS_DESCRIPCION AS ESTADOUSUARIO_DESCRIPCION
+
+		from MOADD_USUARIOS U
+
+		left outer join MOADD_TIPOSVIA T
+		on U.CD_TIPOVIA = T.CD_TIPOVIA
+
+		left outer join MOADD_PROVINCIAS P
+		on U.CD_PROVINCIA = P.CD_PROVINCIA
+
+		left outer join MOADD_MUNICIPIOS M
+		on U.CD_MUNICIPIO = M.CD_MUNICIPIO and U.CD_PROVINCIA = M.CD_PROVINCIA
+
+		left outer join MOADD_ESTADOSUSUARIO E
+		on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+
+		where U.ID_USUARIOS = #{value}
+		  order by U.TX_USUARIO, U.TX_APELLIDO1, U.TX_APELLIDO2
+		  ]]>
+	</select>
+	
+	<!-- Devuelve los usuarios cuyos campos clave contengan la cadena dada -->
+	<select id="obtenerUsuariosFiltrados" resultMap="UsuarioResultMap" parameterType="java.lang.String">
+		<![CDATA[
+	    select U.ID_USUARIOS,
+		       U.CD_USUARIOS,
+		       U.TX_USUARIO,
+		       U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE,
+		       U.TX_APELLIDO1,
+		       U.TX_APELLIDO2,
+		       U.TX_NOMBRE,
+		       U.TX_SEXO,
+		       U.FH_ALTA,
+		       U.FH_BAJA,
+		       U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO,
+		       U.TX_DNI,
+		       U.TX_NOMBREVIA,
+		       U.NU_NUMERO,
+		       U.TX_LETRA,
+		       U.TX_ESCALERA,
+		       U.NU_PISO,
+		       U.TX_PUERTA,
+		       U.TX_CP,
+		       U.TX_TELEFONO,
+		       U.TX_MOVIL,
+		       U.TX_FAX,
+		       U.TX_EMAIL,
+		       U.CD_ESTADOSUSUARIO,
+		       U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA,
+		       U.CD_TIPOVIA,
+		       M.ID_MUNICIPIOS AS MUNICIPIO_ID,
+		       M.CD_MUNICIPIO AS MUNICIPIO_CD_MUNICIPIO,
+		       M.CD_PROVINCIA AS MUNICIPIO_CD_PROVINCIA,
+		       M.DS_BREVE AS MUNICIPIO_DS_BREVE,
+		       M.DS_EXTENDIDA AS MUNICIPIO_DS_EXTENDIDA,
+		       P.ID_PROVINCIAS AS PROVINCIA_ID,
+		       P.CD_PAIS AS PROVINCIA_CD_PAIS,
+		       P.CD_PROVINCIA AS PROVINCIA_CD_PROVINCIA,
+		       P.DS_BREVE AS PROVINCIA_DS_BREVE,
+		       P.DS_EXTENDIDA AS PROVINCIA_DS_EXTENDIDA,
+		       T.ID_TIPOSVIA AS TIPOVIA_ID,
+		       T.CD_TIPOVIA AS TIPOVIA_CD_TIPOVIA,
+		       T.DS_DESCRIPCION AS TIPOVIA_DESCRIPCION,
+		       T.CD_NIWA AS TIPOVIA_CD_NIWA,
+		       E.ID_ESTADOSUSUARIO AS ESTADOUSUARIO_ID,
+		       E.CD_ESTADOSUSUARIO AS ESTADOUSUARIO_CD_ESTADOUSUARIO,
+		       E.DS_NOMBRE AS ESTADOUSUARIO_NOMBRE,
+		       E.DS_DESCRIPCION AS ESTADOUSUARIO_DESCRIPCION
+
+		from MOADD_USUARIOS U
+
+		left outer join MOADD_TIPOSVIA T
+		on U.CD_TIPOVIA = T.CD_TIPOVIA
+
+		left outer join MOADD_PROVINCIAS P
+		on U.CD_PROVINCIA = P.CD_PROVINCIA
+
+		left outer join MOADD_MUNICIPIOS M
+		on U.CD_MUNICIPIO = M.CD_MUNICIPIO and U.CD_PROVINCIA = M.CD_PROVINCIA
+
+		left outer join MOADD_ESTADOSUSUARIO E
+		on U.CD_ESTADOSUSUARIO = E.CD_ESTADOSUSUARIO
+
+		where E.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+            						       FROM MOADD_ESTADOSUSUARIO
+            						       WHERE LG_ANULAUSUARIO = 'N')
+		  AND LG_PUBLICO = 'N'
+		  and (UPPER(TX_NOMBRE) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_APELLIDO1) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_APELLIDO2) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_DNI) LIKE UPPER('%${value}%'))
+
+	          ORDER BY U.TX_USUARIO,U.TX_APELLIDO1, U.TX_APELLIDO2
+	      ]]>
+	</select>
+
+	<!-- Devuelve los usuarios cuyos campos clave contengan la cadena dada.            -->
+	<!-- Sólo devuelve los campos necesarios para mostrar en el listado de la consola. -->
+	<select id="obtenerListadoUsuariosFiltrados" resultMap="UsuarioListadoResultMap" parameterType="java.lang.String">
+		<![CDATA[
+	    select CD_USUARIOS,
+		       TX_APELLIDO1,
+		       TX_APELLIDO2,
+		       TX_NOMBRE,
+		       TX_DNI
+		from MOADD_USUARIOS
+		where CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+           							       FROM MOADD_ESTADOSUSUARIO
+           							       WHERE LG_ANULAUSUARIO = 'N')
+		  AND LG_PUBLICO = 'N'
+		  and (UPPER(TX_NOMBRE) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_APELLIDO1) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_APELLIDO2) LIKE UPPER('%${value}%')
+	           OR UPPER(TX_DNI) LIKE UPPER('%${value}%'))
+	           ORDER BY TX_USUARIO,TX_APELLIDO1,TX_APELLIDO2
+	      ]]>
+	</select>
+
+	<!-- Devuelve el nombre y los dos apellidos de un usuario en un bean UsuarioImpl -->
+
+ 	<select id="obtenerDatosBasicos" resultMap="DatosBasicosResultMap" parameterType="java.math.BigDecimal">
+		<![CDATA[
+		SELECT TX_NOMBRE,
+		       TX_APELLIDO1,
+		       TX_APELLIDO2,
+		       CD_USUARIOS,
+		       ID_USUARIOS
+		       
+		FROM MOADD_USUARIOS
+		
+		WHERE ID_USUARIOS = #{value}
+		AND LG_PUBLICO = 'N'
+		AND CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+           							FROM MOADD_ESTADOSUSUARIO
+           							WHERE LG_ANULAUSUARIO = 'N')
+		]]>
+	</select>
+	
+	<!-- Devuelve los estados de usuario que son visibles -->
+	<select id="obtenerEstadosUsuario" resultMap="EstadosUsuarioResultMap">
+		select ID_ESTADOSUSUARIO,
+		       CD_ESTADOSUSUARIO,
+		       DS_NOMBRE,
+		       DS_DESCRIPCION
+		from MOADD_ESTADOSUSUARIO
+		where LG_VISIBLE = 'S'
+	</select>
+
+	<!-- Comprueba si la contraseña del usuario es válida -->
+	<select id="comprobarContrasena" resultType="java.lang.String" parameterType="Usuario">
+		select CD_USUARIOS
+		from MOADD_USUARIOS
+		where CD_USUARIOS = #{codigo}
+		  and TX_CONTRASENA = #{contrasena}
+		  and LG_PUBLICO = 'N'
+		  and CD_ESTADOSUSUARIO in (select CD_ESTADOSUSUARIO
+           							from MOADD_ESTADOSUSUARIO
+           							where LG_ANULAUSUARIO = 'N')
+	</select>
+
+	<!-- Inserción de un nuevo usuario -->
+	<insert id="insertar" parameterType="Usuario">
+		<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+			SELECT MOAD_SQ_USUA.NEXTVAL FROM DUAL
+		</selectKey>
+
+		insert into MOADD_USUARIOS (ID_USUARIOS,
+									CD_USUARIOS,
+									TX_USUARIO,
+									TX_CONTRASENA,
+									FH_CADUCA_CONTRASE,
+									TX_APELLIDO1,
+									TX_APELLIDO2,
+									TX_NOMBRE,
+									TX_SEXO,
+									FH_ALTA,
+									NU_FALLOSLOGIN,
+									LG_PUBLICO,
+									TX_DNI,
+									TX_NOMBREVIA,
+									NU_NUMERO,
+									TX_LETRA,
+									TX_ESCALERA,
+									NU_PISO,
+									TX_PUERTA,
+									TX_CP,
+									TX_TELEFONO,
+									TX_MOVIL,
+									TX_FAX,
+									TX_EMAIL,
+									CD_ESTADOSUSUARIO,
+									CD_MUNICIPIO,
+									CD_PROVINCIA,
+									CD_TIPOVIA)
+		values (#{id,jdbcType=DECIMAL},
+				#{dni,jdbcType=VARCHAR},
+				#{usuario,jdbcType=VARCHAR},
+				#{contrasena,jdbcType=VARCHAR},
+				sysdate,
+				#{apellido1,jdbcType=VARCHAR},
+				#{apellido2,jdbcType=VARCHAR},
+				#{nombre,jdbcType=VARCHAR},
+				#{sexo,jdbcType=CHAR},
+				sysdate,
+				0,
+				<if test="publico != null">
+					#{publico,typeHandler=SiNOHandler},
+				</if>
+				#{dni,jdbcType=VARCHAR},
+				#{nombreVia,jdbcType=VARCHAR},
+				#{numero,jdbcType=CHAR},
+				#{letra,jdbcType=CHAR},
+				#{escalera,jdbcType=CHAR},
+				#{piso,jdbcType=CHAR},
+				#{puerta,jdbcType=VARCHAR},
+				#{codigoPostal,jdbcType=VARCHAR},
+				#{telefono,jdbcType=VARCHAR},
+				#{movil,jdbcType=VARCHAR},
+				#{fax,jdbcType=VARCHAR},
+				#{email,jdbcType=VARCHAR},
+				#{cdEstadoUsuario,jdbcType=CHAR},
+				#{cdMunicipio,jdbcType=CHAR},
+				#{cdProvincia,jdbcType=CHAR},
+				#{cdTipoVia,jdbcType=VARCHAR})
+	</insert>
+    
+    
+        <!-- Inserción de un nuevo usuario asociado a una aplicación -->
+    <insert id="insertarUsuarioAplicacion" parameterType="Usuario">
+        <selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">
+            SELECT MOAD_SQ_USUA.NEXTVAL FROM DUAL
+        </selectKey>
+
+        insert into MOADD_USUARIOS (ID_USUARIOS,
+                                    CD_USUARIOS,
+                                    TX_USUARIO,
+                                    TX_CONTRASENA,
+                                    FH_CADUCA_CONTRASE,
+                                    TX_APELLIDO1,
+                                    TX_APELLIDO2,
+                                    TX_NOMBRE,
+                                    FH_ALTA,
+                                    NU_FALLOSLOGIN,
+                                    <if test="publico != null">
+                                        LG_PUBLICO,
+                                    </if>
+                                    TX_DNI)
+        values (#{id,jdbcType=DECIMAL},
+                'APL_' || #{id,jdbcType=DECIMAL},
+                #{usuario,jdbcType=VARCHAR},
+                #{contrasena,jdbcType=VARCHAR},
+                sysdate,
+                'aplicacion',
+                'aplicacion',
+                'aplicacion',
+                sysdate,
+                0,
+                <if test="publico != null">
+                    'N',
+                </if>
+                'APL_' || #{id,jdbcType=DECIMAL})
+    </insert>
+    
+
+	<!-- Actualización de los datos de usuario -->
+	<update id="actualizarEstado" parameterType="Usuario">
+	<![CDATA[
+		update MOADD_USUARIOS
+		set CD_ESTADOSUSUARIO = #{cdEstadoUsuario,jdbcType=CHAR}
+		where CD_USUARIOS = #{codigo,jdbcType=VARCHAR}
+		  and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+           							        FROM MOADD_ESTADOSUSUARIO
+            							    WHERE LG_ANULAUSUARIO = 'N')
+			]]>
+	</update>
+
+	<!-- Actualización de la contraseña -->
+	<update id="actualizarContrasena" parameterType="java.util.Map">
+		update MOADD_USUARIOS
+		set TX_CONTRASENA = #{contrasena,jdbcType=VARCHAR},
+			FH_CADUCA_CONTRASE = sysdate + (select to_number(TX_VALOR)from MOADD_PREFERENCIAS where DS_NOMBRE = 'DIASVALIDEZCONTRASENA')
+		<where>
+			 <if test="codigo != null">
+				CD_USUARIOS = #{codigo,jdbcType=VARCHAR}
+			</if>
+			<if test="usuario != null">
+				TX_USUARIO = #{usuario,jdbcType=VARCHAR}
+			</if>
+		</where>
+		  and LG_PUBLICO = 'N'
+		  and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+           							       FROM MOADD_ESTADOSUSUARIO
+           							       WHERE LG_ANULAUSUARIO = 'N')
+	</update>
+
+	<!-- Actualización de los datos de usuario -->
+	<update id="actualizar" parameterType="Usuario">
+		<![CDATA[
+		update MOADD_USUARIOS
+		set TX_USUARIO = #{usuario,jdbcType=VARCHAR},
+			TX_APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+			TX_APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+			TX_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			TX_SEXO = #{sexo,jdbcType=CHAR},
+			]]>
+			<if test="publico != null">
+				LG_PUBLICO = #{publico,typeHandler=SiNOHandler},
+			</if>
+			<![CDATA[
+			TX_DNI = #{dni,jdbcType=VARCHAR},
+			TX_NOMBREVIA = #{nombreVia,jdbcType=VARCHAR},
+			NU_NUMERO = #{numero,jdbcType=CHAR},
+			TX_LETRA = #{letra,jdbcType=CHAR},
+			TX_ESCALERA = #{escalera,jdbcType=CHAR},
+			NU_PISO = #{piso,jdbcType=CHAR},
+			TX_PUERTA = #{puerta,jdbcType=VARCHAR},
+			TX_CP = #{codigoPostal,jdbcType=VARCHAR},
+			TX_TELEFONO = #{telefono,jdbcType=VARCHAR},
+			TX_MOVIL = #{movil,jdbcType=VARCHAR},
+			TX_FAX = #{fax,jdbcType=VARCHAR},
+			TX_EMAIL = #{email,jdbcType=VARCHAR},
+			CD_ESTADOSUSUARIO = #{cdEstadoUsuario,jdbcType=CHAR},
+			CD_MUNICIPIO = #{cdMunicipio,jdbcType=CHAR},
+			CD_PROVINCIA = #{cdProvincia,jdbcType=CHAR},
+			CD_TIPOVIA = #{cdTipoVia,jdbcType=CHAR}
+		where CD_USUARIOS = #{codigo,jdbcType=VARCHAR}
+		  and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+           							       FROM MOADD_ESTADOSUSUARIO
+           							       WHERE LG_ANULAUSUARIO = 'N')
+          ]]>
+	</update>
+
+	<!-- Actualización de los datos de usuario -->
+	<update id="activarUsuarioBorrado" parameterType="Usuario">
+		<![CDATA[
+		update MOADD_USUARIOS
+		set TX_USUARIO = #{usuario,jdbcType=VARCHAR},
+			TX_APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+			TX_APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+			TX_NOMBRE = #{nombre,jdbcType=VARCHAR},
+			TX_SEXO = #{sexo,jdbcType=CHAR},
+			]]>
+			<if test="publico != null">
+				LG_PUBLICO = #{publico,typeHandler=SiNOHandler},
+			</if>
+			<![CDATA[
+			TX_DNI = #{dni,jdbcType=VARCHAR},
+			TX_NOMBREVIA = #{nombreVia,jdbcType=VARCHAR},
+			NU_NUMERO = #{numero,jdbcType=CHAR},
+			TX_LETRA = #{letra,jdbcType=CHAR},
+			TX_ESCALERA = #{escalera,jdbcType=CHAR},
+			NU_PISO = #{piso,jdbcType=CHAR},
+			TX_PUERTA = #{puerta,jdbcType=VARCHAR},
+			TX_CP = #{codigoPostal,jdbcType=VARCHAR},
+			TX_TELEFONO = #{telefono,jdbcType=VARCHAR},
+			TX_MOVIL = #{movil,jdbcType=VARCHAR},
+			TX_FAX = #{fax,jdbcType=VARCHAR},
+			TX_EMAIL = #{email,jdbcType=VARCHAR},
+			CD_ESTADOSUSUARIO = #{cdEstadoUsuario,jdbcType=CHAR},
+			CD_MUNICIPIO = #{cdMunicipio,jdbcType=CHAR},
+			CD_PROVINCIA = #{cdProvincia,jdbcType=CHAR},
+			CD_TIPOVIA = #{cdTipoVia,jdbcType=CHAR}
+		where CD_USUARIOS = #{codigo,jdbcType=VARCHAR}
+          ]]>
+	</update>
+
+  <!-- Inserción de un nuevo usuario público dado su código -->
+	<insert id="crearUsuarioPublico" parameterType="java.lang.String">
+		insert into MOADD_USUARIOS (ID_USUARIOS,
+									CD_USUARIOS,
+									TX_USUARIO,
+									TX_CONTRASENA,
+									FH_CADUCA_CONTRASE,
+									TX_APELLIDO1,
+									TX_APELLIDO2,
+									TX_NOMBRE,
+									FH_ALTA,
+									LG_PUBLICO,
+									TX_DNI,
+									CD_ESTADOSUSUARIO)
+		values (MOAD_SQ_USUA.NEXTVAL,
+				#{value},
+				#{value},
+				'publico',
+				sysdate,
+				'publico',
+				'publico',
+				'publico',
+				sysdate,
+				'S',
+				#{value},
+				'A')
+	</insert>
+
+	<!-- Devuelve el usuario cuyo nombre usuario contengan la cadena dada -->
+	<select id="obtenerUsuarioPorNombreUsuario" resultMap="UsuarioSolo" parameterType="java.lang.String">
+		<![CDATA[
+	     select ID_USUARIOS,CD_USUARIOS,TX_USUARIO, TX_CONTRASENA,
+               FH_CADUCA_CONTRASE, TX_APELLIDO1,TX_APELLIDO2,
+               TX_NOMBRE, TX_SEXO,FH_ALTA,FH_BAJA,
+               NU_FALLOSLOGIN,LG_PUBLICO,TX_DNI,TX_NOMBREVIA,
+               NU_NUMERO,TX_LETRA, TX_ESCALERA, NU_PISO,
+               TX_PUERTA,TX_CP,TX_TELEFONO,TX_MOVIL,
+               TX_FAX,TX_EMAIL,CD_ESTADOSUSUARIO,CD_MUNICIPIO,
+               CD_PROVINCIA, CD_TIPOVIA
+        from MOADD_USUARIOS
+        where CD_ESTADOSUSUARIO in (select CD_ESTADOSUSUARIO
+           							       from MOADD_ESTADOSUSUARIO
+           							       where LG_ANULAUSUARIO = 'N')
+          and LG_PUBLICO = 'N'
+          and (TX_USUARIO = #{value})
+          ]]>
+
+	</select>
+
+	<!-- Elimina un registro a partir del código del usuario -->
+	<delete id="eliminarUsuarioPublico" parameterType="java.lang.String" >
+	<![CDATA[
+		  delete from MOADD_USUARIOS
+		  where CD_USUARIOS = #{value}
+		    and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+       							       FROM MOADD_ESTADOSUSUARIO
+       							       WHERE LG_ANULAUSUARIO = 'N')
+			]]>
+	</delete>
+
+	<!-- Obtiene el estado de un usuario -->
+	<select id="obtenerEstadoUsuario" resultMap="UsuarioConEstado" parameterType="java.lang.String" >
+		<![CDATA[
+		select CD_USUARIOS,
+		       LG_PUBLICO
+		from MOADD_USUARIOS
+		where CD_USUARIOS = #{value}
+		  and CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+   							        FROM MOADD_ESTADOSUSUARIO
+           							WHERE LG_ANULAUSUARIO = 'N')
+			]]>
+    </select>
+
+	<!--  Utilizar este fragmento sólo en las setnecias relacionadas con la validación de los usuarios -->
+    <sql id="whereValidacionAutorizacion">
+    <![CDATA[
+    	  and ((USU.CD_ESTADOSUSUARIO <> 'L'
+    	  	and USU.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+       							       FROM MOADD_ESTADOSUSUARIO
+      							       WHERE LG_ANULAUSUARIO = 'N')))
+	  and LG_PUBLICO = 'N'
+  	  and ( RUP.FH_CADUCIDAD is null
+			or RUP.FH_CADUCIDAD > sysdate
+		   )
+	  ]]>
+    </sql>
+    
+    <sql id="whereValidacionAutorizacionObtenerPassword">
+    <![CDATA[
+    	  and ((USU.CD_ESTADOSUSUARIO <> 'L'
+    	  	and USU.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+       							       FROM MOADD_ESTADOSUSUARIO
+      							       WHERE LG_ANULAUSUARIO = 'N')))
+	  and LG_PUBLICO = 'N'
+	  ]]>
+    </sql>
+
+    <select id="validarUsuario" parameterType="java.util.Map" resultType="string">
+  	<![CDATA[
+  	select distinct TX_USUARIO
+	from MOADD_USUARIOS USU
+		join MOADD_PREFERENCIAS PRE
+			on PRE.DS_NOMBRE = 'MAXINTENTOSLOGIN'
+		left outer join MOADR_ROL_USUA_PROC RUP
+			on USU.CD_USUARIOS = RUP.CD_USUARIOS
+
+	where USU.CD_ESTADOSUSUARIO = 'A'
+	  ]]>
+      
+      <if test="username != null">
+      	 AND TX_USUARIO = #{username}
+         AND TX_CONTRASENA =  #{password}
+      </if>
+      <if test="nif != null">
+      	AND upper(tx_dni) = upper(#{nif})
+      </if>
+      
+      
+	  <include refid="whereValidacionAutorizacion"/>
+  </select>
+  
+  <select id="obtenerPasswordUsuarioValido" parameterType="java.util.Map" resultType="string">
+  	<![CDATA[
+  	select TX_CONTRASENA
+	from MOADD_USUARIOS USU
+		join MOADD_PREFERENCIAS PRE
+			on PRE.DS_NOMBRE = 'MAXINTENTOSLOGIN'
+	where USU.CD_ESTADOSUSUARIO = 'A'
+      	 AND TX_USUARIO = #{username}
+	  ]]>
+	  <include refid="whereValidacionAutorizacionObtenerPassword"/>
+  </select>
+
+	<!-- Esta consulta comprueba si un usuario es administrador o no, o lo que es lo mismo,
+		 comprueba si un usuario dado contiene algún rol válido asignado -->
+    <select id="comprobarAdministrador" parameterType="java.lang.String" resultType="java.lang.String">
+  	<![CDATA[
+  	select COUNT(distinct ID_USUARIOS) AS ADMINISTRADORES
+	from MOADD_USUARIOS USU
+	    left outer join MOADR_ROL_USUA_PROC RUP
+		on USU.CD_USUARIOS = RUP.CD_USUARIOS
+	where rup.CD_USUARIOS = #{value}
+	  ]]>
+	  <include refid="whereValidacionAutorizacion"/>
+  </select>
+
+	<!--
+		El objeto tendrá agrupadas las funcionalidades por procedimiento y rol, aunque crearemos
+		un método que nos permita saber si una funcionalidad está o no en el perfil de un usuario
+		(creamos una lista auxiliar que agrupe todas las funcionalidades como parte del objeto que
+		se introduce en la memoria)
+	-->
+	<resultMap id="usuarioAutorizado" type="UsuarioAutorizado">
+		<id property="id" column="ID_USUARIOS" jdbcType="DECIMAL"/>
+		<result property="codigo" column="CD_USUARIOS" jdbcType="VARCHAR"/>
+		<result property="usuario" column="TX_USUARIO" jdbcType="VARCHAR"/>
+		<result property="nombre" column="TX_NOMBRE" jdbcType="VARCHAR"/>
+		<result property="apellido1" column="TX_APELLIDO1" jdbcType="VARCHAR"/>
+		<result property="apellido2" column="TX_APELLIDO2" jdbcType="VARCHAR"/>
+		<result property="passwordExpired" column="CADUCADA" javaType="java.lang.Boolean" jdbcType="CHAR"/>
+		<collection property="procedimientos" resultMap="MOAD_ESQ_MOADD_USUARIOS.procedimientosAutorizacion"/>
+		<collection  property="listaPerfilesUsu" column="ID_USUARIOS" select="MOAD_ESQ_MOADD_PERFILES_USU.obtenerPerfilesUsuPorIdUsuario"/>
+	</resultMap>
+
+	<resultMap id="procedimientosAutorizacion" type="Procedimiento">
+		<id property="id" column="ID_PROCEDIMIENTOS" />
+		<result property="nombre" column="NOMBRE_PROCEDIMIENTO" />
+		<collection property="roles" resultMap="MOAD_ESQ_MOADD_USUARIOS.rolesAutorizacion" />
+	</resultMap>
+	
+	<resultMap id="rolesAutorizacion" type="Rol">
+		<result property="id" column="ID_ROLES" />
+		<result property="nombre" column="NOMBRE_ROL" />		
+		<collection  property="funcionalidades" column="ID_ROLES" select="MOAD_ESQ_MOADD_FUNCIONALIDADES.selectByIdRol" /> 
+	</resultMap>
+	
+	<resultMap id="perfilesUsuAutorizacion" type="PerfilUsu">
+		<id property="id" column="ID_PEUS" />
+		<result property="codigo" column="CD_PERFIL" />
+		<result property="descripcion" column="DS_DESCRIPCION" />
+	</resultMap>
+
+	<select id="obtenerUsuarioAutorizado" parameterType="java.util.Map"
+		resultMap="usuarioAutorizado">
+		<![CDATA[
+		select USU.TX_USUARIO, USU.ID_USUARIOS, USU.CD_USUARIOS, USU.TX_NOMBRE, USU.TX_APELLIDO1, USU.TX_APELLIDO2
+			   ,RUP.ID_PROCEDIMIENTOS, RUP.NOMBRE_PROCEDIMIENTO, RUP.ID_ROLES, RUP.NOMBRE_ROL
+			   ,decode(sign(USU.FH_CADUCA_CONTRASE - sysdate), -1,'S','N' ) as CADUCADA
+		from MOADD_USUARIOS USU
+			join MOADD_PREFERENCIAS PRE
+				on PRE.DS_NOMBRE = 'MAXINTENTOSLOGIN'
+			left outer	 join (
+				select RUP1.CD_USUARIOS, RUP1.ID_PROCEDIMIENTOS, PRO.DS_NOMBRE as NOMBRE_PROCEDIMIENTO, RUP1.ID_ROLES, ROL.DS_NOMBRE as NOMBRE_ROL
+					,RUP1.FH_CADUCIDAD
+				from MOADD_USUARIOS USU
+				  join MOADR_ROL_USUA_PROC RUP1
+				  	   on USU.CD_USUARIOS = RUP1.CD_USUARIOS
+				  join MOADD_PROCEDIMIENTOS PRO
+				  	   on RUP1.ID_PROCEDIMIENTOS = PRO.ID_PROCEDIMIENTOS
+				  join MOADD_ROLES ROL
+				  	   on RUP1.ID_ROLES = ROL.ID_ROLES
+                       ]]>
+				<where>
+                  <if test="username != null">
+                  		USU.TX_USUARIO = #{username}
+                  </if>
+                  <if test="nif != null">
+                  		AND upper(USU.TX_DNI) = upper(#{nif})
+                  </if>
+                 </where>
+        <![CDATA[                
+			  		and ( RUP1.FH_CADUCIDAD is null    or RUP1.FH_CADUCIDAD > sysdate      )
+			  ) RUP
+	    	  on USU.CD_USUARIOS = RUP.CD_USUARIOS
+		
+		]]>
+		<!-- where -->
+         <where>
+         <if test="username != null">
+         		 USU.TX_USUARIO = #{username}
+         </if>
+         <if test="nif != null">
+         		AND upper(USU.TX_DNI) = upper(#{nif})
+         </if>
+        </where>
+         
+		<include refid="whereValidacionAutorizacion"/>
+		<![CDATA[
+		order by USU.ID_USUARIOS, RUP.ID_PROCEDIMIENTOS, RUP.ID_ROLES
+		  ]]>
+	</select>
+
+
+    <select id="obtenerUsuariosPaginada" resultMap="UsuarioSolo"
+		parameterType="UsuarioFiltroPaginable" >
+		select U.ID_USUARIOS, U.CD_USUARIOS, U.TX_USUARIO, U.TX_CONTRASENA,
+		       U.FH_CADUCA_CONTRASE, U.TX_APELLIDO1, U.TX_APELLIDO2,
+		       U.TX_NOMBRE, U.TX_SEXO, U.FH_ALTA, U.FH_BAJA, U.NU_FALLOSLOGIN,
+		       U.LG_PUBLICO, U.TX_DNI, U.TX_NOMBREVIA, U.NU_NUMERO, U.TX_LETRA,
+		       U.TX_ESCALERA, U.NU_PISO, U.TX_PUERTA, U.TX_CP, U.TX_TELEFONO,
+		       U.TX_MOVIL, U.TX_FAX, U.TX_EMAIL, U.CD_ESTADOSUSUARIO, U.CD_MUNICIPIO,
+		       U.CD_PROVINCIA, U.CD_TIPOVIA
+		from MOADD_USUARIOS U
+		where U.CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+            							     FROM MOADD_ESTADOSUSUARIO
+            							     WHERE LG_VISIBLE = 'S')
+            							     
+			 <if test="nombre != null or dni != null or apellido1 != null or apellido2 != null">
+			 	AND (
+			 	<trim prefixOverrides="OR">
+			 		<if test="nombre != null">
+			 		 	UPPER(tx_nombre) LIKE UPPER('%${nombre}%')
+			 		</if>
+			 		<if test="dni != null">
+			 		 	OR UPPER(tx_dni) LIKE UPPER('%${dni}%')
+			 		</if>
+			 		<if test="apellido1 != null">
+			 		 	OR UPPER(tx_apellido1) LIKE UPPER('%${apellido1}%')
+			 		</if>
+			 		<if test="apellido2 != null">
+			 		 	OR UPPER(tx_apellido2) LIKE UPPER('%${apellido2}%')
+			 		</if>
+			 	</trim>
+			 	)
+			 </if>			 
+			 
+			<![CDATA[
+			  AND U.LG_PUBLICO = 'N'
+		order by U.TX_APELLIDO1, U.TX_APELLIDO2, U.TX_NOMBRE
+		]]>
+    </select>
+
+	<!-- Cuenta los usuarios que cumplen las condiciones de filtrado -->
+	<select id="obtenerUsuariosCount"
+			resultType="java.math.BigDecimal"
+			parameterType="UsuarioFiltroPaginable">
+		select count(ID_USUARIOS)
+		from MOADD_USUARIOS
+		where CD_ESTADOSUSUARIO IN (SELECT CD_ESTADOSUSUARIO
+            						FROM MOADD_ESTADOSUSUARIO
+            						WHERE LG_VISIBLE = 'S')
+   			   
+   			   <if test="nombre != null or dni != null or apellido1 != null or apellido2 != null">
+			 	AND (
+			 	<trim prefixOverrides="OR">
+			 		<if test="nombre != null">
+			 			 UPPER(tx_nombre) LIKE UPPER('%${nombre}%')
+			 		</if>
+			 		<if test="dni != null">
+			 		 	OR UPPER(tx_dni) LIKE UPPER('%${dni}%')
+			 		</if>
+			 		<if test="apellido1 != null">
+			 		 	OR UPPER(tx_apellido1) LIKE UPPER('%${apellido1}%')
+			 		</if>
+			 		<if test="apellido2 != null">
+			 		 	OR UPPER(tx_apellido2) LIKE UPPER('%${apellido2}%')
+			 		</if>
+			 	</trim>
+			 	)
+			 </if>
+   			   
+   			  <![CDATA[
+			  AND LG_PUBLICO = 'N'
+
+
+		order by TX_USUARIO, TX_APELLIDO1, TX_APELLIDO2
+		]]>
+	</select>
+
+	<!-- Devuelve el número de días que quedan para que caduque la contraseña -->
+	<select id="diasCaducaContrasena"
+			resultType="integer"
+			parameterType="string">
+			select round(FH_CADUCA_CONTRASE - sysdate) as numDias
+			from MOADD_USUARIOS where CD_USUARIOS = #{value}
+	</select>
+
+    <!-- Comprueba si el nombre de usuario dado está asociado a algún usuario -->
+    <select id="comprobarNombreUsuario" resultType="java.math.BigDecimal" 
+        parameterType="string">
+          SELECT id_usuarios
+            FROM moadd_usuarios
+           WHERE UPPER (tx_usuario) = UPPER (#{username})
+    </select>
+</mapper>

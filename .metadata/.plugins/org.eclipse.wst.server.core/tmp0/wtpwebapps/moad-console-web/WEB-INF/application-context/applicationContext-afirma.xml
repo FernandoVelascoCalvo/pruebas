@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+	default-lazy-init="true">
+
+	<!-- ================ -->
+	<!-- Servicios Afirma -->
+	<!-- ================ -->
+
+	<!-- Componentes de Afirma 5.5 CHAP - Conexión Afirma -->
+	<util:properties id="afirmaProperties" location="classpath:afirmaChapConfiguracion.properties"/>
+
+	<bean id="conexionAfirma" class="es.juntadeandalucia.cmi.pct.componentes.afirma.mod.chapcustodia.impl.ConexionAfirmaImpl" init-method="configurar" scope="singleton">
+		<property name="configuracion" ref="afirmaProperties" />
+	</bean>
+
+	<!-- Componentes de Afirma 5.5 CHAP - Componente Autenticacion -->
+
+	<bean id="componenteAutenticacion" class="es.juntadeandalucia.cmi.pct.componentes.afirma.mod.chapcustodia.impl.ComponenteAutenticacionImpl" init-method="init" scope="singleton">
+		<property name="conexionAfirma" ref="conexionAfirma" />
+	</bean>
+
+	<!-- Componentes de Afirma-PCT -->
+
+	<bean id="autenticacionManagerFirma" class="es.juntadeandalucia.cmi.pct.componentes.afirma.core.impl.AutenticacionManagerImpl" init-method="init" scope="singleton">
+		<property name="certificadosPruebas" value="${afirma.custodia.certificados.pruebas}" />
+		<property name="componente" ref="componenteAutenticacion" />
+		<property name="numElemCache" value="${afirma.autenticacion.numElemCache}" />
+		<property name="minTimeCache" value="${afirma.autenticacion.minTimeCache}" />
+		<property name="maxTimeVerify" value="${afirma.autenticacion.maxTimeVerify}" />
+	</bean>
+
+	<bean id="afirmaPCTManager" class="es.juntadeandalucia.cmi.pct.componentes.afirma.core.impl.AfirmaPCTManagerImpl" init-method="init" scope="singleton" lazy-init="false">
+		<property name="autenticacionManager" ref="autenticacionManagerFirma" />
+		<property name="configurarFirmaCustodia" value="${afirma.configuracion.firma.custodia}" />
+		<property name="configurarAutenticacion" value="${afirma.configuracion.autenticacion}" />
+	</bean>
+</beans>

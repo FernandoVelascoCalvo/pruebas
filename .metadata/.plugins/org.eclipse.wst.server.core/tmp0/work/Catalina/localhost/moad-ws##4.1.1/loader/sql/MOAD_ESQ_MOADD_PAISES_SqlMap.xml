@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_PAISES">
+
+	<!-- ResultMap del modelo Paises -->
+	<resultMap id="PaisResultMap" type="Pais">
+		<result column="ID_PAISES" property="id" jdbcType="DECIMAL" />
+		<result column="CD_PAIS" property="cdPais" jdbcType="CHAR" />
+		<result column="DS_BREVE" property="descripcionBreve" jdbcType="VARCHAR" />
+		<result column="DS_EXTENDIDA" property="descripcionExtendida" jdbcType="VARCHAR" />
+		<result column="CD_PAIS_NUM" property="cdPaisNum" jdbcType="VARCHAR" />
+		<result column="F_INICIO" property="fechaInicio" jdbcType="DATE" />
+		<result column="F_FIN" property="fechaFin" jdbcType="DATE" />
+		<result column="CD_TREWA" property="cdTrewa" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="PaisXAgrupacionResultMap" type="PaisAgrupacion">
+		<result column="X_PAAG" property="id" jdbcType="DECIMAL" />
+		<result column="AGPA_X_AGPA" property="idAgrupacion" jdbcType="DECIMAL" />
+		<result column="PAIS_X_ID_PAISES" property="idPais" jdbcType="DECIMAL" />
+		<result column="F_INICIO" property="fechaInicio" jdbcType="DATE" />
+		<result column="F_FIN" property="fechaFin" jdbcType="DATE" />
+	</resultMap>
+
+	<!-- Obtiene la lista de todos los paises -->
+	<select id="obtenerPaises" resultMap="PaisResultMap">
+		select * from MOADD_PAISES ORDER BY DS_BREVE
+	</select>
+
+	<!-- Obtiene los países asociados al tipo de agrupación indicado, independientemente del estado de vigencia, tanto del país como de la agrupación -->
+	<select id="obtenerPaisesPorAgrupacion" resultMap="PaisResultMap" parameterType="java.lang.String">
+		select *
+		from MOADD_PAISES p
+		left join MOADR_PAISES_X_AGRUPACION pa on
+		p.ID_PAISES =
+		pa.PAIS_X_ID_PAISES
+		left join MOADD_AGRUPACIONES_PAIS a on pa.AGPA_X_AGPA = a.X_AGPA
+		where a.CD_AGRUPACION = #{value}
+		ORDER BY DS_BREVE
+	</select>
+
+	<!-- Obtiene la lista de todos los paises vigentes en la fecha indicada como parámetro -->
+	<select id="obtenerPaisesVigentes" resultMap="PaisResultMap" parameterType="java.util.Date">
+	<![CDATA[
+		select * from MOADD_PAISES where (F_INICIO is null or F_INICIO <= #{value}) 
+		and (F_FIN  is null or F_FIN >= #{value}) ORDER BY DS_BREVE
+	]]>
+	</select>
+
+	<!-- Obtiene los países asociados al tipo de agrupación indicado, independientemente del estado de vigencia, tanto del país como de la agrupación -->
+	<select id="obtenerPaisesVigentesPorAgrupacion" resultMap="PaisResultMap" parameterType="PaisAgrupacion">
+	<![CDATA[
+		select *
+		from MOADD_PAISES p
+		left join MOADR_PAISES_X_AGRUPACION pa on
+		p.ID_PAISES =
+		pa.PAIS_X_ID_PAISES
+		left join MOADD_AGRUPACIONES_PAIS a on pa.AGPA_X_AGPA = a.X_AGPA
+		where ((p.F_INICIO is null or p.F_INICIO <= #{fechaInicio,jdbcType=DATE}) and (pa.F_INICIO is null or pa.F_INICIO <= #{fechaInicio,jdbcType=DATE}))
+		and  ((p.F_FIN  is null or p.F_FIN >= #{fechaFin,jdbcType=DATE}) and (pa.F_FIN  is null or pa.F_FIN >= #{fechaFin,jdbcType=DATE})) and
+		a.X_AGPA = #{idAgrupacion,jdbcType=DECIMAL}
+		ORDER BY DS_BREVE
+		]]>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="MOAD_ESQ_MOADD_UNIDADESORGANIC" >
+
+  <!-- ResultMap para las unidades orgánicas -->
+  <resultMap id="UnidadOrganicaResultMap" type="UnidadOrganica" >
+    <result column="ID_UNIDADESORGANIC" property="id" jdbcType="DECIMAL" />
+    <result column="CD_UNIDADORGANICA" property="codigo" jdbcType="VARCHAR" />
+    <result column="DS_BREVE" property="descripcionBreve" jdbcType="VARCHAR" />
+    <result column="DS_EXTENDIDA" property="descripcionExtendida" jdbcType="VARCHAR" />
+    <result column="TX_TIPO" property="tipo" jdbcType="CHAR" />
+    <result column="CD_MUNICIPIO" property="cdMunicipio" jdbcType="CHAR" />
+    <result column="CD_PROVINCIA" property="cdProvincia" jdbcType="CHAR" />
+    <result column="CD_TIPOVIA" property="cdTipoVia" jdbcType="VARCHAR" />
+    <result column="CD_TIPOORGANISMO" property="cdTipoOrganismo" jdbcType="DECIMAL" />
+    <result column="TX_NOMBREVIA" property="nombreVia" jdbcType="VARCHAR" />
+    <result column="NU_NUMERO" property="numero" jdbcType="DECIMAL" />
+    <result column="TX_LETRA" property="letra" jdbcType="CHAR" />
+    <result column="TX_ESCALERA" property="escalera" jdbcType="CHAR" />
+    <result column="NU_PISO" property="piso" jdbcType="DECIMAL" />
+    <result column="TX_PUERTA" property="puerta" jdbcType="CHAR" />
+    <result column="NU_CODIGOPOSTAL" property="codigoPostal" jdbcType="DECIMAL" />
+    <result column="TX_TELEFONO" property="telefono" jdbcType="VARCHAR" />
+    <result column="TX_MOVIL" property="movil" jdbcType="VARCHAR" />
+    <result column="TX_FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="TX_EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CD_CIWA" property="cdCiwa" jdbcType="VARCHAR" />
+    <result column="TX_IDARIES" property="idAries" jdbcType="VARCHAR" />
+    <result column="TX_IDENTIFICADOR" property="identificador" jdbcType="VARCHAR" />
+    <result column="TX_DIGITOCONTROL" property="digitoControl" jdbcType="CHAR" />
+    <result column="FH_INICIOVIGENCIA" property="fechaInicioIncidencia" jdbcType="TIMESTAMP" />
+    <result column="FH_FINVIGENCIA" property="fechaFinIncidencia" jdbcType="TIMESTAMP" />
+    <result column="CD_UO_SUPERIOR" property="cdUOSuperior" jdbcType="DECIMAL" />
+    <result column="CD_TIPOORGANIZA" property="cdTipoOrganizacion" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap id="UnidadOrganicaArbolResultMap" type="UnidadOrganicaArbol" >
+    <result column="NIVEL" property="nivel" jdbcType="DECIMAL" />
+    <result column="ID" property="idUO" jdbcType="DECIMAL" />
+    <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- Selecciona un registro a partir de su clave primaria -->
+  <select id="obtenerPorClave" resultMap="UnidadOrganicaResultMap" parameterType="UnidadOrganica" >
+    select ID_UNIDADESORGANIC, CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA,
+      TX_TIPO, CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO,
+      TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL, TX_FAX,
+      TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, FH_INICIOVIGENCIA,
+      FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA 
+    from MOADD_UNIDADESORGANIC
+    where ID_UNIDADESORGANIC = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- Elimina un registro a partir de una clave primaria -->    
+  <delete id="eliminarPorClave" parameterType="UnidadOrganica" >
+    delete from MOADD_UNIDADESORGANIC
+    where ID_UNIDADESORGANIC = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- inserta un registro en la tabla MOADD_UNIDADESORGANIC -->  
+  <insert id="insertar" parameterType="UnidadOrganica" >
+  	<selectKey keyProperty="id" resultType="java.math.BigDecimal" order="BEFORE">	
+	       SELECT MOAD_SQ_UNOR.NEXTVAL FROM DUAL	
+	</selectKey>
+    insert into MOADD_UNIDADESORGANIC (ID_UNIDADESORGANIC,
+      CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA,
+      TX_TIPO, CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO,
+      TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL, TX_FAX,
+      TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, FH_INICIOVIGENCIA,
+      FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA)
+    values (#{id,jdbcType=DECIMAL}, #{codigo,jdbcType=DECIMAL},
+      #{descripcionBreve,jdbcType=VARCHAR}, #{descripcionExtendida,jdbcType=VARCHAR}, #{tipo,jdbcType=CHAR},
+      #{cdMunicipio,jdbcType=CHAR}, #{cdProvincia,jdbcType=CHAR}, #{cdTipoVia,jdbcType=VARCHAR}, #{cdTipoOrganismo,jdbcType=DECIMAL},
+      #{nombreVia,jdbcType=VARCHAR}, #{numero,jdbcType=DECIMAL}, #{letra,jdbcType=CHAR}, #{escalera,jdbcType=CHAR},
+      #{piso,jdbcType=DECIMAL}, #{puerta,jdbcType=CHAR}, #{codigoPostal,jdbcType=DECIMAL}, #{telefono,jdbcType=VARCHAR},
+      #{movil,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{cdCiwa,jdbcType=VARCHAR}, #{idAries,jdbcType=VARCHAR},
+      #{identificador,jdbcType=VARCHAR}, #{digitoControl,jdbcType=CHAR}, #{fechaInicioIncidencia,jdbcType=TIMESTAMP},
+      #{fechaFinIncidencia,jdbcType=TIMESTAMP}, #{cdUOSuperior,jdbcType=DECIMAL}, #{cdTipoOrganizacion,jdbcType=CHAR})
+  </insert>
+  
+  <!-- modifica un registro en la tabla MOADD_UNIDADESORGANIC -->   
+  <update id="modificarPorClave" parameterType="UnidadOrganica" >
+    update MOADD_UNIDADESORGANIC
+    set CD_UNIDADORGANICA = #{codigo,jdbcType=DECIMAL},
+      DS_BREVE = #{descripcionBreve,jdbcType=VARCHAR},
+      DS_EXTENDIDA = #{descripcionExtendida,jdbcType=VARCHAR},
+      TX_TIPO = #{tipo,jdbcType=CHAR},
+      CD_MUNICIPIO = #{cdMunicipio,jdbcType=CHAR},
+      CD_PROVINCIA = #{cdProvincia,jdbcType=CHAR},
+      CD_TIPOVIA = #{cdTipoVia,jdbcType=VARCHAR},
+      CD_TIPOORGANISMO = #{cdTipoOrganismo,jdbcType=DECIMAL},
+      TX_NOMBREVIA = #{nombreVia,jdbcType=VARCHAR},
+      NU_NUMERO = #{numero,jdbcType=DECIMAL},
+      TX_LETRA = #{letra,jdbcType=CHAR},
+      TX_ESCALERA = #{escalera,jdbcType=CHAR},
+      NU_PISO = #{piso,jdbcType=DECIMAL},
+      TX_PUERTA = #{puerta,jdbcType=CHAR},
+      NU_CODIGOPOSTAL = #{codigoPostal,jdbcType=DECIMAL},
+      TX_TELEFONO = #{telefono,jdbcType=VARCHAR},
+      TX_MOVIL = #{movil,jdbcType=VARCHAR},
+      TX_FAX = #{fax,jdbcType=VARCHAR},
+      TX_EMAIL = #{email,jdbcType=VARCHAR},
+      CD_CIWA = #{cdCiwa,jdbcType=VARCHAR},
+      TX_IDARIES = #{idAries,jdbcType=VARCHAR},
+      TX_IDENTIFICADOR = #{identificador,jdbcType=VARCHAR},
+      TX_DIGITOCONTROL = #{digitoControl,jdbcType=CHAR},
+      FH_INICIOVIGENCIA = #{fechaInicioIncidencia,jdbcType=TIMESTAMP},
+      FH_FINVIGENCIA = #{fechaFinIncidencia,jdbcType=TIMESTAMP},
+      CD_UO_SUPERIOR = #{cdUOSuperior,jdbcType=DECIMAL},
+      CD_TIPOORGANIZA = #{cdTipoOrganizacion,jdbcType=CHAR}
+    where ID_UNIDADESORGANIC = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- modifica un registro en la tabla MOADD_UNIDADESORGANIC --> 
+  <update id="modificarPorClaveSelectivo" parameterType="UnidadOrganica" >
+    update MOADD_UNIDADESORGANIC
+    <set>
+      <if test="codigo != null" >
+        CD_UNIDADORGANICA = #{codigo,jdbcType=DECIMAL}
+      </if>
+      <if test="descripcionBreve != null">
+        ,DS_BREVE = #{descripcionBreve,jdbcType=VARCHAR}
+      </if>
+      <if test="descripcionExtendida != null" >
+        ,DS_EXTENDIDA = #{descripcionExtendida,jdbcType=VARCHAR}
+      </if>
+      <if test="tipo != null" >
+        ,TX_TIPO = #{tipo,jdbcType=CHAR}
+      </if>
+      <if test="cdMunicipio != null" >
+        CD_MUNICIPIO = #{cdMunicipio,jdbcType=CHAR}
+      </if>
+      <if test="cdProvincia != null" >
+        ,CD_PROVINCIA = #{cdProvincia,jdbcType=CHAR}
+      </if>
+      <if test="cdTipoVia != null" >
+        ,CD_TIPOVIA = #{cdTipoVia,jdbcType=VARCHAR}
+      </if>
+      <if test="cdTipoOrganismo != null" >
+        ,CD_TIPOORGANISMO = #{cdTipoOrganismo,jdbcType=DECIMAL}
+      </if>
+      <if test="nombreVia != null" >
+        ,TX_NOMBREVIA = #{nombreVia,jdbcType=VARCHAR}
+      </if>
+      <if test="numero != null" >
+        ,NU_NUMERO = #{numero,jdbcType=DECIMAL}
+      </if>
+      <if test="letra != null" >
+        ,TX_LETRA = #{letra,jdbcType=CHAR}
+      </if>
+      <if test="escalera != null" >
+        ,TX_ESCALERA = #{escalera,jdbcType=CHAR}
+      </if>
+      <if test="piso != null" >
+        ,NU_PISO = #{piso,jdbcType=DECIMAL}
+      </if>
+      <if test="puerta != null" >
+        ,TX_PUERTA = #{puerta,jdbcType=CHAR}
+      </if>
+      <if test="codigoPostal != null" >
+        ,NU_CODIGOPOSTAL = #{codigoPostal,jdbcType=DECIMAL}
+      </if>
+      <if test="telefono != null" >
+        ,TX_TELEFONO = #{telefono,jdbcType=VARCHAR}
+      </if>
+      <if test="movil != null" >
+        ,TX_MOVIL = #{movil,jdbcType=VARCHAR}
+      </if>
+      <if test="fax != null" >
+        ,TX_FAX = #{fax,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        ,TX_EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="cdCiwa != null" >
+        ,CD_CIWA = #{cdCiwa,jdbcType=VARCHAR}
+      </if>
+      <if test="idAries != null" >
+        ,TX_IDARIES = #{idAries,jdbcType=VARCHAR}
+      </if>
+      <if test="identificador != null" >
+        ,TX_IDENTIFICADOR = #{identificador,jdbcType=VARCHAR}
+      </if>
+      <if test="digitoControl != null" >
+        ,TX_DIGITOCONTROL = #{digitoControl,jdbcType=CHAR}
+      </if>
+      <if test="fechaInicioIncidencia != null" >
+        ,FH_INICIOVIGENCIA = #{fechaInicioIncidencia,jdbcType=TIMESTAMP}
+      </if>
+      <if test="fechaFinIncidencia != null" >
+        ,FH_FINVIGENCIA = #{fechaFinIncidencia,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cdUOSuperior != null" >
+        ,CD_UO_SUPERIOR = #{cdUOSuperior,jdbcType=DECIMAL}
+      </if>
+      <if test="cdTipoOrganizacion != null" >
+        ,CD_TIPOORGANIZA = #{cdTipoOrganizacion,jdbcType=CHAR}
+      </if>
+    </set>
+    where ID_UNIDADESORGANIC = #{id}
+  </update>
+
+  <!-- Obtiene una lista con todas las unidades orgánicas -->
+  <select id="obtenerUnidadesOrganicas" resultMap="UnidadOrganicaResultMap">
+	  select ID_UNIDADESORGANIC, CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA, TX_TIPO, 
+	  CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO,
+	  TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL,
+	  TX_FAX, TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, 
+	  FH_INICIOVIGENCIA, FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA 
+	  from MOADD_UNIDADESORGANIC  ORDER BY DS_BREVE
+  </select>
+  
+  <!-- Obtiene la lista de unidades orgánicas hijas de una unidad orgánica dada -->
+  <select id="obtenerUniOrgPorCodigo" resultMap="UnidadOrganicaResultMap" parameterType="UnidadOrganica">
+	  select ID_UNIDADESORGANIC, CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA, TX_TIPO, 
+	  CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO,
+	  TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL,
+	  TX_FAX, TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, 
+	  FH_INICIOVIGENCIA, FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA 
+	  from MOADD_UNIDADESORGANIC
+	  where CD_UNIDADORGANICA = #{codigo,jdbcType=VARCHAR}
+  </select>
+
+  <!-- Obtiene la lista de unidades orgánicas hijas de una unidad orgánica dada -->
+  <select id="obtenerUniOrgDependientes" resultMap="UnidadOrganicaResultMap" parameterType="java.math.BigDecimal">
+	  select ID_UNIDADESORGANIC, CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA, TX_TIPO, 
+	  CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO,
+	  TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL,
+	  TX_FAX, TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, 
+	  FH_INICIOVIGENCIA, FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA 
+	  from MOADD_UNIDADESORGANIC
+	  where CD_UO_SUPERIOR = #{value} ORDER BY DS_BREVE
+  </select>
+
+  <!-- Obtiene la lista de unidades orgánicas que no tienen dependencias superiores -->
+  <select id="obtenerUniOrgNivelRaiz" resultMap="UnidadOrganicaResultMap">
+	  select ID_UNIDADESORGANIC, CD_UNIDADORGANICA, DS_BREVE, DS_EXTENDIDA, TX_TIPO, 
+	  CD_MUNICIPIO, CD_PROVINCIA, CD_TIPOVIA, CD_TIPOORGANISMO, TX_NOMBREVIA, NU_NUMERO, 
+	  TX_LETRA, TX_ESCALERA, NU_PISO, TX_PUERTA, NU_CODIGOPOSTAL, TX_TELEFONO, TX_MOVIL, 
+	  TX_FAX, TX_EMAIL, CD_CIWA, TX_IDARIES, TX_IDENTIFICADOR, TX_DIGITOCONTROL, 
+	  FH_INICIOVIGENCIA, FH_FINVIGENCIA, CD_UO_SUPERIOR, CD_TIPOORGANIZA 
+	  from MOADD_UNIDADESORGANIC 
+	  where CD_UO_SUPERIOR IS NULL ORDER BY DS_BREVE
+  </select>
+  
+  <!-- Obtiene la lista de unidades orgánicas que no tienen dependencias superiores -->
+  <select id="obtenerArbol" resultMap="UnidadOrganicaArbolResultMap">
+	SELECT LEVEL AS NIVEL, 
+		   ID_UNIDADESORGANIC AS ID, 
+		   DS_EXTENDIDA AS NOMBRE
+	FROM MOADD_UNIDADESORGANIC
+	CONNECT BY PRIOR ID_UNIDADESORGANIC = CD_UO_SUPERIOR
+	START WITH CD_UO_SUPERIOR IS NULL
+  </select>
+  
+</mapper>
